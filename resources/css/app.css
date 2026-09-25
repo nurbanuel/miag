@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:focus-visible {
+    outline: 3px solid theme('colors.turquoise.500');
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+
+.skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 100;
+    background: theme('colors.navy.900');
+    color: white;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0 0 0.5rem 0;
+}
+
+.skip-link:focus {
+    left: 0;
+}
+
+[x-cloak] {
+    display: none !important;
+}

@@ -1,0 +1,13 @@
+# Sunucunun document root'u proje kökünü gösteriyorsa tüm istekler public/ klasörüne aktarılır.
+# Böylece /livewire/* gibi kök adresler çalışır ve .env, storage/, vendor/ gibi dosyalar dışarıya kapanır.
+# Tercih edilen çözüm document root'u doğrudan public/ klasörüne ayarlamaktır; o durumda bu dosya devre dışı kalır.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Eski /public/... bağlantıları temiz adrese yönlendirilir.
+    RewriteCond %{THE_REQUEST} \s/public/([^\s?]*) [NC]
+    RewriteRule ^ /%1 [R=301,L]
+
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>

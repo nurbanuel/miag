@@ -5,14 +5,28 @@
 
         <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             @forelse ($articles as $article)
-                <x-card class="flex flex-col gap-3 p-5">
-                    <h2 class="text-lg font-semibold text-navy-900">
-                        <a href="{{ lroute('articles.show', $article) }}" class="hover:text-turquoise-700">{{ $article->title }}</a>
-                    </h2>
-                    <p class="flex-1 text-sm text-navy-600">{{ $article->excerpt }}</p>
-                    <div class="flex items-center justify-between border-t border-navy-100 pt-3 text-xs text-navy-500">
-                        <a href="{{ lroute('authors.show', $article->author) }}" class="font-medium text-navy-700 hover:text-turquoise-700">{{ $article->author->name }}</a>
-                        <time datetime="{{ $article->published_at }}">{{ $article->published_at?->translatedFormat('d F Y') }}</time>
+                <x-card class="flex h-full flex-col overflow-hidden">
+                    @if ($article->featured_image)
+                        <a href="{{ lroute('articles.show', $article) }}" tabindex="-1" aria-hidden="true">
+                            <img src="{{ asset('storage/'.$article->featured_image) }}" alt="" loading="lazy" class="h-40 w-full object-cover" />
+                        </a>
+                    @endif
+                    <div class="flex flex-1 flex-col gap-3 p-5">
+                        @if ($article->category)
+                            <span class="text-[11px] font-semibold uppercase tracking-wide text-turquoise-700">{{ $article->category->name }}</span>
+                        @endif
+                        <h2 class="text-lg font-semibold text-navy-900">
+                            <a href="{{ lroute('articles.show', $article) }}" class="hover:text-turquoise-700">{{ $article->title }}</a>
+                        </h2>
+                        <p class="flex-1 text-sm text-navy-600">{{ $article->excerpt }}</p>
+                        <div class="flex items-center justify-between border-t border-navy-100 pt-3 text-xs text-navy-500">
+                            <a href="{{ lroute('authors.show', $article->author) }}" class="font-medium text-navy-700 hover:text-turquoise-700">{{ $article->author->name }}</a>
+                            <span class="flex items-center gap-2">
+                                <time datetime="{{ $article->published_at }}">{{ $article->published_at?->translatedFormat('d F Y') }}</time>
+                                <span aria-hidden="true">&middot;</span>
+                                <span class="font-medium">{{ $article->reading_time }}</span>
+                            </span>
+                        </div>
                     </div>
                 </x-card>
             @empty

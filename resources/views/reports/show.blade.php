@@ -8,6 +8,10 @@
 
         <div class="grid gap-10 lg:grid-cols-[2fr_1fr]">
             <article>
+                @if ($report->featured_image)
+                    <img src="{{ asset('storage/'.$report->featured_image) }}" alt="{{ $report->title }}" class="mb-6 h-auto w-full rounded-xl object-contain" />
+                @endif
+
                 <x-badge tone="turquoise">{{ $report->category?->name }}</x-badge>
                 <h1 class="mt-3 text-3xl font-bold text-navy-900">{{ $report->title }}</h1>
                 <p class="mt-2 text-sm text-navy-500">{{ __('Yayım Tarihi') }}: {{ $report->published_at?->translatedFormat('d F Y') }}</p>

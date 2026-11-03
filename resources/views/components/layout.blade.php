@@ -8,6 +8,7 @@
     <meta name="description" content="{{ __('Belediye yöneticileri, çalışanları, akademisyenler ve yerel yönetim uzmanları için bağımsız araştırma, yayın, veri ve katılım merkezi.') }}" />
     <link rel="icon" href="data:," />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
     {{ $head ?? '' }}
 </head>
 <body class="flex min-h-screen flex-col bg-white font-sans text-navy-900 antialiased">
@@ -18,5 +19,8 @@
     </main>
 
     <x-site-footer />
+
+    {{ $scripts ?? '' }}
+    @livewireScripts
 </body>
 </html>

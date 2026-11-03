@@ -13,7 +13,7 @@
                 <x-form.input name="contact_name" :label="__('Yetkili Ad Soyad')" required />
                 <x-form.input name="contact_email" type="email" :label="__('Kurumsal E-posta')" required :hint="__('Gmail, Hotmail gibi kişisel sağlayıcılar kabul edilmez')" />
             </div>
-            <x-form.input name="position_title" :label="__('Ünvan')" required />
+            <x-form.input name="position_title" :label="__('Unvan')" required />
             <div class="grid gap-5 sm:grid-cols-2">
                 <x-form.select name="employment_status" :label="__('İstihdam Statüsü')" required :options="$employmentStatuses" />
                 <x-form.input name="min_experience" type="number" :label="__('Aranan Minimum Deneyim (yıl)')" required min="0" />

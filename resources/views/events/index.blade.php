@@ -6,11 +6,20 @@
         <div class="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             @forelse ($upcoming as $event)
                 <x-card class="flex flex-col overflow-hidden">
-                    <div class="flex h-32 items-center justify-center bg-turquoise-600">
-                        <svg class="h-10 w-10 text-white/90" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                    </div>
+                    @if ($event->featured_image)
+                        <img src="{{ asset('storage/'.$event->featured_image) }}" alt="" loading="lazy" class="h-40 w-full shrink-0 object-cover" />
+                    @else
+                        <div class="flex h-40 shrink-0 items-center justify-center bg-turquoise-600">
+                            <svg class="h-10 w-10 text-white/90" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        </div>
+                    @endif
                     <div class="flex flex-1 flex-col gap-2 p-5">
-                        <p class="text-sm font-semibold text-turquoise-700">{{ $event->starts_at->translatedFormat('d F Y, H:i') }}</p>
+                        <div class="flex flex-wrap items-center gap-2 text-sm">
+                            <span class="font-semibold text-turquoise-700">{{ $event->starts_at->translatedFormat('d F Y, H:i') }}</span>
+                            @if ($event->category)
+                                <span class="text-xs font-semibold uppercase tracking-wide text-navy-500">· {{ $event->category->name }}</span>
+                            @endif
+                        </div>
                         <h3 class="text-lg font-semibold text-navy-900">
                             <a href="{{ lroute('events.show', $event) }}" class="hover:text-turquoise-700">{{ $event->title }}</a>
                         </h3>
@@ -27,12 +36,17 @@
         <h2 class="mt-14 text-xl font-bold text-navy-900">{{ __('Geçmiş Etkinlik Arşivi') }}</h2>
         <div class="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             @forelse ($past as $event)
-                <x-card class="p-5 opacity-90">
-                    <p class="text-sm font-semibold text-navy-500">{{ $event->starts_at->translatedFormat('d F Y') }}</p>
-                    <h3 class="mt-1 text-lg font-semibold text-navy-900">
-                        <a href="{{ lroute('events.show', $event) }}" class="hover:text-turquoise-700">{{ $event->title }}</a>
-                    </h3>
-                    <p class="mt-2 text-sm text-navy-600">{{ $event->location }}</p>
+                <x-card class="flex h-full flex-col overflow-hidden opacity-90">
+                    @if ($event->featured_image)
+                        <img src="{{ asset('storage/'.$event->featured_image) }}" alt="" loading="lazy" class="h-40 w-full object-cover grayscale-[30%]" />
+                    @endif
+                    <div class="p-5">
+                        <p class="text-sm font-semibold text-navy-500">{{ $event->starts_at->translatedFormat('d F Y') }}</p>
+                        <h3 class="mt-1 text-lg font-semibold text-navy-900">
+                            <a href="{{ lroute('events.show', $event) }}" class="hover:text-turquoise-700">{{ $event->title }}</a>
+                        </h3>
+                        <p class="mt-2 text-sm text-navy-600">{{ $event->location }}</p>
+                    </div>
                 </x-card>
             @empty
                 <p class="col-span-full text-navy-600">{{ __('Arşivde etkinlik bulunmuyor.') }}</p>

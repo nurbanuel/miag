@@ -1,45 +1,58 @@
 <x-layout title="Nakil Ağı">
-    <x-container class="py-12">
-        <x-section-heading eyebrow="İK ve Kariyer" :title="__('Nakil Ağı')" :hint="__('Başka bir belediyeye geçmek isteyen personel için gizlilik esaslı profil ağı. Ad ve kurum bilgileri, aday onayı olmadan görüntülenmez.')" />
+    <x-slot:head>
+        @filamentStyles
+        @vite('resources/css/filament-forms.css')
+    </x-slot:head>
 
-        <div class="mt-10 grid gap-10 lg:grid-cols-[1fr_1.2fr]">
-            <div>
-                @if (session('status'))
-                    <x-alert tone="success" class="mb-6">{{ session('status') }}</x-alert>
-                @endif
+    <x-slot:scripts>
+        @filamentScripts
+    </x-slot:scripts>
 
-                <form action="{{ lroute('career.transfer-network.store') }}" method="POST" class="space-y-5">
-                    @csrf
-                    <x-form.input name="current_title" :label="__('Mevcut Ünvanınız')" required />
-                    <x-form.input name="current_institution" :label="__('Mevcut Kurumunuz')" required :hint="__('Onay vermeden diğer kullanıcılara gösterilmez')" />
-                    <x-form.input name="target_locations" :label="__('Hedef Çalışma Yerleri')" required :hint="__('Örn: İstanbul, Bursa')" />
-                    <x-form.input name="experience_years" type="number" :label="__('Deneyim (yıl)')" required min="0" />
-                    <x-form.textarea name="summary" :label="__('Kısa Özet')" required :hint="__('Uzmanlık alanınızı ve nakil gerekçenizi kısaca belirtin')" />
-                    <x-form.input name="contact_email" type="email" :label="__('İletişim E-postası')" required :hint="__('Yalnızca MİARGEM ile paylaşılır')" />
+    <x-container class="py-10 sm:py-12">
+        {{-- Breadcrumb --}}
+        <nav aria-label="{{ __('Sayfa konumu') }}" class="text-sm text-navy-500">
+            <ol class="flex flex-wrap items-center gap-2">
+                <li><a href="{{ lroute('home') }}" class="hover:text-turquoise-700">{{ __('Ana Sayfa') }}</a></li>
+                <li aria-hidden="true">/</li>
+                <li><a href="{{ lroute('career.index') }}" class="hover:text-turquoise-700">{{ __('İK ve Kariyer') }}</a></li>
+                <li aria-hidden="true">/</li>
+                <li aria-current="page" class="font-medium text-navy-800">{{ __('Nakil Ağı') }}</li>
+            </ol>
+        </nav>
 
-                    <x-consent-notice />
+        <h1 class="mt-6 text-3xl font-bold text-navy-900 sm:text-4xl">{{ __('Nakil Ağı') }}</h1>
+        <p class="mt-3 max-w-3xl text-navy-600">
+            {{ __('Mevcut görev bilgilerinizi ve görev yeri tercihlerinizi yapılandırılmış biçimde paylaşın; profilinizin güncelliğini ve görünürlüğünü yönetin.') }}
+        </p>
 
-                    <x-button type="submit" variant="primary" class="w-full justify-center">{{ __('Gizli Profil Oluştur') }}</x-button>
-                </form>
+        <div class="mt-10 grid grid-cols-1 gap-8 md:grid-cols-12">
+            {{-- Sol: dinamik nakil profili formu --}}
+            <div class="md:col-span-8">
+                @livewire('transfer-network-form')
             </div>
 
-            <div>
-                <h2 class="text-lg font-bold text-navy-900">{{ __('Ağdaki Anonim Profiller') }}</h2>
-                <div class="mt-4 space-y-3">
-                    @forelse ($profiles as $profile)
-                        <x-card class="p-4">
-                            <p class="font-semibold text-navy-900">{{ $profile->current_title }}</p>
-                            <p class="text-sm text-navy-600">{{ __('Hedef') }}: {{ $profile->target_locations }} · {{ $profile->experience_years }} {{ __('yıl deneyim') }}</p>
-                            <p class="mt-2 text-sm text-navy-600">{{ \Illuminate\Support\Str::limit($profile->summary, 140) }}</p>
-                            @if (!$profile->is_identity_revealed)
-                                <p class="mt-2 text-xs font-medium text-bordo-600">{{ __('Kimlik bilgileri gizli — yalnızca aday onayıyla açılır') }}</p>
-                            @endif
-                        </x-card>
-                    @empty
-                        <p class="text-navy-600">{{ __('Ağda henüz profil bulunmuyor.') }}</p>
-                    @endforelse
+            {{-- Sağ: bilgi kartları --}}
+            <aside class="space-y-4 md:col-span-4">
+                <div class="rounded-xl border border-navy-100 bg-navy-50 p-5">
+                    <h2 class="flex items-center gap-2 font-semibold text-navy-900">
+                        <svg class="h-5 w-5 text-turquoise-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
+                        {{ __('Kontrollü Paylaşım') }}
+                    </h2>
+                    <p class="mt-2 text-sm leading-relaxed text-navy-600">
+                        {{ __('Mevcut kurumunuzun ve iletişim bilgilerinizin kimlerle paylaşılacağını ayrı ayrı belirleyin.') }}
+                    </p>
                 </div>
-            </div>
+
+                <div class="rounded-xl border border-turquoise-100 bg-turquoise-50 p-5">
+                    <h2 class="flex items-center gap-2 font-semibold text-navy-900">
+                        <svg class="h-5 w-5 text-turquoise-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
+                        {{ __('Tercih Sırası') }}
+                    </h2>
+                    <p class="mt-2 text-sm leading-relaxed text-navy-600">
+                        {{ __('Birden fazla il, ilçe veya kurumu öncelik sırasıyla ekleyebilirsiniz. Profilinizi güncel tutun.') }}
+                    </p>
+                </div>
+            </aside>
         </div>
     </x-container>
 </x-layout>

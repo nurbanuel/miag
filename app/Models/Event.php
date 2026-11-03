@@ -21,11 +21,19 @@ class Event extends Model
         'registration_url',
         'starts_at',
         'is_past',
+        'is_featured',
+        'visibility_start',
+        'visibility_end',
+        'has_360_badge',
     ];
 
     protected function casts(): array
     {
         return [
+            'is_featured' => 'boolean',
+            'visibility_start' => 'datetime',
+            'visibility_end' => 'datetime',
+            'has_360_badge' => 'boolean',
             'starts_at' => 'datetime',
             'is_past' => 'boolean',
             'speakers' => 'array',

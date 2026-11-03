@@ -37,7 +37,7 @@ class MunicipalStaffRequestResource extends Resource
                 Forms\Components\TextInput::make('municipality_name')->label('Belediye Adı')->required(),
                 Forms\Components\TextInput::make('contact_name')->label('Yetkili')->required(),
                 Forms\Components\TextInput::make('contact_email')->label('Kurumsal E-posta')->email()->required(),
-                Forms\Components\TextInput::make('position_title')->label('Ünvan')->required(),
+                Forms\Components\TextInput::make('position_title')->label('Unvan')->required(),
                 Forms\Components\Select::make('employment_status')
                     ->label('İstihdam Statüsü')
                     ->options(MunicipalStaffRequest::EMPLOYMENT_STATUS_LABELS)
@@ -64,7 +64,7 @@ class MunicipalStaffRequestResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('municipality_name')->label('Belediye')->searchable(),
-                Tables\Columns\TextColumn::make('position_title')->label('Ünvan')->searchable(),
+                Tables\Columns\TextColumn::make('position_title')->label('Unvan')->searchable(),
                 Tables\Columns\TextColumn::make('employment_status')
                     ->label('Statü')
                     ->formatStateUsing(fn (string $state) => MunicipalStaffRequest::EMPLOYMENT_STATUS_LABELS[$state] ?? $state),

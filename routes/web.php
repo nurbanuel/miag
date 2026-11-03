@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\CareerController;
@@ -41,6 +42,8 @@ $registerSiteRoutes = function () {
     Route::get('/haberler', [NewsController::class, 'index'])->name('news.index');
     Route::get('/haberler/{news:slug}', [NewsController::class, 'show'])->name('news.show');
 
+    Route::get('/duyurular/{announcement:slug}', [AnnouncementController::class, 'show'])->name('announcements.show');
+
     Route::get('/veri-ve-gozlemevi', [ObservatoryController::class, 'index'])->name('observatory');
 
     Route::get('/sayfa/{slug}', [PageController::class, 'show'])->name('page.show');
@@ -52,13 +55,15 @@ $registerSiteRoutes = function () {
     Route::get('/etkinlikler', [EventController::class, 'index'])->name('events.index');
     Route::get('/etkinlikler/{event:slug}', [EventController::class, 'show'])->name('events.show');
 
+    // Katılım: MİARGEM Uzman ve Araştırmacı Havuzu (Livewire formu)
     Route::get('/katilim', [ParticipationController::class, 'index'])->name('participation.index');
-    Route::post('/katilim', [ParticipationController::class, 'store'])->name('participation.store');
 
     Route::prefix('ik-ve-kariyer')->name('career.')->group(function () {
         Route::get('/', [CareerController::class, 'index'])->name('index');
 
-        Route::get('/belediye-personel-talebi', [CareerController::class, 'municipalStaffRequestForm'])->name('municipal-staff-request');
+        Route::get('/personel-talebi', [CareerController::class, 'personnelRequestForm'])->name('personnel-request');
+        // Eski adres yeni personel talebi formuna yönlendirilir.
+        Route::get('/belediye-personel-talebi', fn () => redirect(lroute('career.personnel-request'), 301))->name('municipal-staff-request');
         Route::post('/belediye-personel-talebi', [CareerController::class, 'storeMunicipalStaffRequest'])->name('municipal-staff-request.store');
 
         Route::get('/nakil-agi', [CareerController::class, 'transferNetworkForm'])->name('transfer-network');
@@ -85,3 +90,16 @@ $registerSiteRoutes = function () {
 
 Route::middleware(['setlocale:tr'])->name('tr.')->group($registerSiteRoutes);
 Route::prefix('en')->middleware(['setlocale:en'])->name('en.')->group($registerSiteRoutes);
+
+// Başvuru dosyaları (İK, personel talebi, uzman havuzu) özel diskte tutulur;
+// yalnızca panele giriş yapmış yöneticiler indirebilir.
+Route::middleware(['panel:admin', \Filament\Http\Middleware\Authenticate::class])
+    ->get('/admin/private-file', function (\Illuminate\Http\Request $request) {
+        $path = (string) $request->query('path');
+        $allowed = ['hr-applications/', 'hr-personnel-requests/', 'expert-pool/'];
+        abort_unless(\Illuminate\Support\Str::startsWith($path, $allowed) && ! str_contains($path, '..'), 404);
+        abort_unless(\Illuminate\Support\Facades\Storage::disk('local')->exists($path), 404);
+
+        return \Illuminate\Support\Facades\Storage::disk('local')->download($path);
+    })
+    ->name('admin.private-file');

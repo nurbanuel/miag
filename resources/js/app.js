@@ -1,5 +1,3 @@
 import './bootstrap';
-import Alpine from 'alpinejs';
 
-window.Alpine = Alpine;
-Alpine.start();
+// Alpine, Livewire betiğiyle birlikte gelir (layout'ta @livewireScripts); ayrıca başlatılmaz.

@@ -9,13 +9,17 @@ $localeHref = fn (string $url) => ($locale === 'en' ? '/en' : '').$url;
 
     {{-- 1. Üst Bilgi Şeridi --}}
     <div class="bg-[#061024] text-slate-300">
-        <x-container class="flex h-9 flex-wrap items-center justify-between gap-x-4 gap-y-1 text-xs">
-            <p class="truncate">{{ __('Mahallî idareler için bağımsız araştırma ve politika merkezi') }}</p>
+        <x-container class="flex min-h-9 items-center justify-between gap-x-4 py-1.5 text-xs lg:h-9 lg:py-0">
+            <p class="flex min-w-0 flex-col leading-tight lg:flex-row lg:flex-nowrap lg:items-center lg:gap-3 lg:whitespace-nowrap">
+                <span class="truncate text-[11px] font-semibold tracking-wide text-white lg:text-xs">{{ __('Mahallî İdareler Araştırma ve Geliştirme Merkezi') }}</span>
+                <span aria-hidden="true" class="hidden h-3.5 w-px shrink-0 bg-white/25 lg:block"></span>
+                <span class="truncate text-[10px] font-normal text-slate-400 lg:text-xs">{{ __('Sürdürülebilir Yerel Yönetimler İçin Rehber Kuruluş') }}</span>
+            </p>
 
             <div class="flex items-center gap-3">
                 <a href="{{ lroute('participation.index') }}" class="hidden hover:text-white sm:inline">{{ __('Katılım') }}</a>
                 <span aria-hidden="true" class="hidden text-slate-600 sm:inline">&middot;</span>
-                <a href="#newsletter-signup" class="hidden hover:text-white sm:inline">{{ __('Bülten') }}</a>
+                <a href="{{ lroute('home') }}#newsletter-signup" class="hidden hover:text-white sm:inline">{{ __('Bülten') }}</a>
                 <span aria-hidden="true" class="hidden text-slate-600 sm:inline">&middot;</span>
                 <a href="{{ lroute('corporate') }}#iletisim" class="hidden hover:text-white sm:inline">{{ __('İletişim') }}</a>
 

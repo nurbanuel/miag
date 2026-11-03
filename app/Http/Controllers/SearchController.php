@@ -34,7 +34,7 @@ class SearchController extends Controller
                     'type' => 'Etkinlik', 'title' => $e->title, 'excerpt' => \Illuminate\Support\Str::limit(strip_tags($e->description), 160), 'href' => lroute('events.show', $e),
                 ]))
                 ->concat(Announcement::where('title', 'like', $term)->get()->map(fn ($a) => [
-                    'type' => 'Duyuru', 'title' => $a->title, 'excerpt' => '', 'href' => $a->href,
+                    'type' => 'Duyuru', 'title' => $a->title, 'excerpt' => '', 'href' => lroute('announcements.show', $a),
                 ]));
         }
 

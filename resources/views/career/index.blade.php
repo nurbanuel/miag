@@ -1,27 +1,26 @@
 <x-layout title="İK ve Kariyer">
     <section class="bg-bordo-800 py-16 text-white">
         <x-container>
-            <p class="mb-2 text-sm font-semibold uppercase tracking-wide text-bordo-100">{{ __('İK ve Kariyer') }}</p>
-            <h1 class="max-w-2xl text-3xl font-bold sm:text-4xl">{{ __('İK ve Kariyer Platformu') }}</h1>
+            <p class="mb-2 text-sm font-semibold uppercase tracking-wide text-bordo-100">{{ __('MİARGEM') }}</p>
+            <h1 class="max-w-2xl text-3xl font-bold sm:text-4xl">{{ __('İK ve Kariyer') }}</h1>
             <p class="mt-4 max-w-2xl text-bordo-50/90">
-                {{ __('Kullanıcı gizliliğine ve kontrollü eşleşmeye dayalı dört modül aracılığıyla belediyeleri, personeli ve uzmanları bir araya getiriyoruz.') }}
+                {{ __('Personel ihtiyaçları, görev yeri tercihleri ve iş / staj başvuruları için ortak başvuru alanı.') }}
             </p>
         </x-container>
     </section>
 
     <x-container class="py-14">
-        <div class="grid gap-6 sm:grid-cols-2">
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
             @foreach ([
-                ['title' => 'Belediye Personel Talebi', 'desc' => 'Doğrulanmış kurumsal e-postaya sahip belediyelerin süreli personel talebi oluşturması.', 'route' => 'career.municipal-staff-request', 'tone' => 'navy'],
-                ['title' => 'Nakil Ağı', 'desc' => 'Başka bir belediyeye geçmek isteyen personel için gizlilik esaslı profil ağı.', 'route' => 'career.transfer-network', 'tone' => 'turquoise'],
-                ['title' => 'İş / Staj Başvurusu', 'desc' => 'Yeni mezun, deneyimli aday ve stajyerler için ortak kariyer havuzu.', 'route' => 'career.job-internship', 'tone' => 'bordo'],
-                ['title' => 'MİARGEM CV Havuzu', 'desc' => 'MİARGEM projelerinde görev alacak uzman havuzu.', 'route' => 'career.cv-pool', 'tone' => 'turquoise'],
+                ['num' => '01', 'title' => 'Personel Talebi', 'desc' => 'Kurumunuzun personel ihtiyacını görev, eğitim, deneyim ve yetkinlik ölçütleriyle tanımlayın.', 'route' => 'career.personnel-request', 'cta' => 'Personel Talebi Oluştur'],
+                ['num' => '02', 'title' => 'Nakil Ağı', 'desc' => 'Mevcut görev bilgilerinizi ve görev yeri tercihlerinizi paylaşın; profilinizin güncelliğini yönetin.', 'route' => 'career.transfer-network', 'cta' => 'Nakil Profili Oluştur'],
+                ['num' => '03', 'title' => 'İş / Staj Başvurusu', 'desc' => 'İş veya staj tercihinizi belirterek eğitim, deneyim ve ilgi alanı bilgilerinizi paylaşın.', 'route' => 'career.job-internship', 'cta' => 'Başvuru Yap'],
             ] as $module)
-                <x-card class="p-6">
-                    <x-badge :tone="$module['tone']">{{ __('Modül') }}</x-badge>
+                <x-card class="flex h-full flex-col p-6">
+                    <span class="text-3xl font-extrabold text-bordo-700">{{ $module['num'] }}</span>
                     <h2 class="mt-3 text-xl font-semibold text-navy-900">{{ __($module['title']) }}</h2>
-                    <p class="mt-2 text-sm text-navy-600">{{ __($module['desc']) }}</p>
-                    <x-button :href="lroute($module['route'])" variant="outline" class="mt-4">{{ __('Modüle Git') }}</x-button>
+                    <p class="mt-2 flex-1 text-sm leading-relaxed text-navy-600">{{ __($module['desc']) }}</p>
+                    <x-button :href="lroute($module['route'])" variant="outline" class="mt-6 self-start">{{ __($module['cta']) }} →</x-button>
                 </x-card>
             @endforeach
         </div>

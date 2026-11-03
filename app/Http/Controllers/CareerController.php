@@ -21,6 +21,13 @@ class CareerController extends Controller
     }
 
     // Modül 1: Belediye Personel Talebi
+    public function personnelRequestForm(): View
+    {
+        $this->useSiteColorsForFilamentForms();
+
+        return view('career.personnel-request');
+    }
+
     public function municipalStaffRequestForm(): View
     {
         return view('career.municipal-staff-request', [
@@ -69,9 +76,9 @@ class CareerController extends Controller
     // Modül 2: Nakil Ağı
     public function transferNetworkForm(): View
     {
-        $profiles = TransferNetworkProfile::latest()->take(20)->get();
+        $this->useSiteColorsForFilamentForms();
 
-        return view('career.transfer-network', compact('profiles'));
+        return view('career.transfer-network');
     }
 
     public function storeTransferNetwork(Request $request): RedirectResponse
@@ -97,9 +104,9 @@ class CareerController extends Controller
     // Modül 3: İş / Staj Başvurusu
     public function jobInternshipForm(): View
     {
-        return view('career.job-internship', [
-            'applicantTypes' => JobInternshipApplication::APPLICANT_TYPE_LABELS,
-        ]);
+        $this->useSiteColorsForFilamentForms();
+
+        return view('career.job-internship');
     }
 
     public function storeJobInternship(Request $request): RedirectResponse

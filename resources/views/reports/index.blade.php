@@ -20,11 +20,23 @@
                     $badgeTone = $report->cover_color === 'bordo' ? 'bordo' : ($report->cover_color === 'navy' ? 'navy' : 'turquoise');
                 @endphp
                 <x-card class="flex flex-col overflow-hidden">
-                    <div class="flex h-28 items-center justify-center {{ $coverBg }}">
-                        <svg class="h-10 w-10 text-white/90" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6M9 8h1M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H9.828a2 2 0 00-1.414.586L5.586 7.414A2 2 0 005 8.828V18a2 2 0 002 2z"/></svg>
-                    </div>
+                    {{-- Kapak: öne çıkan görsel, yoksa renkli ikon zemin --}}
+                    @if ($report->featured_image)
+                        <img src="{{ asset('storage/'.$report->featured_image) }}" alt="" loading="lazy" class="h-40 w-full shrink-0 object-cover" />
+                    @else
+                        <div class="flex h-40 shrink-0 items-center justify-center {{ $coverBg }}">
+                            <svg class="h-10 w-10 text-white/90" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6M9 8h1M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H9.828a2 2 0 00-1.414.586L5.586 7.414A2 2 0 005 8.828V18a2 2 0 002 2z"/></svg>
+                        </div>
+                    @endif
                     <div class="flex flex-1 flex-col gap-3 p-5">
-                        <x-badge :tone="$badgeTone">{{ $report->category?->name }}</x-badge>
+                        <div class="flex flex-wrap items-center gap-2">
+                            @if ($report->category)
+                                <x-badge :tone="$badgeTone">{{ $report->category->name }}</x-badge>
+                            @endif
+                            @if ($report->published_at)
+                                <time datetime="{{ $report->published_at->toDateString() }}" class="text-xs text-navy-500">{{ $report->published_at->translatedFormat('d F Y') }}</time>
+                            @endif
+                        </div>
                         <h2 class="text-lg font-semibold text-navy-900">
                             <a href="{{ lroute('reports.show', $report) }}" class="hover:text-turquoise-700">{{ $report->title }}</a>
                         </h2>

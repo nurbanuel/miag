@@ -66,6 +66,17 @@ class EventResource extends Resource
                     ->label('Öne Çıkan Görsel')
                     ->directory('events')
                     ->columnSpanFull(),
+                Forms\Components\Toggle::make('is_featured')
+                    ->label('Manşete Ekle')
+                    ->default(false),
+                Forms\Components\DateTimePicker::make('visibility_start')
+                    ->label('Manşet Görünürlük Başlangıcı'),
+                Forms\Components\DateTimePicker::make('visibility_end')
+                    ->label('Manşet Görünürlük Bitişi')
+                    ->after('visibility_start'),
+                Forms\Components\Toggle::make('has_360_badge')
+                    ->label('360° Etki Analizi Rozeti')
+                    ->default(false),
             ]);
     }
 

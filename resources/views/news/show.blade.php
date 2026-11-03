@@ -7,7 +7,7 @@
         </nav>
 
         @if ($news->featured_image)
-            <img src="{{ asset('storage/'.$news->featured_image) }}" alt="{{ $news->title }}" class="mb-6 h-64 w-full rounded-xl object-cover sm:h-80" />
+            <img src="{{ asset('storage/'.$news->featured_image) }}" alt="{{ $news->title }}" class="mb-6 h-auto w-full rounded-xl object-contain" />
         @endif
 
         <x-badge tone="turquoise">{{ $news->category?->name }}</x-badge>

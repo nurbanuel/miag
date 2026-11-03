@@ -12,12 +12,17 @@
     "src": "node_modules/leaflet/dist/images/marker-icon.png"
   },
   "resources/css/app.css": {
-    "file": "assets/app-OMRN2nq5.css",
+    "file": "assets/app-CH1Pj70I.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
+  "resources/css/filament-forms.css": {
+    "file": "assets/filament-forms-CQi9ShgR.css",
+    "src": "resources/css/filament-forms.css",
+    "isEntry": true
+  },
   "resources/js/app.js": {
-    "file": "assets/app-DsNfMmjR.js",
+    "file": "assets/app-DMsN-rLE.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true

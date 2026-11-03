@@ -143,6 +143,28 @@ class PageSeeder extends Seeder
                 'banner_description' => '',
                 'content' => '',
             ],
+            [
+                'title' => 'Belediye Proje Günleri Programı',
+                'slug' => 'belediye-proje-gunleri-programi',
+                'banner_title' => 'BELEDİYE PROJE GÜNLERİ',
+                'banner_subtitle' => 'Belediye Proje Günleri Programı',
+                'banner_description' => 'Etkin Belediye Proje Yarışması ile Mevzuat Takip Sistemi\'ni bir araya getiren; iyi uygulamaları görünür kılan ve mevzuat desteğiyle yaygınlaştıran program.',
+                'content' => <<<'HTML'
+                    <h2 class="text-xl font-bold text-navy-900">Program Hakkında</h2>
+                    <p class="mt-4 text-sm leading-relaxed text-navy-600">Belediye Proje Günleri, mahallî idarelerin yenilikçi ve sürdürülebilir projelerini tanıtan, değerlendiren ve yaygınlaştıran bir programdır. Program iki tamamlayıcı bileşenden oluşur: Etkin Belediye Proje Yarışması ve Mevzuat Takip Sistemi.</p>
+
+                    <h2 class="mt-10 text-xl font-bold text-navy-900">Etkin Belediye Proje Yarışması</h2>
+                    <p class="mt-4 text-sm leading-relaxed text-navy-600">Yarışma, belediyelerin hizmet kalitesini artıran, katılımcı ve ölçülebilir sonuç üreten projelerini ödüllendirir. Başvurular bağımsız bir jüri tarafından etki, uygulanabilirlik ve yaygınlaştırılabilirlik ölçütlerine göre değerlendirilir.</p>
+
+                    <h2 class="mt-10 text-xl font-bold text-navy-900">Mevzuat Takip Sistemi ile İlişkisi</h2>
+                    <p class="mt-4 text-sm leading-relaxed text-navy-600">Başarılı projelerin başka belediyelerde uygulanabilmesi çoğu zaman mevzuat uyumuna bağlıdır. Mevzuat Takip Sistemi, projelerin dayandığı ya da etkilendiği düzenlemeleri izler; değişiklikleri erken uyarıyla paylaşır ve gerektiğinde düzenleme önerilerine kaynak oluşturur.</p>
+                    <ul class="mt-4 grid gap-3 sm:grid-cols-3 list-none pl-0">
+                        <li class="rounded-lg border border-navy-100 p-4 text-sm text-navy-700"><strong class="block text-navy-900">1. Proje</strong>Yarışmada öne çıkan uygulama belirlenir.</li>
+                        <li class="rounded-lg border border-navy-100 p-4 text-sm text-navy-700"><strong class="block text-navy-900">2. Mevzuat Analizi</strong>Uygulamanın hukukî dayanağı ve engelleri incelenir.</li>
+                        <li class="rounded-lg border border-navy-100 p-4 text-sm text-navy-700"><strong class="block text-navy-900">3. Yaygınlaştırma</strong>Uyumlu model diğer belediyelerle paylaşılır.</li>
+                    </ul>
+                    HTML,
+            ],
         ];
 
         foreach ($pages as $pageData) {

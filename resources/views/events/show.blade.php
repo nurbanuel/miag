@@ -8,6 +8,10 @@
 
         <div class="grid gap-10 lg:grid-cols-[2fr_1fr]">
             <article>
+                @if ($event->featured_image)
+                    <img src="{{ asset('storage/'.$event->featured_image) }}" alt="{{ $event->title }}" class="mb-6 h-auto w-full rounded-xl object-contain" />
+                @endif
+
                 @if ($event->is_past)
                     <x-badge tone="navy">{{ __('Geçmiş Etkinlik') }}</x-badge>
                 @else

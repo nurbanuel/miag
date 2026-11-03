@@ -21,11 +21,19 @@ class Report extends Model
         'cover_color',
         'file_path',
         'published_at',
+        'is_featured',
+        'visibility_start',
+        'visibility_end',
+        'has_360_badge',
     ];
 
     protected function casts(): array
     {
         return [
+            'is_featured' => 'boolean',
+            'visibility_start' => 'datetime',
+            'visibility_end' => 'datetime',
+            'has_360_badge' => 'boolean',
             'published_at' => 'datetime',
         ];
     }

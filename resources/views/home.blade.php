@@ -1,27 +1,7 @@
 {{--
-    Ana Sayfa — temiz başlangıç iskeleti.
-    Header (x-header) global layout üzerinden geliyor.
-    Bu dosyada yalnızca Güncel Duyuru Şeridi bulunur; sonraki bölümler
-    kurumsal içerik onaylandıkça buraya eklenecektir.
+    Ana Sayfa. Header (x-header) global layout üzerinden geliyor.
 --}}
 <x-layout>
-    {{-- Güncel Duyuru Şeridi: en son duyuru, detay sayfasına bağlanır (renk garantisi için inline style; içerik diğer bölümlerle aynı konteynerde hizalı) --}}
-    <div style="background-color: #eaf3f2;" class="w-full">
-        <x-container class="flex flex-wrap items-center justify-between gap-4 py-3">
-            <span class="inline-flex shrink-0 items-center rounded-full bg-turquoise-600 px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide text-white">
-                {{ __('GÜNCEL') }}
-            </span>
-
-            <p class="min-w-[200px] flex-1 text-center text-sm text-navy-800">
-                {{ $latestAnnouncement?->title ?? __("Belediye Mevzuat Etki Notları'nın yeni sayısı yayımlandı.") }}
-            </p>
-
-            <a href="{{ $latestAnnouncement ? lroute('announcements.show', $latestAnnouncement) : lroute('policy.index', ['type' => 'mevzuat_etki_notu']) }}" class="shrink-0 text-sm font-semibold text-turquoise-700 hover:text-turquoise-800 hover:underline">
-                {{ __('İncele') }} →
-            </a>
-        </x-container>
-    </div>
-
     {{-- Ana Manşet (Hero Section ve Sağ Sütun) --}}
     <section style="background-color: #f5f7f6;" class="w-full py-10 sm:py-14">
         <x-container>
@@ -41,7 +21,7 @@
                         <div class="absolute inset-0 bg-[#0f172a]/80"></div>
                     @endif
 
-                    {{-- Üst blok: kicker + başlık + açıklama --}}
+                    {{-- Üst blok: kicker + başlık --}}
                     <div class="relative z-10">
                         <div class="flex items-center gap-2">
                             <span class="h-px w-6 shrink-0 bg-turquoise-400"></span>
@@ -50,17 +30,13 @@
                             </span>
                         </div>
 
-                        <h1 class="mt-5 max-w-xl text-3xl font-bold leading-tight sm:text-4xl">
+                        <h1 class="mt-6 max-w-2xl text-3xl font-bold leading-tight sm:text-4xl lg:text-[2.75rem] lg:leading-[1.15]">
                             {{ $featuredContent['title'] ?? __('Mahallî idarelerin ortak sorunları için ortak akıl') }}
                         </h1>
-
-                        <p class="mt-4 max-w-lg text-sm leading-relaxed text-white/70 sm:text-base">
-                            {{ $featuredContent ? $featuredContent['excerpt'] : __('Hukukî, malî ve kurumsal sorunları veriye dayalı politika ve uygulanabilir sistem önerilerine dönüştürüyoruz.') }}
-                        </p>
                     </div>
 
                     {{-- Alt blok: buton + tarih (solda), 360° rozeti (sağda) --}}
-                    <div class="relative z-10 mt-12 flex flex-wrap items-end justify-between gap-x-6 gap-y-4 pb-1 pr-1">
+                    <div class="relative z-10 mt-10 flex flex-wrap items-end justify-between gap-x-6 gap-y-4 pb-1 pr-1">
                         <div class="flex flex-wrap items-center gap-x-6 gap-y-3">
                             <a href="{{ $featuredContent['url'] ?? lroute('reports.index') }}" class="inline-flex shrink-0 items-center gap-2 rounded-lg bg-white px-5 py-2.5 text-sm font-semibold text-slate-900 hover:bg-slate-100">
                                 @if ($featuredContent)
@@ -220,51 +196,49 @@
     {{-- Kurumsal Yaklaşım (Haberler ile Rapor ve Analizler arasında) --}}
     <section style="background-color: #f5f7f6;" class="w-full pb-14 sm:pb-16">
         <x-container>
-            <div style="background: linear-gradient(135deg, #061024 0%, #0a2238 100%);" class="overflow-hidden rounded-2xl text-white">
-                <div class="p-6 sm:p-10 lg:p-12">
-                    {{-- Üst metinler --}}
-                    <div class="flex items-center gap-2">
-                        <span class="h-px w-6 shrink-0 bg-turquoise-400"></span>
-                        <span class="text-xs font-medium uppercase tracking-[0.2em] text-turquoise-300">{{ __('KURUMSAL YAKLAŞIM') }}</span>
-                    </div>
-                    <h2 class="mt-5 max-w-3xl text-2xl font-bold leading-snug text-white sm:text-3xl lg:text-4xl">
-                        {{ __('Sorunu görünür kılan, veriye dayalı çözüm üreten merkez') }}
-                    </h2>
-                    <p class="mt-3 text-base font-semibold text-turquoise-300 sm:text-lg">
-                        {{ __('Ortak sorunları araştırıyor, uygulanabilir çözümler geliştiriyoruz.') }}
-                    </p>
-                    <p class="mt-4 max-w-3xl text-sm leading-relaxed text-white/70 sm:text-base">
-                        {{ __('MİARGEM, mahallî idareler için bağımsız bir araştırma ve politika merkezidir. Hukuk, veri ve saha bilgisine dayalı çalışmalarıyla kurumsal kapasitenin ve kamu hizmetlerinin geliştirilmesine katkı sağlar.') }}
-                    </p>
-
-                    {{-- 6 aşamalı yöntem kartları: mobil 1, tablet 2, masaüstü 3 sütun --}}
-                    @php
-                        $approachSteps = [
-                            ['title' => 'Sorunun Belirlenmesi', 'desc' => 'Mahallî idarelerin ve görevlilerinin ortak sorunlarını ve gelişim ihtiyaçlarını belirliyoruz.'],
-                            ['title' => 'Araştırma ve Analiz', 'desc' => 'Hukuk, veri ve saha bilgisiyle doğruluyor; etkileri ölçüyor, farklı uygulamaları karşılaştırıyoruz.'],
-                            ['title' => 'Çözüm Geliştirme', 'desc' => 'Politika, mevzuat ve sistem seçeneklerini uygulanabilirlik, maliyet ve etki bakımından değerlendiriyoruz.'],
-                            ['title' => 'Önerinin Hazırlanması', 'desc' => 'Çözümü gerekçeli düzenleme metinlerine, modellere ve standartlara dönüştürüyoruz.'],
-                            ['title' => 'Karar Süreçlerine Katkı', 'desc' => 'Paydaşlarla değerlendirdiğimiz önerileri, kurumsal onayın ardından ilgili karar mercilerine sunuyoruz.'],
-                            ['title' => 'İzleme ve Öğrenme', 'desc' => 'Önerilerin mevzuata ve uygulamaya yansımalarını izliyor, sonuçları raporlayarak kurumsal hafızaya aktarıyoruz.'],
-                        ];
-                    @endphp
-                    <div class="mt-10 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                        @foreach ($approachSteps as $step)
-                            <div class="flex h-full flex-col rounded-xl border border-white/10 bg-white/[0.04] p-5">
-                                <span class="text-sm font-bold text-turquoise-300">{{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
-                                <h3 class="mt-2 text-base font-semibold text-white">{{ __($step['title']) }}</h3>
-                                <p class="mt-2 text-sm leading-relaxed text-white/65">{{ __($step['desc']) }}</p>
-                            </div>
-                        @endforeach
-                    </div>
+            <div class="rounded-2xl bg-[#0a1120] p-8 text-gray-300 md:p-12">
+                {{-- Üst başlık --}}
+                <div class="flex items-center gap-3">
+                    <span class="h-px w-8 shrink-0 bg-teal-400" aria-hidden="true"></span>
+                    <span class="text-xs font-semibold uppercase tracking-[0.2em] text-teal-400">{{ __('KURUMSAL YAKLAŞIM') }}</span>
                 </div>
 
-                {{-- Alt şerit: yöntemin ayrıntıları --}}
-                <div class="border-t border-white/10 bg-white/[0.03] px-6 py-4 text-xs leading-relaxed text-white/60 sm:px-10 lg:px-12">
-                    <span class="font-semibold uppercase tracking-wide text-turquoise-300">{{ __('Yöntemin Ayrıntıları') }}</span>
-                    <span class="mx-2 text-white/25" aria-hidden="true">|</span>
-                    {{ __('Sorunu toplama, doğrulama ve ölçme; hukukî inceleme ve karşılaştırma; seçenek geliştirme ve düzenleme metni hazırlama; paydaşlarla değerlendirme ve kurumsal onay; karar vericilere sunma ve kamuoyuna açıklama; sonuçları izleme.') }}
+                <h2 class="mt-5 max-w-3xl text-3xl font-bold leading-tight text-white md:text-4xl">
+                    {{ __('Sorunu görünür kılan, veriye dayalı çözüm üreten merkez') }}
+                </h2>
+                <p class="mt-3 text-lg font-semibold text-teal-400">
+                    {{ __('Ortak sorunları araştırıyor, uygulanabilir çözümler geliştiriyoruz.') }}
+                </p>
+                <p class="mt-4 w-full leading-relaxed text-gray-300">
+                    {{ __('MİARGEM, mahallî idareler için bağımsız bir araştırma ve politika merkezidir. Hukuk, veri ve saha bilgisine dayalı çalışmalarıyla kurumsal kapasitenin ve kamu hizmetlerinin geliştirilmesine katkı sağlar.') }}
+                </p>
+
+                {{-- 6 aşamalı yöntem kartları --}}
+                @php
+                    $approachSteps = [
+                        ['title' => 'Sorunun Belirlenmesi', 'desc' => 'Mahallî idarelerin ve görevlilerinin ortak sorunlarını ve gelişim ihtiyaçlarını belirliyoruz.'],
+                        ['title' => 'Araştırma ve Analiz', 'desc' => 'Hukuk, veri ve saha bilgisiyle doğruluyor; etkileri ölçüyor, farklı uygulamaları karşılaştırıyoruz.'],
+                        ['title' => 'Çözüm Geliştirme', 'desc' => 'Politika, mevzuat ve sistem seçeneklerini uygulanabilirlik, maliyet ve etki bakımından değerlendiriyoruz.'],
+                        ['title' => 'Önerinin Hazırlanması', 'desc' => 'Çözümü gerekçeli düzenleme metinlerine, modellere ve standartlara dönüştürüyoruz.'],
+                        ['title' => 'Karar Süreçlerine Katkı', 'desc' => 'Paydaşlarla değerlendirdiğimiz önerileri, kurumsal onayın ardından ilgili karar mercilerine sunuyoruz.'],
+                        ['title' => 'İzleme ve Öğrenme', 'desc' => 'Önerilerin mevzuata ve uygulamaya yansımalarını izliyor, sonuçları raporlayarak kurumsal hafızaya aktarıyoruz.'],
+                    ];
+                @endphp
+                <div class="mt-10 grid grid-cols-1 gap-4 md:grid-cols-3">
+                    @foreach ($approachSteps as $step)
+                        <div class="flex h-full flex-col rounded-xl border border-slate-700 bg-slate-800/50 p-6 transition hover:border-teal-900/50 hover:bg-slate-800/70">
+                            <span class="text-sm font-bold text-teal-400">{{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+                            <h3 class="mt-2 text-base font-semibold text-white">{{ __($step['title']) }}</h3>
+                            <p class="mt-2 text-sm leading-relaxed text-gray-300">{{ __($step['desc']) }}</p>
+                        </div>
+                    @endforeach
                 </div>
+
+                {{-- Alt bilgi şeridi --}}
+                <p class="mt-8 border-t border-slate-700 pt-5 text-sm leading-relaxed">
+                    <span class="font-semibold text-teal-400">{{ __('YÖNTEMİN AYRINTILARI') }} |</span>
+                    <span class="text-gray-300">{{ __('Sorunu toplama, doğrulama ve ölçme; hukukî inceleme ve karşılaştırma; seçenek geliştirme ve düzenleme metni hazırlama; paydaşlarla değerlendirme ve kurumsal onay; karar vericilere sunma ve kamuoyuna açıklama; sonuçları izleme.') }}</span>
+                </p>
             </div>
         </x-container>
     </section>
@@ -310,67 +284,6 @@
                 @empty
                     <p class="col-span-full text-sm text-navy-500">{{ __('Henüz rapor eklenmedi.') }}</p>
                 @endforelse
-            </div>
-        </x-container>
-    </section>
-
-    {{-- İstatistik ve Araştırma Altyapısı --}}
-    <section style="background-color: #f5f7f6;" class="w-full py-14 sm:py-16">
-        <x-container>
-            <div style="background-color: #0D858D;" class="rounded-2xl p-8 text-white lg:p-12">
-                <div class="grid grid-cols-1 items-center gap-8 lg:grid-cols-12">
-
-                    {{-- Sol sütun: metin alanı --}}
-                    <div class="lg:col-span-5">
-                        <div class="flex items-center gap-2">
-                            <span class="h-px w-6 shrink-0 bg-white/50"></span>
-                            <span class="text-xs font-semibold uppercase tracking-[0.2em] text-white/80">
-                                {{ __('Türkiye Belediyecilik Dokümantasyonu') }}
-                            </span>
-                        </div>
-                        <h2 class="mt-5 max-w-md text-2xl font-bold leading-snug sm:text-3xl">
-                            {{ __('Yerel yönetim sistemini sürekli veriye izleyen araştırma altyapısı') }}
-                        </h2>
-                        <p class="mt-4 max-w-md text-sm leading-relaxed text-white/80">
-                            {{ __('Belediyelerin yerel sermayeli, kurumsal, mali, yapısal ve kurumsal kapasite süreçlerini sürekli olarak izliyoruz.') }}
-                        </p>
-                    </div>
-
-                    {{-- Sağ sütun: beyaz kart — istatistikler + trend grafiği --}}
-                    <div class="lg:col-span-7">
-                        <div class="rounded-2xl bg-white p-6 sm:p-8">
-
-                            {{-- 5 istatistik mini kutusu --}}
-                            <div class="grid grid-cols-3 gap-4 sm:grid-cols-5 sm:gap-3">
-                                @php
-                                    $localGovStats = [
-                                        ['value' => '1.393', 'label' => 'Toplam Yerel Yönetim / Belde'],
-                                        ['value' => '30', 'label' => 'Büyükşehir'],
-                                        ['value' => '51', 'label' => 'İl / İlgili Alan'],
-                                        ['value' => '922', 'label' => 'İlçe Belediyesi'],
-                                        ['value' => '390', 'label' => 'Belde Belediyesi'],
-                                    ];
-                                @endphp
-
-                                @foreach ($localGovStats as $stat)
-                                    <div class="text-center">
-                                        <span class="block text-2xl font-extrabold text-navy-900 sm:text-3xl">{{ $stat['value'] }}</span>
-                                        <span class="mt-1 block text-[10px] leading-tight text-navy-500 sm:text-[11px]">{{ __($stat['label']) }}</span>
-                                    </div>
-                                @endforeach
-                            </div>
-
-                            {{-- Artış trendini gösteren çizgi grafik (turkuaz + bordo) --}}
-                            <div class="mt-6 border-t border-navy-100 pt-6">
-                                <svg viewBox="0 0 400 110" class="h-24 w-full sm:h-28" preserveAspectRatio="none" role="img" aria-label="{{ __('Yerel yönetim göstergelerinde yıllar içindeki artış trendini gösteren örnek çizgi grafik') }}">
-                                    <polyline points="0,90 60,80 120,70 180,60 240,45 300,32 360,18 400,10" fill="none" stroke="#0c9299" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-                                    <polyline points="0,100 60,96 120,92 180,80 240,70 300,62 360,50 400,40" fill="none" stroke="#9f1e3b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                                <p class="mt-2 text-xs text-navy-500">* {{ __('Gösterilen eğilim yer tutucudur; canlı veri bağlantısı geliştirme aşamasındadır.') }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </x-container>
     </section>

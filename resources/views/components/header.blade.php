@@ -9,7 +9,7 @@ $localeHref = fn (string $url) => ($locale === 'en' ? '/en' : '').$url;
 
     {{-- 1. Üst Bilgi Şeridi --}}
     <div class="bg-[#061024] text-slate-300">
-        <x-container class="flex min-h-9 items-center justify-between gap-x-4 py-1.5 text-xs lg:h-9 lg:py-0">
+        <div class="w-full px-4 md:px-8 lg:px-12 flex min-h-9 items-center justify-between gap-x-4 py-1.5 text-xs lg:h-9 lg:py-0">
             <p class="flex min-w-0 flex-col leading-tight lg:flex-row lg:flex-nowrap lg:items-center lg:gap-3 lg:whitespace-nowrap">
                 <span class="truncate text-[11px] font-semibold tracking-wide text-white lg:text-xs">{{ __('Mahallî İdareler Araştırma ve Geliştirme Merkezi') }}</span>
                 <span aria-hidden="true" class="hidden h-3.5 w-px shrink-0 bg-white/25 lg:block"></span>
@@ -28,12 +28,12 @@ $localeHref = fn (string $url) => ($locale === 'en' ? '/en' : '').$url;
                     <a href="{{ route('en.home') }}" class="rounded-full px-2 py-0.5 {{ $locale === 'en' ? 'bg-white text-[#061024]' : 'text-slate-300 hover:text-white' }}">EN</a>
                 </div>
             </div>
-        </x-container>
+        </div>
     </div>
 
     {{-- 2. Ana Navigasyon Şeridi --}}
     <div class="relative z-40 border-b border-slate-100 bg-white">
-        <x-container class="flex h-20 items-center justify-between gap-6">
+        <div class="w-full px-4 md:px-8 lg:px-12 flex h-20 items-center justify-between gap-6">
             {{-- Logo --}}
             <a href="{{ lroute('home') }}" class="flex shrink-0 items-center">
                 <img src="{{ asset('images/logo.png') }}" alt="{{ __('MİARGEM - Mahalli İdareler Araştırma ve Geliştirme Merkezi') }}" class="h-11 w-auto sm:h-12" />
@@ -129,12 +129,12 @@ $localeHref = fn (string $url) => ($locale === 'en' ? '/en' : '').$url;
                 <svg x-show="!mobileOpen" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
                 <svg x-show="mobileOpen" x-cloak class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
-        </x-container>
+        </div>
     </div>
 
     {{-- Mobil menü paneli --}}
     <div id="mobile-menu" x-show="mobileOpen" x-cloak x-transition class="border-b border-slate-100 bg-white lg:hidden">
-        <x-container class="flex flex-col gap-1 py-4">
+        <div class="w-full px-4 md:px-8 lg:px-12 flex flex-col gap-1 py-4">
             <form action="{{ lroute('search') }}" method="GET" role="search" class="mb-3">
                 <label for="mobile-search" class="sr-only">{{ __('Ara') }}</label>
                 <div class="relative">
@@ -164,6 +164,6 @@ $localeHref = fn (string $url) => ($locale === 'en' ? '/en' : '').$url;
             <a href="{{ lroute('participation.index') }}" class="mt-3 rounded-lg bg-[#8b1e3f] px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-[#721833]">
                 {{ __('Katılım') }}
             </a>
-        </x-container>
+        </div>
     </div>
 </header>

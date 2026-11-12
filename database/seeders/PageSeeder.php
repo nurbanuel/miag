@@ -9,10 +9,6 @@ class PageSeeder extends Seeder
 {
     public function run(): void
     {
-        // Bu sayfa daha önce 'Veri ve Gözlemevi' başlığıyla oluşturulmuştu; site menüsüyle
-        // birebir eşleşmesi için firstOrCreate'in title eşleşmesini bozmadan yeniden adlandırılır.
-        Page::where('slug', 'veri-ve-gozlemevi')->update(['title' => 'Veri & Gözlemevi']);
-
         $pages = [
             [
                 'title' => 'Kurumsal',
@@ -58,13 +54,6 @@ class PageSeeder extends Seeder
                 'banner_subtitle' => 'Rapor ve Analizler',
                 'banner_description' => 'Yerel yönetimler için üretilen araştırma çıktılarını filtreleyin ve inceleyin.',
                 'content' => '<p class="text-sm text-navy-600">Yayımlanan tüm rapor ve analizlere bu bölümden ulaşabilirsiniz.</p>',
-            ],
-            [
-                'title' => 'Veri & Gözlemevi',
-                'banner_title' => 'VERİ VE GÖZLEMEVİ',
-                'banner_subtitle' => 'Yerel Yönetim Göstergeleri',
-                'banner_description' => 'Bu modül aşamalı olarak geliştirilmektedir. Harita ve göstergeler örnek verilerle gösterilmektedir; canlı veri kaynaklarına bağlandıkça güncellenecektir.',
-                'content' => '<p class="text-sm text-navy-600">Türkiye haritası üzerinde mali ve personel göstergeleri, zaman içindeki eğilimler ve CSV/XLSX veri indirme alanı bu modülde bir araya gelecektir.</p>',
             ],
             [
                 'title' => 'Yazılar',

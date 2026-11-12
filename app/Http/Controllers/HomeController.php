@@ -8,7 +8,6 @@ use App\Models\Event;
 use App\Models\News;
 use App\Models\PolicyContent;
 use App\Models\Report;
-use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class HomeController extends Controller
@@ -23,11 +22,9 @@ class HomeController extends Controller
 
         $featuredArticles = Article::with('author')->latest('published_at')->take(3)->get();
 
-        $latestAnnouncement = Announcement::latest()->first();
-
         $upcomingEvent = Event::where('starts_at', '>', now())->orderBy('starts_at')->first();
 
-        return view('home', compact('news', 'featuredContent', 'upcomingEvent', 'featuredReports', 'featuredArticles', 'latestAnnouncement'));
+        return view('home', compact('news', 'featuredContent', 'upcomingEvent', 'featuredReports', 'featuredArticles'));
     }
 
     /**
@@ -37,21 +34,21 @@ class HomeController extends Controller
      */
     private function latestFeaturedContent(): ?array
     {
-        // [tür, model, tarih sütunu, özet sütunu, modül adı, detay rotası]
+        // [tür, model, tarih sütunu, modül adı, detay rotası]
         $modules = [
-            ['report', Report::class, 'published_at', 'summary', 'Rapor ve Analizler', 'reports.show'],
-            ['policy', PolicyContent::class, 'published_at', 'summary', 'Politika ve Mevzuat', 'policy.show'],
-            ['news', News::class, 'published_at', 'content', 'Haberler', 'news.show'],
-            ['article', Article::class, 'published_at', 'excerpt', 'Yazılar', 'articles.show'],
-            ['event', Event::class, 'starts_at', 'description', 'Etkinlikler', 'events.show'],
-            ['announcement', Announcement::class, 'created_at', 'content', 'Duyurular', 'announcements.show'],
+            ['report', Report::class, 'published_at', 'Rapor ve Analizler', 'reports.show'],
+            ['policy', PolicyContent::class, 'published_at', 'Politika ve Mevzuat', 'policy.show'],
+            ['news', News::class, 'published_at', 'Haberler', 'news.show'],
+            ['article', Article::class, 'published_at', 'Yazılar', 'articles.show'],
+            ['event', Event::class, 'starts_at', 'Etkinlikler', 'events.show'],
+            ['announcement', Announcement::class, 'created_at', 'Duyurular', 'announcements.show'],
         ];
 
         $now = now();
 
         return collect($modules)
             ->map(function (array $module) use ($now) {
-                [$type, $model, $dateColumn, $excerptColumn, $moduleLabel, $route] = $module;
+                [$type, $model, $dateColumn, $moduleLabel, $route] = $module;
 
                 $item = $model::with('category')
                     ->where('is_featured', true)
@@ -67,7 +64,6 @@ class HomeController extends Controller
                 return [
                     'type' => $type,
                     'title' => $item->title,
-                    'excerpt' => Str::limit(trim(strip_tags((string) $item->{$excerptColumn})), 220),
                     'date' => $item->{$dateColumn} ?? $item->created_at,
                     'url' => lroute($route, $item),
                     'image' => $item->featured_image ? asset('storage/'.$item->featured_image) : null,

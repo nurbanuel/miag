@@ -11,7 +11,6 @@ use App\Http\Controllers\LegalController;
 use App\Http\Controllers\LegislationTrackingController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\NewsletterController;
-use App\Http\Controllers\ObservatoryController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ParticipationController;
 use App\Http\Controllers\PolicyController;
@@ -31,7 +30,13 @@ use Illuminate\Support\Facades\Route;
 $registerSiteRoutes = function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
-    Route::get('/kurumsal', [CorporateController::class, 'index'])->name('corporate');
+    Route::view('/kurumsal', 'pages.corporate')->name('corporate');
+    Route::get('/baskanin-mesaji', fn () => view('pages.president-message', [
+        'message' => \App\Models\PresidentMessage::first(),
+    ]))->name('president-message');
+    Route::get('/ozgecmis', fn () => view('pages.resume', [
+        'resume' => \App\Models\Resume::first(),
+    ]))->name('resume');
 
     Route::get('/rapor-ve-analizler', [ReportController::class, 'index'])->name('reports.index');
     Route::get('/rapor-ve-analizler/{report:slug}', [ReportController::class, 'show'])->name('reports.show');
@@ -43,8 +48,6 @@ $registerSiteRoutes = function () {
     Route::get('/haberler/{news:slug}', [NewsController::class, 'show'])->name('news.show');
 
     Route::get('/duyurular/{announcement:slug}', [AnnouncementController::class, 'show'])->name('announcements.show');
-
-    Route::get('/veri-ve-gozlemevi', [ObservatoryController::class, 'index'])->name('observatory');
 
     Route::get('/sayfa/{slug}', [PageController::class, 'show'])->name('page.show');
 

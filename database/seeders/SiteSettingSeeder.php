@@ -14,7 +14,6 @@ class SiteSettingSeeder extends Seeder
                 ['title' => 'Kurumsal', 'url' => '/kurumsal'],
                 ['title' => 'Rapor ve Analizler', 'url' => '/rapor-ve-analizler'],
                 ['title' => 'Politika & Mevzuat', 'url' => '/politika-ve-mevzuat'],
-                ['title' => 'Veri & Gözlemevi', 'url' => '/veri-ve-gozlemevi'],
                 ['title' => 'Yazılar', 'url' => '/yazilar'],
                 [
                     'title' => 'İK ve Kariyer',

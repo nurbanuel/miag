@@ -10,6 +10,8 @@ class EditResume extends EditRecord
 {
     protected static string $resource = ResumeResource::class;
 
+    protected static ?string $title = 'Başkanı Düzenle';
+
     protected function getHeaderActions(): array
     {
         return [

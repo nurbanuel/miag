@@ -54,6 +54,34 @@ class SiteSettingResource extends Resource
                     ->columnSpanFull(),
             ]),
 
+            Forms\Components\Section::make('İletişim Bilgileri')
+                ->description('Kurumsal sayfasındaki "İletişim" kutusunda ve Gizlilik, KVKK, Erişilebilirlik sayfalarında kullanılır.')
+                ->schema([
+                    Forms\Components\TextInput::make('contact_email')
+                        ->label('E-posta')
+                        ->email()
+                        ->maxLength(255),
+                    Forms\Components\TextInput::make('contact_phone')
+                        ->label('Telefon')
+                        ->tel()
+                        ->maxLength(50),
+                    Forms\Components\Textarea::make('contact_address')
+                        ->label('Adres')
+                        ->rows(2)
+                        ->columnSpanFull(),
+                ])->columns(2),
+
+            Forms\Components\Section::make('Kurumsal Sayfası')->description('Yedek başlıklar: "Sayfalar > Kurumsal" kaydındaki Banner alanı doluysa sitede o kullanılır.')->schema([
+                Forms\Components\TextInput::make('corporate_page_title')
+                    ->label('Sayfa Ana Başlığı')
+                    ->default('MİARGEM Kurumsal')
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('corporate_page_subtitle')
+                    ->label('Sayfa Alt Başlığı')
+                    ->default('Mahallî İdareler Araştırma ve Geliştirme Merkezi')
+                    ->maxLength(255),
+            ])->columns(2),
+
             Forms\Components\Section::make('Footer')->schema([
                 Forms\Components\Textarea::make('footer_about_text')
                     ->label('Footer Hakkımızda Yazısı')

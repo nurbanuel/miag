@@ -34,6 +34,22 @@ class JobInternshipApplicationResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\Section::make('Başvuruyu Yapan Üye')
+                    ->icon('heroicon-o-user-circle')
+                    ->schema([
+                        Forms\Components\Placeholder::make('member_name')
+                            ->label('Üye Adı Soyadı')
+                            ->content(fn ($record) => $record?->user?->name ?? '— (üyelik öncesi / misafir kaydı)'),
+                        Forms\Components\Placeholder::make('member_email')
+                            ->label('Üye E-postası')
+                            ->content(fn ($record) => $record?->user?->email ?? '—'),
+                        Forms\Components\Placeholder::make('member_phone')
+                            ->label('Üye Telefonu')
+                            ->content(fn ($record) => $record?->user?->phone ?: '—'),
+                    ])
+                    ->columns(3)
+                    ->collapsible()
+                    ->visibleOn(['edit', 'view']),
                 Forms\Components\Select::make('applicant_type')
                     ->label('Aday Türü')
                     ->options(JobInternshipApplication::APPLICANT_TYPE_LABELS)
@@ -60,7 +76,14 @@ class JobInternshipApplicationResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn ($query) => $query->with('user'))
             ->columns([
+                Tables\Columns\TextColumn::make('user.name')
+                    ->label('Üye')
+                    ->description(fn ($record) => $record->user?->email)
+                    ->placeholder('Misafir')
+                    ->searchable(['name', 'email'])
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('full_name')->label('Ad Soyad')->searchable(),
                 Tables\Columns\TextColumn::make('applicant_type')
                     ->label('Aday Türü')

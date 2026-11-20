@@ -1,110 +1,22 @@
 @php
-$toc = [
-    'kurumsal-kimlik' => 'Kurumsal Kimlik ve Hakkımızda',
-    'tarihce' => 'Tarihçe ve Kurumsal Birikim',
-    'amac-misyon-vizyon' => 'Amacımız, Misyonumuz ve Vizyonumuz',
-    'degerlerimiz' => 'Değerlerimiz ve Çalışma İlkelerimiz',
-    'stratejik-yonelim' => 'Stratejik Yönelimimiz',
-    'arastirma-yontemi' => 'Kurumsal Yaklaşım ve Araştırma Yöntemi',
-    'egitim' => 'Eğitim ve Meslekî Gelişim',
-    'bilimsel-toplantilar' => 'Bilimsel Toplantılar ve Ortak Öğrenme',
-    'kurumsal-kapasite' => 'Kurumsal Kapasite ve Yönetim Modelleri',
-    'surdurulebilirlik' => 'Kurumsal Sürdürülebilirlik ve Finansman İlkeleri',
-    'yayin-politikasi' => 'Yayın Politikası, Etik ve Bilgi Güvenliği',
-    'danisma-kurulu' => 'MİARGEM Danışma Kurulu ve Kadrosu',
-    'is-birligi' => 'İş Birliği İlkelerimiz',
-    'kurumsal-belgeler' => 'Kurumsal Belgeler ve Faaliyet Raporları',
-];
-
-$priorities = [
-    'a' => 'Yerel yönetim sisteminin yapısal sorunlarını; merkezî idare–mahallî idare ilişkileri, büyükşehir sistemi, görev ve yetki paylaşımı, kaynak yapısı ve kurumlar arası koordinasyon bakımından araştırmak.',
-    'b' => 'Mahallî idarelerin ortak kurumsal hak ve menfaatlerini araştırma ve kanıtla ortaya koymak; görevlerini yerine getirebilmeleri için gerekli yetki, kaynak ve kapasitenin geliştirilmesine yönelik öneriler hazırlamak.',
-    'c' => 'Kurumlara özgü araştırmalarla stratejik ve kurumsal gelişim ihtiyaçlarını belirlemek; bulguları karşılaştırmalı bilgiye ve farklı mahallî idarelere uyarlanabilecek modellere dönüştürmek.',
-    'ç' => 'Yerel hizmet kabiliyetini; ihtiyaç belirleme, önceliklendirme, kaynak kullanımı, hizmete erişim ve süreklilik bakımından değerlendirmek; kurum türü, ölçeği ve yerel şartları gözeten gelişim çerçeveleri oluşturmak.',
-    'd' => 'Seçilmiş görevliler ile atanmış yöneticilerin ve personelin statü ve çalışma şartlarına ilişkin ortak sorunları araştırmak; liyakati, meslekî yeterliliği, görev açıklığını ve kurumsal hafızayı güçlendirecek öneriler geliştirmek.',
-    'e' => 'Mevzuat ve sistem değişikliklerinin mahallî idareler üzerindeki etkilerini önceden değerlendirmek; gerekçeli düzenleme metinleri, uygulama koşulları ve geçiş önerileri hazırlamak; düzenleme sonrasındaki sonuçları izlemek.',
-    'f' => 'Stratejik yönetim, malî sürdürülebilirlik, iç kontrol ve denetim alanlarında önleyici yaklaşımları geliştirmek; tekrarlanan sorunların ortak nedenlerini açıklayan çalışmalar üretmek.',
-    'g' => 'Araştırma sonuçlarının yayın, eğitim ve ortak öğrenme yoluyla paylaşılmasını; üniversiteler, mahallî idareler, uzmanlar ve uygulayıcılar arasında bilimsel iş birliğinin gelişmesini desteklemek.',
-    'ğ' => 'Teknolojik gelişmeleri ve uluslararası uygulamaları kamu yararı, hukukî uygunluk, bilgi güvenliği ve kurumsal kapasite bakımından değerlendirmek; değişen toplumsal ihtiyaçlara ve geleceğin hizmet şartlarına hazırlığı desteklemek.',
-    'h' => 'Kurumsal başarıyı, üretilen bilginin karar süreçlerinde kullanılması, önerilerin uygulanabilirliği ve hizmetlere katkısı üzerinden değerlendirmek; sonuçları izleyerek araştırma yöntemlerini ve modellerini geliştirmek.',
-];
-
-$values = [
-    ['4.1. Kamu Yararı ve Hukukî Güvenlik', 'Mahallî hizmetlerin niteliğini, kaynakların etkili kullanımını ve kararların açık hukukî dayanaklara sahip olmasını esas alırız. Hizmetlerde insan onurunun korunmasını ve farklı toplumsal grupların hizmetlere erişimini gözetiriz.'],
-    ['4.2. Bağımsızlık ve Tarafsızlık', 'Farklı görüş ve yönetimlere aynı yöntem, kanıt standardı ve kurumsal mesafeyle yaklaşırız. Araştırma sonuçlarının siyasi, kurumsal veya malî beklentilere göre değiştirilmemesini temel ilke kabul ederiz.'],
-    ['4.3. Bilimsel Yöntem ve Kanıt', 'Doğrulanmış olguları, yorumları, varsayımları ve önerileri birbirinden ayırırız. Kaynağı, yöntemi, veri dönemi ve sınırlılıkları açıklanabilen çalışmalar üretmeyi amaçlarız.'],
-    ['4.4. Uygulanabilirlik ve Ölçek Duyarlılığı', 'Önerileri kurum türü, nüfus, coğrafya, personel, maliyet ve teknik kapasite bakımından değerlendirir; farklı şartlara uyarlanabilir çözümler geliştirmeyi hedefleriz.'],
-    ['4.5. Saydamlık ve Hesap Verebilirlik', 'Araştırma, yayın ve destek ilişkilerinin açıklığını; kullanılan bilginin ve ulaşılan sonuçların izlenebilirliğini önemseriz.'],
-    ['4.6. Katılım ve Ortak Üretim', 'Seçilmiş görevlilerin, yöneticilerin, çalışanların, akademisyenlerin ve uzmanların deneyimlerini buluştururuz. Vatandaşın ihtiyaç ve beklentilerini araştırmalarımızın temel bilgi kaynaklarından biri olarak görürüz.'],
-    ['4.7. Öğrenme ve Kurumsal Hafıza', 'Yöntemlerin, deneyimlerin ve öğrenilen derslerin kaydedilmesini; bilginin kişiler, kurumlar ve dönemler arasında aktarılmasını kurumsal gelişimin şartı olarak değerlendiririz.'],
-];
-
-$methodSteps = [
-    ['6.1. Sorunun Belirlenmesi', [
-        'Mahallî idarelerin ve görevlilerinin karşılaştığı sorunlar; saha bildirimleri, kurumsal belgeler, resmî kaynaklar, bilimsel çalışmalar, yargı kararları ve denetim bulguları üzerinden değerlendirilir. Sorunun kimleri etkilediği, hangi şartlarda ortaya çıktığı, ne ölçüde tekrarlandığı ve hizmetler üzerinde nasıl sonuçlar doğurduğu belirlenir. Tek bir kurumdaki uygulamanın, sektörün tamamına ilişkin bir sorun olarak kabul edilmesinden önce karşılaştırmalı doğrulama yapılması gözetilir.',
-        'Yapısal sorunlarla kurum içi işleyiş sorunları; nedenleri, çözüm mercileri ve aralarındaki etkileşim bakımından ayrıştırılır. Mevzuat değişikliği gerektiren bir hususla mevcut yetkilerin daha etkili kullanılmasını gerektiren bir aksaklık aynı çerçevede ele alınmaz. Araştırmanın amacı, temel soruları ve kapsamı bu değerlendirmeye göre oluşturulur; önceliklerin belirlenmesinde sorunun yaygınlığı, kamu yararı, hizmet sürekliliği ve oluşturduğu riskler dikkate alınır.',
-    ]],
-    ['6.2. Araştırma ve Analiz', [
-        'Belirlenen sorun, hukukî, idarî, malî ve beşerî boyutlarıyla incelenir. Mevzuatın öngördüğü işleyiş ile uygulamadaki durum karşılaştırılır; görev, yetki, kaynak, teşkilat ve insan kaynağı arasındaki ilişkiler değerlendirilir. Çalışmanın niteliğine göre belge incelemesi, görüşme, anket, saha gözlemi ve nicel analiz yöntemlerinden yararlanılır. Kurumsal kayıtlarla uygulayıcıların deneyimleri birlikte ele alınarak sorunun nedenleri ve sonuçları açıklanmaya çalışılır.',
-        'Farklı kurum türleri, büyüklükleri ve yerleşim özellikleri arasındaki karşılaştırmalarda nüfus, coğrafya, malî imkânlar ve teknik kapasite farklılıkları gözetilir. Uluslararası örnekler, ortaya çıktıkları hukukî ve kurumsal şartlarla birlikte değerlendirilir. Kaynaklar, veri dönemi, yöntem ve sınırlılıklar açıklanır; gözlenen bir ilişki ile kanıtlanabilen neden-sonuç bağı birbirinden ayrılır. Bulguların hangi kapsamda genellenebileceği açıkça belirtilir.',
-    ]],
-    ['6.3. Çözüm Geliştirme', [
-        'Araştırma bulgularından hareketle politika, mevzuat ve sistem seçenekleri geliştirilir. Mevcut uygulamanın iyileştirilmesi, görev ve koordinasyon ilişkilerinin düzenlenmesi, kurumsal kapasitenin güçlendirilmesi veya mevzuat değişikliği yapılması gibi alternatifler karşılaştırılır. Her seçeneğin hangi sorunu, hangi mekanizmayla çözmesinin beklendiği açıklanır.',
-        'Seçenekler; kamu yararı, hukukî uygunluk, maliyet, personel ve teknik kapasite ihtiyacı, hizmete erişim ve uygulama süresi bakımından değerlendirilir. Farklı mahallî idare türleri ve ölçekleri üzerindeki etkiler ile mevcut hak ve yükümlülükler gözetilir. Uygulama riskleri, geçiş ihtiyaçları ve muhtemel istenmeyen sonuçlar belirlenir. Gerekli görülen durumlarda aşamalı uygulama veya pilot çalışma seçenekleri geliştirilir.',
-    ]],
-    ['6.4. Önerinin Hazırlanması', [
-        'Değerlendirilen çözüm seçenekleri; araştırmanın niteliğine göre politika notuna, gerekçeli düzenleme metnine, yönetim modeline, standarda veya rehbere dönüştürülür. Öneri ile araştırma bulguları arasındaki bağ açıkça kurulur. Hangi seçeneğin neden tercih edildiği, beklenen faydaları ve bilinen sınırlılıklarıyla birlikte ortaya konulur.',
-        'Önerinin amacı, kapsamı ve uygulanacağı kurumlar belirlenir; görev ve sorumluluklar, kaynak ihtiyacı, uygulama adımları ve geçiş koşulları açıklanır. Mevzuat önerilerinde madde metniyle gerekçesinin uyumu gözetilir. Model ve standartlarda ise farklı kurum şartlarına göre uyarlanabilecek unsurlar gösterilir. Uygulama sonuçlarının değerlendirilebilmesi için izlenecek göstergeler ve ihtiyaç duyulacak bilgiler tanımlanır.',
-    ]],
-    ['6.5. Karar Süreçlerine Katkı', [
-        'Taslaklar, konuyla ilgili uzmanların ve uygulayıcıların değerlendirmeleriyle geliştirilir. Çalışmanın kapsamına göre mahallî idarelerin, akademik çevrelerin ve ilgili diğer tarafların görüşlerinden yararlanılır. Görüş ayrılıkları, uygulama tereddütleri ve önerilen değişiklikler kaydedilir; taslağın hangi gerekçelerle güncellendiği izlenebilir hâle getirilir.',
-        'MİARGEM kurumsal görüşü olarak sunulacak çalışmalar, gerekli bilimsel, hukukî ve editoryal inceleme ile kurumsal onay sürecinin ardından ilgili karar mercilerine iletilir. Karar vericilerin ihtiyacına uygun özetler ve gerekçeli açıklamalarla önerinin değerlendirilmesi kolaylaştırılır. Yazar görüşleri, toplantı katılımcılarının değerlendirmeleri ve kurum adına benimsenen öneriler ayrı statülerde sunulur. Araştırma bulgularının ilgili taraflarca anlaşılması ve müzakere edilmesi, karar süreçlerine katkının bir parçası olarak görülür.',
-    ]],
-    ['6.6. İzleme ve Öğrenme', [
-        'Önerilerin ilgili karar mercilerince nasıl değerlendirildiği, mevzuata veya kurumsal uygulamalara ne ölçüde yansıdığı ve hangi sonuçları doğurduğu izlenir. Bir önerinin kabul edilmesiyle uygulamada beklenen faydayı sağlaması ayrı değerlendirilir. İzleme çalışmalarında hizmetin niteliği, işlem süreleri, kaynak kullanımı, çalışanlar ve vatandaşlar üzerindeki sonuçlar, araştırmanın kapsamına uygun göstergeler üzerinden ele alınır.',
-        'Beklenen sonuçlarla gerçekleşmeler arasındaki farklılıklar ve öngörülmeyen etkiler araştırılır. Elde edilen bulgular, önerilerin ve yöntemlerin geliştirilmesinde kullanılır. Veri veya karşılaştırma imkânı yetersiz olduğunda değerlendirmenin sınırları açıkça belirtilir. Kaynakların, çalışma sürümlerinin, değerlendirme gerekçelerinin ve öğrenilen derslerin korunmasıyla kurumsal hafıza güçlendirilir; oluşan bilgi birikiminin sonraki araştırmalara aktarılması sağlanır.',
-    ]],
-];
-
-$trainingTopics = [
-    ['a', 'Mahallî İdareler ve Karar Süreçleri', 'Mahallî idarelerin görev ve yetkileri, organların çalışma usulleri, meclis ve encümen işlemleri, kurumlar arası ilişkiler ve kararların uygulanması.'],
-    ['b', 'İnsan Kaynakları ve Personel Yönetimi', 'Personel statüleri, istihdam, norm kadro, görevde yükselme, özlük hakları, disiplin, iş ve sosyal güvenlik uygulamaları.'],
-    ['c', 'Malî Yönetim ve Belediye Gelirleri', 'Bütçe, muhasebe, gelirlerin tahakkuk ve tahsili, harcama süreçleri, borç ve yükümlülükler ile taşınır ve taşınmaz yönetimi.'],
-    ['ç', 'İhale ve Sözleşme Yönetimi', 'Mal ve hizmet alımları, yapım işleri, kiralama ve satış işlemleri, sözleşmelerin uygulanması, hakediş ve teminat süreçleri.'],
-    ['d', 'Stratejik Yönetim ve Kurumsal Kapasite', 'Stratejik planlama, performans yönetimi, teşkilatlanma, görev tanımları, süreç yönetimi, hizmet standartları ve kurumsal hafıza.'],
-    ['e', 'İç Kontrol, Risk ve Denetim', 'Ön malî kontrol, kurumsal riskler, denetim bulgularının değerlendirilmesi, kamu zararı, sorumluluk ve önleyici kontrol uygulamaları.'],
-    ['f', 'İmar, Taşınmaz ve Yerel Hizmetler', 'İmar ve ruhsat işlemleri, kamulaştırma, zabıta, çevre, altyapı ve diğer mahallî hizmetlerin hukukî ve yönetsel boyutları.'],
-    ['g', 'Belediye Şirketleri ve İştirakler', 'Belediye–şirket ilişkileri, yönetsel sorumluluklar, personel, satın alma, malî izleme ve hesap verebilirlik.'],
-    ['ğ', 'Araştırma, Veri ve Dijital Dönüşüm', 'Araştırma tasarımı, veri okuryazarlığı, etki değerlendirme, dijital hizmetler, yapay zekânın sorumlu kullanımı ve bilgi güvenliği.'],
-    ['h', 'Katılımcı Yönetim, İletişim ve Kurum Kültürü', 'Vatandaş katılımı, halkla ilişkiler, etik, liderlik, ekip çalışması, resmî yazışma, protokol ve kurum içi koordinasyon.'],
-    ['ı', 'Proje, Yerel Kalkınma ve Geleceğe Hazırlık', 'Proje geliştirme, fon kaynakları, kurumlar arası iş birliği, sosyal politika, afetlere hazırlık, iklim değişikliği ve hizmet sürekliliği.'],
-];
-
-$trainingMethods = [
-    ['7.2.1. Yüz Yüze Eğitimler', 'Katılımcılarla doğrudan etkileşime dayanan seminer, uygulamalı eğitim ve atölye çalışmalarıdır. Kavramsal ve hukukî çerçeve; örnek olaylar, belge incelemeleri ve soru-cevap oturumlarıyla birlikte ele alınır. Farklı kurumların deneyimlerinin paylaşılması ve uygulama farklılıklarının değerlendirilmesi desteklenir.'],
-    ['7.2.2. Odak Çalışmaları', 'Belirli bir sorun, işlem veya görev alanına yoğunlaşan, sınırlı katılımcıyla yürütülen çalışmalardır. İlgili yönetici ve uygulayıcıların katılımıyla anonimleştirilmiş gerçek dosyalar, süreç örnekleri ve senaryolar değerlendirilir. Çalışmanın niteliğine göre kontrol listesi, süreç haritası, karar notu veya iyileştirme önerisi gibi somut öğrenme çıktıları geliştirilmesi amaçlanır.'],
-    ['7.2.3. Çevrimiçi Eğitimler', 'Farklı yerlerdeki katılımcıların bilgiye ve uzmanlığa erişimini kolaylaştıran uzaktan eğitim çalışmalarıdır. Canlı anlatım, soru-cevap, çevrimiçi vaka değerlendirmesi ve kısa çalışma oturumlarıyla yürütülür. Güncel gelişmelerin değerlendirilmesi ve belirli konularda süreklilik taşıyan öğrenme imkânlarının oluşturulması bakımından kullanılır.'],
-];
-
-$staff = [
-    ['Halil MEMİŞ', 'MİARGEM Başkanı ve Danışma Kurulu Başkanı'],
-    ['Salih ÜÇÜNCÜ', 'MİARGEM Başkan Yardımcısı ve Mevzuat'],
-    ['Dr. Can Emre MEMİŞ', 'Araştırma ve Etki Analizi'],
-    ['Dr. Niyazi KARABULUT', 'Araştırma'],
-    ['Süleyman BAYINDIR', 'Malî Analiz'],
-    ['Av. Haluk ERTEK', 'Hukuk'],
-    ['Cansu KARAKILIÇ', 'Kurumsal İletişim'],
-];
+// Banner: "Sayfalar > Kurumsal" kaydı; boşsa Site Ayarları'ndaki yedek başlıklar.
+$pageTitle = $page?->banner_title ?: ($siteSettings?->corporate_page_title ?: 'MİARGEM Kurumsal');
+$pageSubtitle = $page?->banner_subtitle ?: $siteSettings?->corporate_page_subtitle;
+$pageDescription = $page?->banner_description;
 
 $h2 = 'text-2xl font-bold text-teal-700';
-$prose = 'prose max-w-none text-gray-700 leading-relaxed space-y-4';
+$prose = 'max-w-none text-gray-700 leading-relaxed space-y-4 [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-gray-900 [&_h3+p]:!mt-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_a]:text-teal-700 [&_a]:underline';
 $card = 'rounded-lg border border-gray-200 bg-white p-6 shadow-sm';
 $details = 'group rounded-lg border border-gray-200 bg-white shadow-sm open:shadow-md';
 $summary = 'flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 font-semibold text-gray-900 hover:text-teal-700 [&::-webkit-details-marker]:hidden';
 $chevron = '<svg class="h-5 w-5 shrink-0 text-teal-700 transition-transform group-open:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z" clip-rule="evenodd" /></svg>';
+// Akordeon gövdesindeki zengin metin: liste maddeleri ve ara başlıklar (ör. 7.1, 7.2) mevcut tipografiyle.
+$accordionBody = 'space-y-4 border-t border-gray-100 px-5 py-4 text-gray-700 leading-relaxed [&_ul]:mt-4 [&_ul]:space-y-3 [&_strong]:font-semibold [&_strong]:text-gray-900 [&_h3]:font-semibold [&_h3]:text-teal-700 [&_h3+p]:!mt-2 [&_h3+p]:text-sm [&_a]:text-teal-700 [&_a]:underline';
+
+$filled = fn ($v) => filled(trim(strip_tags((string) $v)));
 @endphp
 
-<x-layout title="Kurumsal">
+<x-layout :title="$page?->title ?: 'Kurumsal'">
     <div class="mx-auto max-w-7xl px-4 py-12 lg:px-8">
         <nav class="mb-6 text-sm text-gray-500" aria-label="{{ __('Sayfa konumu') }}">
             <a href="{{ lroute('home') }}" class="hover:text-teal-700">{{ __('Ana Sayfa') }}</a>
@@ -113,290 +25,193 @@ $chevron = '<svg class="h-5 w-5 shrink-0 text-teal-700 transition-transform grou
         </nav>
 
         <header class="mb-12 border-b border-gray-200 pb-8">
-            <h1 class="text-3xl font-bold text-gray-900 sm:text-4xl">MİARGEM Kurumsal</h1>
-            <p class="mt-2 text-lg text-teal-700">Mahallî İdareler Araştırma ve Geliştirme Merkezi</p>
+            <h1 class="text-3xl font-bold text-gray-900 sm:text-4xl">{{ $pageTitle }}</h1>
+            @if (filled($pageSubtitle))
+                <p class="mt-2 text-lg text-teal-700">{{ $pageSubtitle }}</p>
+            @endif
+            @if (filled($pageDescription))
+                <p class="mt-4 max-w-3xl leading-relaxed text-gray-600">{{ $pageDescription }}</p>
+            @endif
         </header>
 
         <div class="flex flex-col gap-12 lg:flex-row">
             {{-- Sol kolon: İçindekiler --}}
             <aside class="lg:sticky lg:top-24 lg:h-max lg:w-1/4">
-                <nav aria-label="İçindekiler" class="rounded-lg border border-gray-200 bg-gray-50 p-5">
-                    <p class="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-500">İçindekiler</p>
-                    <ol class="space-y-1 text-sm">
-                        @foreach ($toc as $id => $label)
-                            <li>
-                                <a href="#{{ $id }}" class="flex gap-2 rounded-md px-2 py-1.5 text-gray-700 hover:bg-white hover:text-teal-700">
-                                    <span class="w-5 shrink-0 text-right font-semibold text-teal-700">{{ $loop->iteration }}.</span>
-                                    <span>{{ $label }}</span>
-                                </a>
-                            </li>
-                        @endforeach
-                    </ol>
-                </nav>
+                @if ($sections->isNotEmpty())
+                    <nav aria-label="İçindekiler" class="rounded-lg border border-gray-200 bg-gray-50 p-5">
+                        <p class="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-500">İçindekiler</p>
+                        <ol class="space-y-1 text-sm">
+                            @foreach ($sections as $section)
+                                <li>
+                                    <a href="#{{ $section->slug }}" class="flex gap-2 rounded-md px-2 py-1.5 text-gray-700 hover:bg-white hover:text-teal-700">
+                                        <span class="w-5 shrink-0 text-right font-semibold text-teal-700">{{ $loop->iteration }}.</span>
+                                        <span>{{ $section->title }}</span>
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ol>
+                    </nav>
+                @endif
 
-                <div id="iletisim" class="mt-6 scroll-mt-24 rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
-                    <p class="font-semibold text-gray-900">{{ __('İletişim') }}</p>
-                    <p class="mt-2 text-sm text-gray-600">info@miargem.org</p>
-                    <p class="mt-1 text-sm text-gray-600">+90 (312) 000 00 00</p>
-                </div>
+                @if (filled($siteSettings?->contact_email) || filled($siteSettings?->contact_phone) || filled($siteSettings?->contact_address))
+                    <div id="iletisim" class="mt-6 scroll-mt-24 rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
+                        <p class="font-semibold text-gray-900">{{ __('İletişim') }}</p>
+                        @if (filled($siteSettings->contact_email))
+                            <p class="mt-2 text-sm text-gray-600"><a href="mailto:{{ $siteSettings->contact_email }}" class="hover:text-teal-700">{{ $siteSettings->contact_email }}</a></p>
+                        @endif
+                        @if (filled($siteSettings->contact_phone))
+                            <p class="mt-1 text-sm text-gray-600"><a href="tel:{{ preg_replace('/[^0-9+]/', '', $siteSettings->contact_phone) }}" class="hover:text-teal-700">{{ $siteSettings->contact_phone }}</a></p>
+                        @endif
+                        @if (filled($siteSettings->contact_address))
+                            <p class="mt-1 whitespace-pre-line text-sm text-gray-600">{{ $siteSettings->contact_address }}</p>
+                        @endif
+                    </div>
+                @endif
             </aside>
 
             {{-- Sağ kolon: İçerik --}}
             <div class="space-y-16 lg:w-3/4">
+                @foreach ($sections as $section)
+                    @php $items = collect($section->items ?? []); @endphp
 
-                {{-- 1 --}}
-                <section id="kurumsal-kimlik" class="scroll-mt-24">
-                    <h2 class="{{ $h2 }}">Kurumsal Kimlik ve Hakkımızda</h2>
-                    <p class="mt-2 font-semibold text-gray-900">MİARGEM | Mahallî İdareler Araştırma ve Geliştirme Merkezi</p>
-                    <div class="{{ $prose }} mt-4">
-                        <p>MİARGEM, başta belediyeler olmak üzere mahallî idarelerin hukukî, idarî, malî ve beşerî yapısını birlikte inceleyen bağımsız bir araştırma ve geliştirme merkezidir. Akademik bilgi ile saha deneyimini buluşturarak ortak sorunların nedenlerini ve etkilerini araştırır; karar süreçlerinde yararlanılabilecek politika, mevzuat ve yönetim önerileri geliştirir.</p>
-                        <p>Çalışma alanımız belediyeleri, il özel idarelerini, köyleri, mahallî idare birliklerini ve ilgili bağlı kuruluşları kapsar. Kurumların görev ve yetkileriyle kaynakları arasındaki dengeyi, teşkilat ve insan kaynağı yapılarını ve hizmet üretme kapasitelerini kamu yararı çerçevesinde ele alırız. Seçilmiş görevliler ile atanmış yöneticilerin ve personelin ortak ihtiyaçlarını bu bütünlük içinde değerlendiririz.</p>
-                        <p>Mahallî idarelerin ortak kurumsal hak ve menfaatlerini; hukukî güvenlik, hizmetlerin sürekliliği ve vatandaşların nitelikli hizmetlere erişimi temelinde savunuruz. Kurumların deneyimlerini ortak bilgiye dönüştürmeyi, araştırma bulgularının uygulanabilir önerilere ve kurumsal gelişime katkı sağlamasını amaçlarız.</p>
-                    </div>
-                </section>
+                    <section id="{{ $section->slug }}" class="scroll-mt-24">
+                        <h2 class="{{ $h2 }}">{{ $section->title }}</h2>
 
-                {{-- 2 --}}
-                <section id="tarihce" class="scroll-mt-24">
-                    <h2 class="{{ $h2 }}">Tarihçe ve Kurumsal Birikim</h2>
-                    <div class="{{ $prose }} mt-4">
-                        <p>Mahallî İdareler Araştırma ve Geliştirme Merkezi (MİARGEM), 2005 yılında kurulmuştur.</p>
-                        <p>Kuruluş döneminde Avrupa Birliği hibe programları ve bölgesel kalkınma projeleri konusunda belediyelerin desteklenmesi, proje ortaklıklarının geliştirilmesi ve Doğu Karadeniz Belediyeler Birliği ile müşterek çalışmalar yürütülmesi öncelikli alanlar arasında yer almıştır. TR90 bölgesindeki Artvin, Giresun, Gümüşhane, Ordu, Rize ve Trabzon illerinde yürütülen hibe projelerine destek sunulmuştur.</p>
-                        <p>Bu çalışmalarla gelişen proje ve iş birliği deneyimi, zaman içinde ülke genelindeki belediyelerin ortak ihtiyaçlarını kapsayan bir faaliyet birikimine dönüşmüştür. “Türkiye’nin Mahallî İdareler Platformu” anlayışıyla farklı bölgelerdeki mahallî idarelerin bilgi ve deneyimlerinin buluşturulması, ortak sorunların değerlendirilmesi ve kurumlar arası öğrenmenin geliştirilmesi esas alınmıştır.</p>
-                        <p>Belediyelere yönelik eğitim seminerleri, bölgesel ve ulusal düzeyde katılımla gerçekleştirilen eğitim toplantıları, paneller ve konferanslar bu birikimin önemli parçalarını oluşturmuştur. Seçilmiş görevliler, yöneticiler ve çalışanların akademisyenler ve uzmanlarla bir araya geldiği bu etkinliklerde; mevzuatın uygulamaya yansımaları, idarî ve malî sorunlar, kurumsal işleyiş ve meslekî gelişim ihtiyaçları ele alınmıştır. Farklı belediyelerin karşılaştıkları sorunların ve geliştirdikleri çözümlerin paylaşılması, çalışmaların uygulamayla bağını güçlendirmiştir.</p>
-                        <p>Belediye Proje Günleri ve Etkin Belediye Proje Yarışması ile belediyelerin proje geliştirme birikiminin görünür kılınması ve kurumlar arasında paylaşılması amaçlanmıştır. Bu çalışmalar, yerel ihtiyaçlara çözüm üreten projelerin tanıtılmasına, uygulayıcıların deneyimlerini aktarmasına ve başka belediyelerde değerlendirilebilecek örneklerin ortaya konulmasına katkı sağlamıştır.</p>
-                        <p>Araştırma, yayın, mevzuat bilgilendirmesi ve meslekî paylaşım çalışmaları da bu faaliyetleri tamamlamıştır. Mahallî idareler ile mahallî müşterek hizmet sunan kuruluşların uygulama soruları ve ortak ihtiyaçları, mevzuat araştırmalarının ve bilgi üretiminin gelişmesine kaynak oluşturmuştur.</p>
-                        <p>Bugünkü yönelimimiz; araştırma, eğitim, yayın ve proje çalışmalarından edinilen bu birikimi, mahallî idarelerin ortak sorunlarını nedenleriyle açıklayan, gelecekteki ihtiyaçlarını öngören ve karar vericilere uygulanabilir seçenekler sunan sürekli bir araştırma kapasitesine dönüştürmektir.</p>
-                    </div>
-                </section>
+                        @switch($section->display_type)
+                            {{-- Misyon, Vizyon ve Öncelikler --}}
+                            @case('mission_vision')
+                                @if ($filled($section->content))
+                                    <div class="{{ $prose }} mt-6">{!! $section->content !!}</div>
+                                @endif
 
-                {{-- 3 --}}
-                <section id="amac-misyon-vizyon" class="scroll-mt-24">
-                    <h2 class="{{ $h2 }}">Amacımız, Misyonumuz ve Vizyonumuz</h2>
+                                @php
+                                    // Ardışık öğeler türüne göre gruplanır:
+                                    // yalnızca başlık = ara başlık, başlık + açıklama = kart, vurgu etiketi + açıklama = öncelik maddesi.
+                                    $groups = [];
+                                    foreach ($items as $item) {
+                                        $kind = filled($item['subtitle'] ?? null) ? 'priority' : ($filled($item['description'] ?? null) ? 'card' : 'heading');
+                                        $last = array_key_last($groups);
+                                        if ($last !== null && $kind !== 'heading' && $groups[$last]['kind'] === $kind) {
+                                            $groups[$last]['items'][] = $item;
+                                        } else {
+                                            $groups[] = ['kind' => $kind, 'items' => [$item]];
+                                        }
+                                    }
+                                @endphp
 
-                    <h3 class="mt-6 text-lg font-semibold text-gray-900">3.1. Amacımız</h3>
-                    <div class="{{ $prose }} mt-3">
-                        <p>Mahallî idarelerin görev, yetki, kaynak ve kurumsal kapasitelerinin geliştirilmesine; mahallî müşterek ihtiyaçların etkili, verimli ve hukukî güvenlik içinde karşılanmasına araştırma ve politika çalışmalarıyla katkı sağlamak temel amacımızdır. Mahallî idarelerin ortak kurumsal hak ve menfaatlerini, kamu yararı ve vatandaşların nitelikli hizmetlere erişimi çerçevesinde ele alırız.</p>
-                        <p>Yerel yönetim sisteminin yapısal sorunlarını; merkezî idare ile mahallî idareler arasındaki ilişkiler, görev ve kaynak paylaşımı, teşkilatlanma, insan kaynağı ve hizmet kapasitesi bakımından araştırırız. Kurumlara özgü incelemelerden elde edilen bilgiyi karşılaştırmalı analizlerle değerlendirerek ortak sorunların açıklanmasına ve farklı kurumlara uyarlanabilecek çözümler geliştirilmesine kaynak oluşturmayı amaçlarız.</p>
-                        <p>Seçimle göreve gelen mahallî idare görevlileri ile atanmış yöneticilerin ve personelin statü, görev, yetki, sorumluluk, çalışma şartları ve meslekî gelişim ihtiyaçlarını sistem bütünlüğü içinde inceleriz. Araştırma sonuçlarının gerekçeli politika, mevzuat ve yönetim önerilerine dönüştürülmesini; kurumların stratejik kararlarına, hizmet kabiliyetlerine ve geleceğe hazırlıklarına katkı sağlamasını hedefleriz.</p>
-                    </div>
-
-                    <div class="mt-8 grid gap-6 md:grid-cols-2">
-                        <div class="{{ $card }} border-t-4 border-t-teal-600">
-                            <h3 class="text-lg font-semibold text-teal-700">3.2. Misyonumuz</h3>
-                            <div class="mt-3 space-y-3 text-sm leading-relaxed text-gray-700">
-                                <p>Mahallî idarelerin ortak sorunlarını ve gelişim ihtiyaçlarını hukuk, veri ve saha bilgisiyle araştırmak; nedenlerini, yaygınlığını ve etkilerini ölçerek karşılaştırmak; politika seçenekleri, gerekçeli mevzuat önerileri, uyarlanabilir yönetim modelleri ve standartlar geliştirmek; önerileri ilgili karar mercilerine sunmak ve sonuçlarını izlemek.</p>
-                                <p>Bu doğrultuda akademik bilgiyle uygulama deneyimini buluşturur; araştırma, yayın, meslekî gelişim ve ortak öğrenme çalışmalarıyla üretilen bilginin kullanılmasını destekleriz. Uluslararası deneyimleri ülkemizin hukukî, idarî ve malî yapısıyla birlikte değerlendirir; farklı kurum türleri ve ölçekleri için uygulanabilir çözümler geliştirmeyi esas alırız.</p>
-                            </div>
-                        </div>
-                        <div class="{{ $card }} border-t-4 border-t-teal-600">
-                            <h3 class="text-lg font-semibold text-teal-700">3.3. Vizyonumuz</h3>
-                            <div class="mt-3 space-y-3 text-sm leading-relaxed text-gray-700">
-                                <p>Türkiye’de mahallî idarelerin geleceğine ilişkin karar süreçlerinde güvenilir bilgisi, bilimsel yöntemi ve uygulanabilir önerileriyle başvurulan; politika, mevzuat ve kurumsal gelişim çalışmalarına yön veren bağımsız bir referans kuruluş olmak.</p>
-                                <p>Mahallî idarelerin deneyimlerini ortak bilgiye dönüştüren, değişen ihtiyaçları öngören ve geliştirdiği önerilerin etkisini izleyerek kendisini yenileyen bir araştırma kapasitesiyle, yerel yönetimlerin güçlenmesine kalıcı katkı sağlamak.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <h3 class="mt-10 text-lg font-semibold text-gray-900">3.4. Gelişim Önceliklerimiz</h3>
-                    <div class="mt-4 grid gap-4 sm:grid-cols-2">
-                        @foreach ($priorities as $letter => $text)
-                            <div class="flex gap-3 rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
-                                <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-teal-50 text-sm font-bold text-teal-700">{{ $letter }})</span>
-                                <p class="text-sm leading-relaxed text-gray-700">{{ $text }}</p>
-                            </div>
-                        @endforeach
-                    </div>
-                </section>
-
-                {{-- 4 --}}
-                <section id="degerlerimiz" class="scroll-mt-24">
-                    <h2 class="{{ $h2 }}">Değerlerimiz ve Çalışma İlkelerimiz</h2>
-                    <div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                        @foreach ($values as [$title, $text])
-                            <div class="{{ $card }} transition hover:border-teal-300 hover:shadow-md">
-                                <h3 class="font-semibold text-teal-700">{{ $title }}</h3>
-                                <p class="mt-2 text-sm leading-relaxed text-gray-700">{{ $text }}</p>
-                            </div>
-                        @endforeach
-                    </div>
-                </section>
-
-                {{-- 5 --}}
-                <section id="stratejik-yonelim" class="scroll-mt-24">
-                    <h2 class="{{ $h2 }}">Stratejik Yönelimimiz</h2>
-                    <div class="{{ $prose }} mt-4">
-                        <p>Mahallî idarelerin bugünkü sorunlarını çözebilmesi ve geleceğin hizmet ihtiyaçlarına hazırlanabilmesi, yerel yönetim sisteminin bütünü ile kurumların kendi şartlarının birlikte değerlendirilmesini gerektirir. Stratejik yönelimimiz; yapısal sorunları ortaya koyan, değişim ihtiyacını zamanında belirleyen ve karar vericilere uygulanabilir seçenekler sunan bir araştırma kapasitesi geliştirmektir. Merkezî idare ile mahallî idareler arasındaki görev, yetki ve kaynak paylaşımını; büyükşehir sistemini, gelir ve personel yapılarını, kurumlar arası ilişkileri ve ölçek farklılıklarını bu çerçevede ele alırız.</p>
-                        <p>Araştırmalarımızda, kurumların kendi kararlarıyla giderebilecekleri işleyiş sorunları ile mevzuat ve sistem değişikliği gerektiren yapısal sorunları ayrıştırmayı esas alırız. Böylece çözüm önerilerinin doğru karar merciine yönelmesini, görevlerle kaynaklar arasında denge kurulmasını ve kurumların hizmet kabiliyetlerinin güçlendirilmesini amaçlarız. Düzenleme önerilerini, uygulama için gerekli kapasite, maliyet ve geçiş şartlarıyla birlikte değerlendiririz.</p>
-                        <p>Kurumlara özgü araştırmaları, yerel deneyimden ortak bilgi üretmenin temel araçlarından biri olarak görürüz. Bir kurumda karşılaşılan sorunun başka idarelerde ne ölçüde tekrarlandığını, hangi şartlarda ortaya çıktığını ve hangi uygulamalarla giderilebildiğini araştırırız. Elde edilen bulguları karşılaştırmalı analizlere ve farklı kurumlara uyarlanabilir modellere dönüştürmeyi hedefleriz. Bu yaklaşımda stratejik planlama, teşkilatlanma, insan kaynağı ve malî yapı; hizmetin niteliğini ve sürekliliğini birlikte belirleyen unsurlardır.</p>
-                        <p>Geleceğe hazırlığı, bugünden alınması gereken kararların konusu olarak ele alırız. Nüfus hareketleri, toplumsal ihtiyaçlar, afet ve iklim riskleri, malî yükümlülükler ve teknolojik gelişmelerin hizmetler üzerindeki etkilerini araştırmayı önceliklendiririz. Uluslararası deneyimleri ülkemizin hukukî, idarî ve malî şartlarıyla birlikte değerlendirir; yeniliklerin kamu yararına katkısını ve uygulanabilirliğini esas alırız.</p>
-                        <p>Stratejik başarımızı, araştırmalarımızın karar süreçlerinde kullanılması ve kurumsal gelişime katkısı üzerinden değerlendirmeyi amaçlarız. Önerilerin uygulamadaki sonuçlarını izlemek, öngörülemeyen etkileri belirlemek ve öğrenilenleri yeni çalışmalara aktarmak, bu yönelimin devamıdır.</p>
-                    </div>
-                </section>
-
-                {{-- 6 --}}
-                <section id="arastirma-yontemi" class="scroll-mt-24">
-                    <h2 class="{{ $h2 }}">Kurumsal Yaklaşım ve Araştırma Yöntemi</h2>
-                    <div class="{{ $prose }} mt-4">
-                        <p>Mahallî idarelerin ortak sorunlarını ve gelişim ihtiyaçlarını hukuk, veri ve saha bilgisiyle araştırır; elde edilen bulguları uygulanabilir önerilere dönüştürmeyi ve sonuçlarını izlemeyi esas alırız. Yerel yönetim sistemini bütün olarak ele alan incelemelerle kurumlara özgü araştırmaların birbirini beslemesini önemseriz. Çalışmalarımız, sorunun belirlenmesinden uygulama sonuçlarının değerlendirilmesine uzanan altı aşamalı bir yaklaşım üzerine kuruludur.</p>
-                    </div>
-                    <div class="mt-6 space-y-3">
-                        @foreach ($methodSteps as [$title, $paragraphs])
-                            <details class="{{ $details }}" @if ($loop->first) open @endif>
-                                <summary class="{{ $summary }}">
-                                    <span>{{ $title }}</span>
-                                    {!! $chevron !!}
-                                </summary>
-                                <div class="space-y-4 border-t border-gray-100 px-5 py-4 text-gray-700 leading-relaxed">
-                                    @foreach ($paragraphs as $paragraph)
-                                        <p>{{ $paragraph }}</p>
-                                    @endforeach
-                                </div>
-                            </details>
-                        @endforeach
-                    </div>
-                </section>
-
-                {{-- 7 --}}
-                <section id="egitim" class="scroll-mt-24">
-                    <h2 class="{{ $h2 }}">Eğitim ve Meslekî Gelişim</h2>
-                    <div class="{{ $prose }} mt-4">
-                        <p>Meslekî gelişimi, araştırma sonuçlarının anlaşılmasını ve uygulamaya aktarılmasını destekleyen bir ortak öğrenme alanı olarak görürüz. Eğitim yaklaşımımızda kurumların gerçek ihtiyaçlarını, tekrarlanan uygulama sorunlarını, denetim bulgularını ve görevin gerektirdiği yetkinlikleri esas alırız. Seçilmiş görevliler, yöneticiler ve çalışanlar için içerik ve yöntemlerin farklılaştırılmasını; edinilen bilginin karar ve uygulama becerisine dönüşmesini önemseriz.</p>
-                    </div>
-                    <div class="mt-6 space-y-3">
-                        <details class="{{ $details }}" open>
-                            <summary class="{{ $summary }}">
-                                <span>7.1. Eğitim Konu Alanları</span>
-                                {!! $chevron !!}
-                            </summary>
-                            <div class="border-t border-gray-100 px-5 py-4 text-gray-700 leading-relaxed">
-                                <p>Eğitim çalışmalarımızın konu çerçevesini aşağıdaki kategoriler oluşturur. Her programın kapsamı, hedef kitlenin görevleri ve ihtiyaçları doğrultusunda belirlenir.</p>
-                                <ul class="mt-4 space-y-3">
-                                    @foreach ($trainingTopics as [$letter, $title, $text])
-                                        <li class="flex gap-3">
-                                            <span class="w-6 shrink-0 font-semibold text-teal-700">{{ $letter }})</span>
-                                            <span><strong class="font-semibold text-gray-900">{{ $title }}:</strong> {{ $text }}</span>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        </details>
-
-                        <details class="{{ $details }}">
-                            <summary class="{{ $summary }}">
-                                <span>7.2. Eğitim Yöntemleri</span>
-                                {!! $chevron !!}
-                            </summary>
-                            <div class="grid gap-4 border-t border-gray-100 px-5 py-4 md:grid-cols-3">
-                                @foreach ($trainingMethods as [$title, $text])
-                                    <div class="rounded-lg bg-gray-50 p-4">
-                                        <h4 class="font-semibold text-teal-700">{{ $title }}</h4>
-                                        <p class="mt-2 text-sm leading-relaxed text-gray-700">{{ $text }}</p>
-                                    </div>
+                                @foreach ($groups as $group)
+                                    @if ($group['kind'] === 'heading')
+                                        <h3 class="mt-10 text-lg font-semibold text-gray-900">{{ $group['items'][0]['title'] ?? '' }}</h3>
+                                    @elseif ($group['kind'] === 'card')
+                                        <div class="mt-8 grid gap-6 md:grid-cols-2">
+                                            @foreach ($group['items'] as $item)
+                                                <div class="{{ $card }} border-t-4 border-t-teal-600">
+                                                    <h3 class="text-lg font-semibold text-teal-700">{{ $item['title'] ?? '' }}</h3>
+                                                    <div class="mt-3 space-y-3 text-sm leading-relaxed text-gray-700">{!! $item['description'] !!}</div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @else
+                                        <div class="mt-4 grid gap-4 sm:grid-cols-2">
+                                            @foreach ($group['items'] as $item)
+                                                <div class="flex gap-3 rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+                                                    <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-teal-50 text-sm font-bold text-teal-700">{{ $item['subtitle'] }})</span>
+                                                    <div class="text-sm leading-relaxed text-gray-700">
+                                                        @if (filled($item['title'] ?? null))
+                                                            <p class="font-semibold text-gray-900">{{ $item['title'] }}</p>
+                                                        @endif
+                                                        {!! $item['description'] ?? '' !!}
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @endif
                                 @endforeach
-                            </div>
-                        </details>
+                                @break
 
-                        <details class="{{ $details }}">
-                            <summary class="{{ $summary }}">
-                                <span>7.3. Öğrenmenin Değerlendirilmesi</span>
-                                {!! $chevron !!}
-                            </summary>
-                            <div class="border-t border-gray-100 px-5 py-4 text-gray-700 leading-relaxed">
-                                <p>Eğitimlerin değerlendirilmesinde katılımcının konuyu kavraması, görevine ilişkin riskleri tanıyabilmesi ve edindiği bilgiyi uygulamada kullanabilmesi esas alınır. Programın niteliğine göre vaka çözümü, kısa değerlendirme, hazırlanan çalışma çıktısı ve katılımcı geri bildirimlerinden yararlanılır. Konu, hedef kitle, yöntem, süre ve katılım koşulları ilgili eğitim ve etkinlik sayfalarında ayrıca açıklanır.</p>
-                            </div>
-                        </details>
-                    </div>
-                </section>
+                            {{-- Kart Izgarası --}}
+                            @case('cards')
+                                @if ($filled($section->content))
+                                    <div class="{{ $prose }} mt-4">{!! $section->content !!}</div>
+                                @endif
+                                @if ($items->isNotEmpty())
+                                    <div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                                        @foreach ($items as $item)
+                                            <div class="{{ $card }} transition hover:border-teal-300 hover:shadow-md">
+                                                @if (filled($item['subtitle'] ?? null))
+                                                    <p class="mb-1 text-xs font-semibold uppercase tracking-wide text-gray-500">{{ $item['subtitle'] }}</p>
+                                                @endif
+                                                <h3 class="font-semibold text-teal-700">{{ $item['title'] ?? '' }}</h3>
+                                                <div class="mt-2 space-y-2 text-sm leading-relaxed text-gray-700">{!! $item['description'] ?? '' !!}</div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @endif
+                                @break
 
-                {{-- 8 --}}
-                <section id="bilimsel-toplantilar" class="scroll-mt-24">
-                    <h2 class="{{ $h2 }}">Bilimsel Toplantılar ve Ortak Öğrenme</h2>
-                    <div class="{{ $prose }} mt-4">
-                        <p>Farklı disiplinlerden uzmanların, araştırmacıların ve uygulayıcıların ortak sorunları birlikte değerlendirmesini, bilgi üretiminin ve kurumsal öğrenmenin önemli bir parçası olarak görürüz. Akademik çalışmalarla saha deneyiminin buluşturulmasını; sorunların farklı yönlerinin anlaşılması, araştırma sorularının geliştirilmesi ve çözüm seçeneklerinin değerlendirilmesi bakımından önemseriz.</p>
-                        <p>Bilimsel toplantıların amacı, kapsamı, katılımcı yapısı ve beklenen çıktıları önceden belirlenir. Görüşlerin güvenilir bilgiye dayanması, farklı yaklaşımların tartışılabilmesi ve uygulama güçlüklerinin açıkça ortaya konulması gözetilir. Ortaklaşılan hususlar kadar görüş ayrılıklarının ve cevaplanmayı bekleyen soruların da kaydedilmesi esas alınır.</p>
-                        <p>Toplantılarda ortaya çıkan değerlendirmelerin araştırma gündemine, politika önerilerine ve meslekî öğrenmeye katkı sağlaması amaçlanır. Katılımcı görüşleri, toplantı sonuçları ve MİARGEM’in kurumsal görüşü ayrı statülerde ele alınır. Kurum adına benimsenecek öneriler gerekli değerlendirme ve onay sürecinden geçirilir.</p>
-                    </div>
-                </section>
+                            {{-- Akordeon Alt Başlıklar --}}
+                            @case('accordion')
+                                @if ($filled($section->content))
+                                    <div class="{{ $prose }} mt-4">{!! $section->content !!}</div>
+                                @endif
+                                @if ($items->isNotEmpty())
+                                    <div class="mt-6 space-y-3">
+                                        @foreach ($items as $item)
+                                            <details class="{{ $details }}" @if ($loop->first) open @endif>
+                                                <summary class="{{ $summary }}">
+                                                    <span>{{ $item['title'] ?? '' }}@if (filled($item['subtitle'] ?? null)) <span class="ml-2 text-sm font-normal text-gray-500">{{ $item['subtitle'] }}</span>@endif</span>
+                                                    {!! $chevron !!}
+                                                </summary>
+                                                <div class="{{ $accordionBody }}">{!! $item['description'] ?? '' !!}</div>
+                                            </details>
+                                        @endforeach
+                                    </div>
+                                @endif
+                                @break
 
-                {{-- 9 --}}
-                <section id="kurumsal-kapasite" class="scroll-mt-24">
-                    <h2 class="{{ $h2 }}">Kurumsal Kapasite ve Yönetim Modelleri</h2>
-                    <div class="{{ $prose }} mt-4">
-                        <p>Kurumsal kapasiteyi, mahallî idarenin ihtiyaçları doğru belirleyebilmesi, önceliklerini kaynaklarıyla ilişkilendirebilmesi ve hizmetlerini süreklilik içinde yürütebilmesi bakımından değerlendiririz. Stratejik yönetim, teşkilatlanma, insan kaynağı, malî yapı, bilgi yönetimi ve kontrol mekanizmalarını birbirini etkileyen unsurlar olarak ele alırız.</p>
-                        <p>Kurumların görevlerini yerine getirmesinde karşılaşılan güçlüklerin hangi nedenlerden kaynaklandığını araştırırız. Görev ve yetki belirsizlikleri, birimler arası koordinasyon eksiklikleri, kaynak yetersizlikleri ve kurumsal hafıza kayıplarının hizmet sonuçları üzerindeki etkilerini birlikte değerlendiririz. Belediye, bağlı kuruluş ve şirketler arasındaki ilişkileri de hizmetin bütünlüğü ve yönetsel sorumluluk bakımından inceleriz.</p>
-                        <p>Model geliştirme yaklaşımımızda kurumların türü, ölçeği, coğrafi özellikleri ve hizmet şartları arasındaki farklılıklar gözetilir. Farklı mahallî idarelerin kendi ihtiyaçlarına uyarlayabileceği gelişim çerçeveleri oluşturulması hedeflenir. Önerilen modelin hangi şartlarda kullanılabileceği, hangi kaynakları gerektirdiği ve hangi alanlarda uyarlamaya ihtiyaç duyduğu açıklanır.</p>
-                        <p>Belgelerin biçiminden çok yönetimi yönlendirme, görev açıklığını sağlama, riskleri azaltma ve hizmet sonuçlarını iyileştirme işlevini esas alırız. Geliştirilen modellerin uygulanabilirliğinin ve sonuçlarının değerlendirilmesini, model geliştirme sürecinin devamı olarak görürüz.</p>
-                    </div>
-                </section>
+                            {{-- Danışma Kurulu ve Kadro Listesi --}}
+                            @case('team')
+                                @if ($filled($section->content))
+                                    <div class="{{ $prose }} mt-4">{!! $section->content !!}</div>
+                                @endif
+                                @if ($items->isNotEmpty())
+                                    <div class="mt-8 grid gap-4 sm:grid-cols-2">
+                                        @foreach ($items as $item)
+                                            <div class="flex items-center gap-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+                                                <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-teal-50 text-teal-700" aria-hidden="true">
+                                                    <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z" /></svg>
+                                                </span>
+                                                <div>
+                                                    <p class="font-semibold text-gray-900">{{ $item['title'] ?? '' }}</p>
+                                                    @if (filled($item['subtitle'] ?? null))
+                                                        <p class="text-sm text-gray-600">{{ $item['subtitle'] }}</p>
+                                                    @endif
+                                                    @if ($filled($item['description'] ?? null))
+                                                        <div class="mt-1 text-sm text-gray-600">{!! $item['description'] !!}</div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @endif
+                                @break
 
-                {{-- 10 --}}
-                <section id="surdurulebilirlik" class="scroll-mt-24">
-                    <h2 class="{{ $h2 }}">Kurumsal Sürdürülebilirlik ve Finansman İlkeleri</h2>
-                    <div class="{{ $prose }} mt-4">
-                        <p>Kurumsal sürdürülebilirliği; araştırma kapasitesinin, uzmanlık birikiminin ve bilgi üretiminin sürekliliğinin korunması olarak ele alırız. Çalışma önceliklerinin mevcut insan kaynağı, zaman ve malî imkânlarla uyumlu belirlenmesini; üstlenilen çalışmaların tamamlanmasını ve elde edilen bilginin korunmasını önemseriz.</p>
-                        <p>Araştırma ortaklıkları ve kurumsal amaçlarla uyumlu destek kaynaklarının geliştirilmesi bu yaklaşımın parçasıdır. Destek ilişkilerinde çalışmanın amacı, kapsamı, tarafların katkı ve sorumlulukları, finansman koşulları ile veri ve yayın hakları açıkça belirlenmelidir. Kaynakların kullanımının izlenebilir ve hesap verilebilir olması esas alınır.</p>
-                        <p>Finansman ilişkileri, araştırmanın bağımsızlığını ve kurumsal önceliklerin kamu yararı temelinde belirlenmesini koruyacak biçimde yürütülmelidir. Destekçilerin yöntem, bulgu, değerlendirme, sonuç ve yayın kararlarını yönlendirmemesi temel ilkedir. Destek ilişkisinin doğurabileceği çıkar çatışmaları değerlendirilir ve gerekli açıklamalar yapılır.</p>
-                        <p>Uzmanlık ve görevlerin belirli kişilerle sınırlı kalmaması, çalışma süreçlerinin kayıt altına alınması ve deneyimin aktarılması da sürdürülebilirliğin unsurlarıdır. Kurumun gelişimini, malî dayanıklılıkla birlikte araştırma niteliği, iş birliği kapasitesi ve kurumsal güvenilirlik bakımından değerlendiririz.</p>
-                    </div>
-                </section>
-
-                {{-- 11 --}}
-                <section id="yayin-politikasi" class="scroll-mt-24">
-                    <h2 class="{{ $h2 }}">Yayın Politikası, Etik ve Bilgi Güvenliği</h2>
-                    <div class="{{ $prose }} mt-4">
-                        <p>Araştırma sonuçlarını anlaşılır, erişilebilir ve karar süreçlerinde kullanılabilir biçimde paylaşmayı amaçlarız. Yayınların kapsamı ve anlatımı, hedef kitlenin bilgi ihtiyacıyla uyumlu belirlenir. Bulguların dayanakları, kullanılan yöntem, veri dönemi ve sınırlılıklar açıkça gösterilir; kanıtın desteklediği sınırları aşan sonuç ve etki iddialarından kaçınılır.</p>
-                        <p>Doğrulanmış bilgiler, yorumlar ve öneriler birbirinden ayrılır. Çalışma taslakları, imzalı yazar değerlendirmeleri ve MİARGEM kurumsal görüşleri farklı statülerde sunulur. Kurum adına yayımlanacak çalışmaların niteliğine uygun bilimsel, hukukî ve editoryal değerlendirme ile onay süreçlerinin tamamlanması esas alınır.</p>
-                        <p>Araştırma ve yayınlarda kaynaklara doğru atıf yapılması, fikrî hakların korunması ve katkıların görünür kılınması gözetilir. Destek ilişkileri ve çıkar çatışmaları açıklanır. Maddi hataların düzeltilmesi, güncellemelerin tarihlendirilmesi ve sürüm değişikliklerinin izlenebilir olması kurumsal yayın sorumluluğunun parçasıdır.</p>
-                        <p>Kişisel ve kurumsal bilgiler, çalışmanın amacı ve gerekli erişim sınırları içinde kullanılır. Gizlilik, veri güvenliği, saklama ihtiyacı ve anonimleştirme koşulları araştırmanın başlangıcından itibaren değerlendirilir. Kurumlara özgü çalışmalardan elde edilen bilgilerin ortak araştırmalarda kullanılması, kullanım yetkileri ve gizlilik yükümlülükleri gözetilerek ele alınır.</p>
-                        <p>Özgün kaynakların, çalışma dosyalarının ve yayın sürümlerinin korunmasını kurumsal hafızanın parçası olarak görürüz. Bilginin güvenilir biçimde saklanmasını ve yetkili kişilerce erişilebilir olmasını, sonraki araştırmaların doğrulanabilirliği ve sürekliliği bakımından önemseriz.</p>
-                    </div>
-                </section>
-
-                {{-- 12 --}}
-                <section id="danisma-kurulu" class="scroll-mt-24">
-                    <h2 class="{{ $h2 }}">MİARGEM Danışma Kurulu ve Kadrosu</h2>
-                    <div class="{{ $prose }} mt-4">
-                        <p>MİARGEM’in çalışmaları; akademik araştırma, meslekî uzmanlık ve saha uygulaması alanlarında birikim sahibi çok sayıda akademisyen, uzman, yönetici ve uygulayıcının katkılarıyla gelişmektedir. Mahallî idarelerde fiilen görev yapanların deneyimleri ile farklı disiplinlerden araştırmacıların değerlendirmeleri, sorunların nedenlerinin anlaşılmasına ve uygulanabilir çözümler geliştirilmesine destek sağlamaktadır. Bu katkı çevresi, aşağıda yer verilen isimlerle sınırlı değildir.</p>
-                        <p>Danışma Kurulu, bu geniş bilgi ve deneyim çevresinin katkılarını MİARGEM’in amaçları ve çalışma öncelikleriyle buluşturan yönlendirici, koordine edici ve destekleyici bir işlev üstlenir. Araştırma ihtiyaçlarının değerlendirilmesi, uygun uzmanlıkların bir araya getirilmesi ve çalışmaların kurumsal bütünlük içinde yürütülmesi için katkı sunar. İletişim, organizasyon, çalışma takibi ve lojistik destek süreçleriyle bilgi üretiminin sürekliliğini kolaylaştırır.</p>
-                        <p>Çalışmaların bilimsel ve meslekî içeriği, ele alınan konunun gerektirdiği uzmanlıklar ve uygulama deneyimleriyle geliştirilir. Akademisyenlerin, meslek mensuplarının ve sahada çalışan yetkin kişilerin araştırma, değerlendirme, yayın ve ortak öğrenme süreçlerine katkıları önemsenir. Danışma Kurulu ve kadronun yönlendirici ve lojistik katkısı, bu birikimin ortak amaçlar doğrultusunda değerlendirilmesine hizmet eder.</p>
-                        <p>Kurumsal görevler, Danışma Kurulu üyeliği ve çalışmalara sunulan uzmanlık katkıları birbirinden ayrılarak ele alınır. Katkı sunan kişilerin değerlendirmeleri ile MİARGEM adına açıklanan kurumsal görüşler ayrı statülerde sunulur. Kurumsal görüşler, gerekli inceleme ve onay sürecinin ardından yayımlanır.</p>
-                    </div>
-                    <div class="mt-8 grid gap-4 sm:grid-cols-2">
-                        @foreach ($staff as [$name, $role])
-                            <div class="flex items-center gap-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
-                                <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-teal-50 text-teal-700" aria-hidden="true">
-                                    <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z" /></svg>
-                                </span>
-                                <div>
-                                    <p class="font-semibold text-gray-900">{{ $name }}</p>
-                                    <p class="text-sm text-gray-600">{{ $role }}</p>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </section>
-
-                {{-- 13 --}}
-                <section id="is-birligi" class="scroll-mt-24">
-                    <h2 class="{{ $h2 }}">İş Birliği İlkelerimiz</h2>
-                    <div class="{{ $prose }} mt-4">
-                        <p>Mahallî idareler, birlikler, üniversiteler, meslek kuruluşları, araştırmacılar ve uygulayıcılarla bilgi paylaşımını ve ortak üretimi önemseriz. İş birliklerinin, tanımlanmış bir araştırma ihtiyacına veya kurumsal amaca dayanmasını; tarafların bilgi ve deneyimlerinin birbirini tamamlamasını esas alırız.</p>
-                        <p>Ortak çalışmaların amacı, kapsamı, beklenen çıktıları, katkı ve sorumlulukları ile değerlendirme biçimi başlangıçta açıklığa kavuşturulmalıdır. Verilerin kullanım koşulları, gizlilik yükümlülükleri, fikrî haklar ve yayın esasları taraflar arasında belirlenmelidir. Kurumsal adların ve katkıların nasıl gösterileceği de bu çerçevede ele alınmalıdır.</p>
-                        <p>Farklı görüş ve uzmanlıkların katkısı, bağımsızlık ve bilimsel yöntem ilkeleri doğrultusunda değerlendirilir. İş birliği ilişkisinin araştırmanın sonuçlarını önceden belirlememesi ve değerlendirme serbestisini sınırlamaması esastır. Uluslararası ortaklıklarda da ülkemizin hukukî ve idarî şartları ile mahallî idarelerin ihtiyaçları gözetilir.</p>
-                        <p>Ortak çalışmaların sonuçlarının paylaşılmasını, edinilen deneyimin kaydedilmesini ve sonraki çalışmalarda kullanılmasını destekleriz. İş birliğinin değerini, ortak bilgi üretimine ve mahallî idarelerin gelişimine sağladığı katkı üzerinden değerlendiririz.</p>
-                    </div>
-                </section>
-
-                {{-- 14 --}}
-                <section id="kurumsal-belgeler" class="scroll-mt-24">
-                    <h2 class="{{ $h2 }}">Kurumsal Belgeler ve Faaliyet Raporları</h2>
-                    <div class="{{ $prose }} mt-4">
-                        <p>Kurumsal çalışma esaslarının, araştırma ve yayın ilkelerinin ve dönemsel faaliyetlerin izlenebilir belgelerle açıklanmasını hedefleriz. Bu belgelerin, MİARGEM’in amaçlarıyla yürüttüğü çalışmalar arasındaki ilişkinin anlaşılmasını ve kurumsal gelişimin değerlendirilmesini sağlamasını önemseriz.</p>
-                        <p>Onaylanan ve erişime açılan belgeler; adları, dönemleri, tarihleri ve sürüm bilgileriyle sunulur. Güncellenen belgelerde önceki sürümle ilişkinin ve değişikliklerin takip edilebilir olması gözetilir. Hazırlık aşamasındaki çalışmalar ile yürürlükteki veya yayımlanmış belgeler açıkça ayrılır.</p>
-                        <p>Faaliyet raporlarında gerçekleştirilen çalışmalar, üretilen çıktılar, kurulan iş birlikleri ve kullanılan kaynaklara ilişkin bilgiler, raporun kapsamına uygun biçimde değerlendirilir. Planlanan faaliyetlerle gerçekleşmeler arasındaki farklılıklar ve bunların nedenleri açıklanır. Tamamlanamayan çalışmalar ve karşılaşılan güçlükler de kurumsal öğrenmenin parçası olarak ele alınır.</p>
-                        <p>Faaliyetlerin değerlendirilmesinde üretilen bilginin karar süreçlerinde kullanılması, önerilerin uygulamadaki karşılığı ve elde edilen sonuçlar gözetilir. Sonuç ve etki değerlendirmeleri mevcut kanıtın desteklediği ölçüde yapılır. Öğrenilen derslerin sonraki çalışma önceliklerine aktarılmasıyla raporlamanın kurumsal gelişime hizmet etmesi amaçlanır.</p>
-                    </div>
-                </section>
+                            {{-- Standart Metin --}}
+                            @default
+                                @foreach ($items as $item)
+                                    @if (filled($item['title'] ?? null))
+                                        <p class="mt-2 font-semibold text-gray-900">{{ $item['title'] }}@if (filled($item['subtitle'] ?? null)) <span class="font-normal text-gray-600">— {{ $item['subtitle'] }}</span>@endif</p>
+                                    @endif
+                                    @if ($filled($item['description'] ?? null))
+                                        <div class="mt-2 text-gray-700 leading-relaxed">{!! $item['description'] !!}</div>
+                                    @endif
+                                @endforeach
+                                @if ($filled($section->content))
+                                    <div class="{{ $prose }} mt-4">{!! $section->content !!}</div>
+                                @endif
+                        @endswitch
+                    </section>
+                @endforeach
             </div>
         </div>
     </div>

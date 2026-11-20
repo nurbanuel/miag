@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Article extends Model
 {
-    use HasFactory, \App\Models\Concerns\HasAutoSlug;
+    use HasFactory, \App\Models\Concerns\HasAutoSlug, \App\Models\Concerns\HasPublishingFields;
 
     protected $fillable = [
         'category_id',
@@ -36,6 +36,46 @@ class Article extends Model
         ];
     }
 
+    /**
+     * Vatandaş Rehberi menüsünde listelenen kategoriler (slug parçaları).
+     * Eşleşme slug üzerinden LIKE ile yapılır; Türkçe karakter/büyük-küçük harf farkından etkilenmez.
+     */
+    public const CITIZEN_GUIDE_CATEGORIES = [
+        'rehber' => 'vatandas-rehberi',
+        'bunlari-biliyor-musunuz' => 'biliyor-musunuz',
+    ];
+
+    public function scopeCitizenGuide($query, ?string $key = null)
+    {
+        $patterns = $key ? [self::CITIZEN_GUIDE_CATEGORIES[$key]] : array_values(self::CITIZEN_GUIDE_CATEGORIES);
+
+        return $query->whereHas('category', function ($q) use ($patterns) {
+            $q->where(function ($q) use ($patterns) {
+                foreach ($patterns as $pattern) {
+                    $q->orWhere('slug', 'like', '%'.$pattern.'%');
+                }
+            });
+        });
+    }
+
+    public function scopeExcludingCitizenGuide($query)
+    {
+        return $query->whereNot(fn ($q) => $q->citizenGuide());
+    }
+
+    public function isCitizenGuide(): bool
+    {
+        $slug = (string) $this->category?->slug;
+
+        foreach (self::CITIZEN_GUIDE_CATEGORIES as $pattern) {
+            if (str_contains($slug, $pattern)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function author(): BelongsTo
     {
         return $this->belongsTo(Author::class);
@@ -52,6 +92,18 @@ class Article extends Model
         $words = str_word_count($text, 0, 'çÇğĞıİöÖşŞüÜâÂîÎûÛ0123456789');
 
         return max(1, (int) ceil($words / 200)).' dk okuma';
+    }
+
+    protected static function booted(): void
+    {
+        // Eski "excerpt" sütunu (zorunlu) spot ile eşitlenir; mevcut kartlar/arama çalışmaya devam eder.
+        static::saving(function (self $article) {
+            if (filled($article->spot)) {
+                $article->excerpt = $article->spot;
+            } elseif (blank($article->excerpt)) {
+                $article->excerpt = '';
+            }
+        });
     }
 
     public function getRouteKeyName(): string

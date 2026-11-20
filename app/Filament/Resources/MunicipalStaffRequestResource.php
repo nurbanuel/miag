@@ -34,6 +34,22 @@ class MunicipalStaffRequestResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\Section::make('Başvuruyu Yapan Üye')
+                    ->icon('heroicon-o-user-circle')
+                    ->schema([
+                        Forms\Components\Placeholder::make('member_name')
+                            ->label('Üye Adı Soyadı')
+                            ->content(fn ($record) => $record?->user?->name ?? '— (üyelik öncesi / misafir kaydı)'),
+                        Forms\Components\Placeholder::make('member_email')
+                            ->label('Üye E-postası')
+                            ->content(fn ($record) => $record?->user?->email ?? '—'),
+                        Forms\Components\Placeholder::make('member_phone')
+                            ->label('Üye Telefonu')
+                            ->content(fn ($record) => $record?->user?->phone ?: '—'),
+                    ])
+                    ->columns(3)
+                    ->collapsible()
+                    ->visibleOn(['edit', 'view']),
                 Forms\Components\TextInput::make('municipality_name')->label('Belediye Adı')->required(),
                 Forms\Components\TextInput::make('contact_name')->label('Yetkili')->required(),
                 Forms\Components\TextInput::make('contact_email')->label('Kurumsal E-posta')->email()->required(),
@@ -62,7 +78,14 @@ class MunicipalStaffRequestResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn ($query) => $query->with('user'))
             ->columns([
+                Tables\Columns\TextColumn::make('user.name')
+                    ->label('Üye')
+                    ->description(fn ($record) => $record->user?->email)
+                    ->placeholder('Misafir')
+                    ->searchable(['name', 'email'])
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('municipality_name')->label('Belediye')->searchable(),
                 Tables\Columns\TextColumn::make('position_title')->label('Unvan')->searchable(),
                 Tables\Columns\TextColumn::make('employment_status')

@@ -22,6 +22,21 @@ $localeHref = fn (string $url) => ($locale === 'en' ? '/en' : '').$url;
                 <a href="{{ lroute('home') }}#newsletter-signup" class="hidden hover:text-white sm:inline">{{ __('Bülten') }}</a>
                 <span aria-hidden="true" class="hidden text-slate-600 sm:inline">&middot;</span>
                 <a href="{{ lroute('corporate') }}#iletisim" class="hidden hover:text-white sm:inline">{{ __('İletişim') }}</a>
+                <span aria-hidden="true" class="hidden text-slate-600 sm:inline">&middot;</span>
+                @auth
+                    <span class="hidden max-w-[10rem] truncate text-white sm:inline" title="{{ auth()->user()->name }}">
+                        <svg class="mr-1 inline h-3.5 w-3.5 -translate-y-px text-turquoise-300" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 8a3 3 0 100-6 3 3 0 000 6zM3.465 14.493a1.23 1.23 0 00.41 1.412A9.957 9.957 0 0010 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 00-13.074.003z" /></svg>{{ auth()->user()->name }}
+                    </span>
+                    <form method="POST" action="{{ lroute('member.logout') }}" class="inline">
+                        @csrf
+                        <button type="submit" class="hover:text-white">{{ __('Çıkış Yap') }}</button>
+                    </form>
+                @else
+                    <a href="{{ lroute('member.login') }}" class="inline-flex items-center gap-1 font-semibold text-turquoise-300 hover:text-white">
+                        <svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 8a3 3 0 100-6 3 3 0 000 6zM3.465 14.493a1.23 1.23 0 00.41 1.412A9.957 9.957 0 0010 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 00-13.074.003z" /></svg>
+                        {{ __('Üye Girişi') }}
+                    </a>
+                @endauth
 
                 <div class="ml-1 flex items-center gap-1 rounded-full border border-white/15 p-0.5 font-semibold">
                     <a href="{{ lroute('home') }}" class="rounded-full px-2 py-0.5 {{ $locale === 'tr' ? 'bg-white text-[#061024]' : 'text-slate-300 hover:text-white' }}">TR</a>
@@ -44,17 +59,18 @@ $localeHref = fn (string $url) => ($locale === 'en' ? '/en' : '').$url;
                 @foreach ($menuItems as $item)
                     @if (! empty($item['children']))
                         {{-- Alt menülü öğe: bordo vurgulu dropdown --}}
-                        <div class="relative" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
-                            <button
-                                type="button"
+                        <div class="relative" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" @focusout="$el.contains($event.relatedTarget) || (open = false)">
+                            <a
+                                href="{{ $localeHref($item['url']) }}"
                                 class="flex items-center gap-1 rounded-md px-3 py-2 text-sm font-semibold text-[#8b1e3f] hover:bg-bordo-50 hover:text-[#721833]"
-                                @click="open = !open"
+                                @focus="open = true"
+                                @keydown.escape="open = false"
                                 :aria-expanded="open.toString()"
                                 aria-haspopup="true"
                             >
                                 {{ $item['title'] }}
                                 <svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z" clip-rule="evenodd" /></svg>
-                            </button>
+                            </a>
                             <div x-show="open" x-cloak x-transition class="absolute left-0 top-full w-72 rounded-lg border border-slate-100 bg-white p-2 text-slate-900 shadow-lg">
                                 <a href="{{ $localeHref($item['url']) }}" class="block rounded-md px-3 py-2 text-sm font-semibold text-[#8b1e3f] hover:bg-bordo-50">
                                     {{ $item['title'] }} — {{ __('Genel Bakış') }}
@@ -146,10 +162,12 @@ $localeHref = fn (string $url) => ($locale === 'en' ? '/en' : '').$url;
             @foreach ($menuItems as $item)
                 @if (! empty($item['children']))
                     <div x-data="{ open: false }">
-                        <button type="button" @click="open = !open" :aria-expanded="open.toString()" class="flex w-full items-center justify-between rounded-md px-3 py-2.5 text-sm font-semibold text-[#8b1e3f] hover:bg-bordo-50">
-                            {{ $item['title'] }}
-                            <svg class="h-4 w-4 transition-transform" :class="open && 'rotate-180'" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z" clip-rule="evenodd" /></svg>
-                        </button>
+                        <div class="flex items-center justify-between rounded-md hover:bg-bordo-50">
+                            <a href="{{ $localeHref($item['url']) }}" class="flex-1 px-3 py-2.5 text-sm font-semibold text-[#8b1e3f]">{{ $item['title'] }}</a>
+                            <button type="button" @click="open = !open" :aria-expanded="open.toString()" aria-label="{{ $item['title'] }} — {{ __('Alt menü') }}" class="px-3 py-2.5 text-[#8b1e3f]">
+                                <svg class="h-4 w-4 transition-transform" :class="open && 'rotate-180'" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z" clip-rule="evenodd" /></svg>
+                            </button>
+                        </div>
                         <div x-show="open" x-cloak x-transition class="ml-4 flex flex-col border-l border-slate-100 pl-3">
                             @foreach ($item['children'] as $child)
                                 <a href="{{ $localeHref($child['url']) }}" class="rounded-md px-3 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-[#8b1e3f]">{{ $child['title'] }}</a>
@@ -160,6 +178,19 @@ $localeHref = fn (string $url) => ($locale === 'en' ? '/en' : '').$url;
                     <a href="{{ $localeHref($item['url']) }}" class="rounded-md px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50">{{ $item['title'] }}</a>
                 @endif
             @endforeach
+
+            <div class="mt-3 border-t border-slate-100 pt-3">
+                @auth
+                    <p class="px-3 py-1 text-xs text-slate-500">{{ __('Oturum açık') }}: <span class="font-semibold text-slate-700">{{ auth()->user()->name }}</span></p>
+                    <form method="POST" action="{{ lroute('member.logout') }}">
+                        @csrf
+                        <button type="submit" class="w-full rounded-md px-3 py-2.5 text-left text-sm font-medium text-slate-700 hover:bg-slate-50">{{ __('Çıkış Yap') }}</button>
+                    </form>
+                @else
+                    <a href="{{ lroute('member.login') }}" class="block rounded-md px-3 py-2.5 text-sm font-semibold text-[#8b1e3f] hover:bg-bordo-50">{{ __('Üye Girişi') }}</a>
+                    <a href="{{ lroute('member.register') }}" class="block rounded-md px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50">{{ __('Üye Ol') }}</a>
+                @endauth
+            </div>
 
             <a href="{{ lroute('participation.index') }}" class="mt-3 rounded-lg bg-[#8b1e3f] px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-[#721833]">
                 {{ __('Katılım') }}

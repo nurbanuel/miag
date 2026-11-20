@@ -26,3 +26,11 @@
 [x-cloak] {
     display: none !important;
 }
+
+/* Zengin metin: enter ile bırakılan boş satırlar/paragraflar çökmesin. */
+.prose p:empty,
+.prose p > br:only-child,
+.prose div:empty {
+    display: block;
+    min-height: 1.25rem;
+}

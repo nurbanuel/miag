@@ -12,9 +12,18 @@ class SiteSettingSeeder extends Seeder
         SiteSetting::updateOrCreate(['id' => 1], [
             'header_menu' => [
                 ['title' => 'Kurumsal', 'url' => '/kurumsal'],
+                ['title' => 'Başkan', 'url' => '/baskan'],
                 ['title' => 'Rapor ve Analizler', 'url' => '/rapor-ve-analizler'],
                 ['title' => 'Politika & Mevzuat', 'url' => '/politika-ve-mevzuat'],
                 ['title' => 'Yazılar', 'url' => '/yazilar'],
+                [
+                    'title' => 'Vatandaş Rehberi',
+                    'url' => '/vatandas-rehberi',
+                    'children' => [
+                        ['title' => 'Vatandaş Rehberi', 'url' => '/vatandas-rehberi/rehber'],
+                        ['title' => 'Bunları Biliyor Musunuz?', 'url' => '/vatandas-rehberi/bunlari-biliyor-musunuz'],
+                    ],
+                ],
                 [
                     'title' => 'İK ve Kariyer',
                     'url' => '/ik-ve-kariyer',
@@ -38,10 +47,14 @@ class SiteSettingSeeder extends Seeder
             'footer_legal_links' => [
                 ['title' => 'Gizlilik Politikası', 'url' => '/gizlilik-politikasi'],
                 ['title' => 'Çerez Politikası', 'url' => '/cerez-politikasi'],
-                ['title' => 'KVKK Aydınlatma Metni', 'url' => '/kvkk'],
+                ['title' => 'KVKK Aydınlatma Metni', 'url' => '/kvkk-aydinlatma-metni'],
                 ['title' => 'Erişilebilirlik', 'url' => '/erisilebilirlik'],
             ],
             'footer_copyright_text' => 'MİARGEM. Tüm hakları saklıdır.',
+            'corporate_page_title' => 'MİARGEM Kurumsal',
+            'corporate_page_subtitle' => 'Mahallî İdareler Araştırma ve Geliştirme Merkezi',
+            'contact_email' => 'info@miargem.org',
+            'contact_phone' => '+90 (312) 000 00 00',
         ]);
     }
 }

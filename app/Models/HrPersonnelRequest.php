@@ -36,6 +36,7 @@ class HrPersonnelRequest extends Model
     public const PUBLIC_EMAIL_DOMAINS = ['gmail.com', 'hotmail.com', 'outlook.com', 'yahoo.com', 'icloud.com', 'yandex.com', 'live.com'];
 
     protected $fillable = [
+        'user_id',
         'institution_name',
         'institution_type',
         'unit',
@@ -87,5 +88,11 @@ class HrPersonnelRequest extends Model
     public function isCurrent(): bool
     {
         return $this->is_active && $this->deadline_date?->gte(today());
+    }
+
+    /** Kaydı oluşturan üye. */
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

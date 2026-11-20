@@ -10,6 +10,7 @@ class JobInternshipApplication extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'applicant_type',
         'full_name',
         'email',
@@ -32,4 +33,10 @@ class JobInternshipApplication extends Model
         'deneyimli' => 'Deneyimli Aday',
         'stajyer' => 'Stajyer',
     ];
+
+    /** Kaydı oluşturan üye. */
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 }

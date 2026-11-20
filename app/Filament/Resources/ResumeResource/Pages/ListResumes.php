@@ -10,6 +10,8 @@ class ListResumes extends ListRecords
 {
     protected static string $resource = ResumeResource::class;
 
+    protected static ?string $title = 'Başkan';
+
     protected function getHeaderActions(): array
     {
         return [

@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\EventResource\Pages;
 use App\Filament\Resources\EventResource\RelationManagers;
 use App\Models\Event;
+use App\Filament\Support\ContentForm;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -19,7 +20,9 @@ class EventResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $navigationGroup = 'İçerik Yönetimi';
+    protected static ?string $navigationGroup = 'Etkinlikler';
+
+    protected static ?int $navigationSort = 1;
 
     protected static ?string $modelLabel = 'Etkinlik';
 
@@ -31,13 +34,7 @@ class EventResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')
-                    ->label('Başlık')
-                    ->required(),
-                Forms\Components\RichEditor::make('description')
-                    ->label('İçerik')
-                    ->required()
-                    ->columnSpanFull(),
+                ...ContentForm::titleSpotContent(contentField: 'description', contentRequired: true),
                 Forms\Components\TextInput::make('location')
                     ->label('Konum')
                     ->required(),
@@ -47,7 +44,9 @@ class EventResource extends Resource
                 Forms\Components\FileUpload::make('poster_path')
                     ->label('Afiş')
                     ->image()
-                    ->directory('events'),
+                    ->imageEditor()
+                    ->directory('events')
+                    ->helperText('Afiş dikey veya kare olabilir. Öne çıkan görsel için aşağıdaki alanı kullanın.'),
                 Forms\Components\TextInput::make('registration_url')
                     ->label('Kayıt Linki'),
                 Forms\Components\DateTimePicker::make('starts_at')
@@ -56,16 +55,9 @@ class EventResource extends Resource
                 Forms\Components\Toggle::make('is_past')
                     ->label('Geçmiş Etkinlik mi?')
                     ->required(),
-                Forms\Components\Select::make('category_id')
-                    ->relationship('category', 'name')
-                    ->label('Kategori')
-                    ->searchable()
-                    ->preload(),
-                Forms\Components\FileUpload::make('featured_image')
-                    ->image()
-                    ->label('Öne Çıkan Görsel')
-                    ->directory('events')
-                    ->columnSpanFull(),
+                ...ContentForm::categorySelects(),
+                ContentForm::featuredImage('events'),
+                ContentForm::activeToggle(),
                 Forms\Components\Toggle::make('is_featured')
                     ->label('Manşete Ekle')
                     ->default(false),
@@ -97,9 +89,11 @@ class EventResource extends Resource
                 Tables\Columns\TextColumn::make('poster_path')
                     ->label('Afiş')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('registration_url')
-                    ->label('Kayıt Linki')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('registrations_count')
+                    ->label('Katılımcı')
+                    ->counts('registrations')
+                    ->badge()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('starts_at')
                     ->label('Başlangıç Zamanı')
                     ->dateTime()
@@ -117,9 +111,10 @@ class EventResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                ContentForm::activeColumn(),
             ])
             ->filters([
-                //
+                ContentForm::activeFilter(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -134,8 +129,14 @@ class EventResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\RegistrationsRelationManager::class,
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        // Pasif içerikler de panelde listelenir ve düzenlenebilir.
+        return parent::getEloquentQuery()->withoutGlobalScope('active');
     }
 
     public static function getPages(): array

@@ -29,6 +29,22 @@ class HrPersonnelRequestResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\Section::make('Başvuruyu Yapan Üye')
+                    ->icon('heroicon-o-user-circle')
+                    ->schema([
+                        Forms\Components\Placeholder::make('member_name')
+                            ->label('Üye Adı Soyadı')
+                            ->content(fn ($record) => $record?->user?->name ?? '— (üyelik öncesi / misafir kaydı)'),
+                        Forms\Components\Placeholder::make('member_email')
+                            ->label('Üye E-postası')
+                            ->content(fn ($record) => $record?->user?->email ?? '—'),
+                        Forms\Components\Placeholder::make('member_phone')
+                            ->label('Üye Telefonu')
+                            ->content(fn ($record) => $record?->user?->phone ?: '—'),
+                    ])
+                    ->columns(3)
+                    ->collapsible()
+                    ->visibleOn(['edit', 'view']),
                 Forms\Components\Section::make('Kurum ve Yetkili Bilgileri')
                     ->description('Talebi ileten kurum ve yetkili kişiye ait bilgiler.')
                     ->schema([
@@ -102,7 +118,14 @@ class HrPersonnelRequestResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn ($query) => $query->with('user'))
             ->columns([
+                Tables\Columns\TextColumn::make('user.name')
+                    ->label('Üye')
+                    ->description(fn ($record) => $record->user?->email)
+                    ->placeholder('Misafir')
+                    ->searchable(['name', 'email'])
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('institution_name')->label('Kurum')->searchable()->wrap(),
                 Tables\Columns\TextColumn::make('requested_position_title')->label('Aranan Pozisyon Unvanı')->searchable(),
                 Tables\Columns\TextColumn::make('authorized_person_title')->label('Yetkili Unvanı')->toggleable(isToggledHiddenByDefault: true),

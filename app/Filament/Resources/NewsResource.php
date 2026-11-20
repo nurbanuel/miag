@@ -4,11 +4,13 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\NewsResource\Pages;
 use App\Models\News;
+use App\Filament\Support\ContentForm;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class NewsResource extends Resource
 {
@@ -26,41 +28,27 @@ class NewsResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return $form->schema([
-            Forms\Components\TextInput::make('title')
-                ->label('Başlık')
-                ->required()
-                ->maxLength(255)
-                ->columnSpanFull(),
-            Forms\Components\FileUpload::make('featured_image')
-                ->image()
-                ->label('Öne Çıkan Görsel')
-                ->directory('news')
-                ->columnSpanFull(),
-            Forms\Components\Select::make('category_id')
-                ->relationship('category', 'name')
-                ->label('Kategori')
-                ->searchable()
-                ->preload(),
-            Forms\Components\DatePicker::make('published_at')
-                ->label('Yayın Tarihi')
-                ->default(now()),
-            Forms\Components\RichEditor::make('content')
-                ->label('İçerik')
-                ->required()
-                ->columnSpanFull(),
-            Forms\Components\Toggle::make('is_featured')
-                ->label('Manşete Ekle')
-                ->default(false),
-            Forms\Components\DateTimePicker::make('visibility_start')
-                ->label('Manşet Görünürlük Başlangıcı'),
-            Forms\Components\DateTimePicker::make('visibility_end')
-                ->label('Manşet Görünürlük Bitişi')
-                ->after('visibility_start'),
-            Forms\Components\Toggle::make('has_360_badge')
-                ->label('360° Etki Analizi Rozeti')
-                ->default(false),
-        ]);
+        return $form
+            ->schema([
+                ...ContentForm::titleSpotContent(contentRequired: true),
+                ...ContentForm::categorySelects(),
+                ContentForm::featuredImage('news'),
+                Forms\Components\DatePicker::make('published_at')
+                    ->label('Yayın Tarihi')
+                    ->default(now()),
+                ContentForm::activeToggle(),
+                Forms\Components\Toggle::make('is_featured')
+                    ->label('Manşete Ekle')
+                    ->default(false),
+                Forms\Components\DateTimePicker::make('visibility_start')
+                    ->label('Manşet Görünürlük Başlangıcı'),
+                Forms\Components\DateTimePicker::make('visibility_end')
+                    ->label('Manşet Görünürlük Bitişi')
+                    ->after('visibility_start'),
+                Forms\Components\Toggle::make('has_360_badge')
+                    ->label('360° Etki Analizi Rozeti')
+                    ->default(false),
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -71,8 +59,12 @@ class NewsResource extends Resource
                 Tables\Columns\TextColumn::make('title')->label('Başlık')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('category.name')->label('Kategori')->badge()->sortable(),
                 Tables\Columns\TextColumn::make('published_at')->label('Yayın Tarihi')->date('d.m.Y')->sortable(),
+                ContentForm::activeColumn(),
             ])
             ->defaultSort('published_at', 'desc')
+            ->filters([
+                ContentForm::activeFilter(),
+            ])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
@@ -82,6 +74,12 @@ class NewsResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        // Pasif içerikler de panelde listelenir ve düzenlenebilir.
+        return parent::getEloquentQuery()->withoutGlobalScope('active');
     }
 
     public static function getPages(): array

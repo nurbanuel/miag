@@ -18,7 +18,7 @@ class HomeController extends Controller
 
         $featuredContent = $this->latestFeaturedContent();
 
-        $featuredReports = Report::with('category')->latest('published_at')->take(3)->get();
+        $featuredReports = Report::with('category')->latest('created_at')->latest('id')->take(3)->get();
 
         $featuredArticles = Article::with('author')->latest('published_at')->take(3)->get();
 
@@ -68,6 +68,8 @@ class HomeController extends Controller
                     'url' => lroute($route, $item),
                     'image' => $item->featured_image ? asset('storage/'.$item->featured_image) : null,
                     'module' => $moduleLabel,
+                    'type_label' => $item instanceof Report ? $item->type_label : null,
+                    'is_analysis' => $item instanceof Report && $item->isAnalysis(),
                     'category' => $item->category?->name,
                     'has_360_badge' => (bool) $item->has_360_badge,
                     'updated_at' => $item->updated_at,

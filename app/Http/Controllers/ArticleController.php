@@ -9,14 +9,14 @@ class ArticleController extends Controller
 {
     public function index(): View
     {
-        $articles = Article::with(['author', 'category'])->latest('published_at')->paginate(9);
+        $articles = Article::with(['author', 'category'])->excludingCitizenGuide()->latest('published_at')->paginate(9);
 
         return view('articles.index', compact('articles'));
     }
 
     public function show(Article $article): View
     {
-        $article->load('author');
+        $article->load(['author', 'category']);
 
         return view('articles.show', compact('article'));
     }

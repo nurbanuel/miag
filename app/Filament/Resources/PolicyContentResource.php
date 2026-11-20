@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PolicyContentResource\Pages;
 use App\Filament\Resources\PolicyContentResource\RelationManagers;
 use App\Models\PolicyContent;
+use App\Filament\Support\ContentForm;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -31,32 +32,16 @@ class PolicyContentResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')
-                    ->label('Başlık')
-                    ->required(),
-                Forms\Components\Textarea::make('summary')
-                    ->label('Özet')
-                    ->required()
-                    ->columnSpanFull(),
-                Forms\Components\RichEditor::make('content')
-                    ->label('İçerik')
-                    ->columnSpanFull(),
+                ...ContentForm::titleSpotContent(spotRequired: true),
                 Forms\Components\Select::make('type')
                     ->label('Tür')
                     ->options(PolicyContent::TYPE_LABELS)
                     ->required(),
                 Forms\Components\DateTimePicker::make('published_at')
                     ->label('Yayın Tarihi'),
-                Forms\Components\Select::make('category_id')
-                    ->relationship('category', 'name')
-                    ->label('Kategori')
-                    ->searchable()
-                    ->preload(),
-                Forms\Components\FileUpload::make('featured_image')
-                    ->image()
-                    ->label('Öne Çıkan Görsel')
-                    ->directory('policycontents')
-                    ->columnSpanFull(),
+                ...ContentForm::categorySelects(),
+                ContentForm::featuredImage('policycontents'),
+                ContentForm::activeToggle(),
                 Forms\Components\Toggle::make('is_featured')
                     ->label('Manşete Ekle')
                     ->default(false),
@@ -100,9 +85,10 @@ class PolicyContentResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                ContentForm::activeColumn(),
             ])
             ->filters([
-                //
+                ContentForm::activeFilter(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -119,6 +105,12 @@ class PolicyContentResource extends Resource
         return [
             //
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        // Pasif içerikler de panelde listelenir ve düzenlenebilir.
+        return parent::getEloquentQuery()->withoutGlobalScope('active');
     }
 
     public static function getPages(): array

@@ -10,6 +10,10 @@
     </section>
 
     <x-container class="py-14">
+        @if (session('status'))
+            <x-alert tone="success" class="mb-8">{{ session('status') }}</x-alert>
+        @endif
+
         <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
             @foreach ([
                 ['num' => '01', 'title' => 'Personel Talebi', 'desc' => 'Kurumunuzun personel ihtiyacını görev, eğitim, deneyim ve yetkinlik ölçütleriyle tanımlayın.', 'route' => 'career.personnel-request', 'cta' => 'Personel Talebi Oluştur'],

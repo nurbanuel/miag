@@ -1,9 +1,7 @@
 <x-layout :title="$author->name">
     <x-container class="py-12">
         <div class="flex items-center gap-4">
-            <div class="flex h-16 w-16 items-center justify-center rounded-full bg-navy-100 text-xl font-bold text-navy-700">
-                {{ mb_substr($author->name, 0, 1) }}
-            </div>
+            <x-author-avatar :author="$author" size="xl" />
             <div>
                 <h1 class="text-2xl font-bold text-navy-900">{{ $author->name }}</h1>
                 @if ($author->title)
@@ -12,8 +10,8 @@
             </div>
         </div>
 
-        @if ($author->bio)
-            <p class="mt-6 max-w-2xl leading-relaxed text-navy-700">{{ $author->bio }}</p>
+        @if ($author->bio_html)
+            <div class="prose mt-6 max-w-2xl leading-relaxed text-navy-700 [&_a]:text-turquoise-700 [&_a]:underline [&_h2]:mt-4 [&_h2]:text-lg [&_h2]:font-semibold [&_h3]:mt-3 [&_h3]:font-semibold [&_ol]:list-decimal [&_ol]:pl-5 [&_p+p]:mt-3 [&_ul]:list-disc [&_ul]:pl-5 [&_blockquote]:border-l-2 [&_blockquote]:border-turquoise-300 [&_blockquote]:pl-3 [&_blockquote]:italic">{!! $author->bio_html !!}</div>
         @endif
 
         <h2 class="mt-10 text-xl font-bold text-navy-900">{{ __('Yazıları') }}</h2>
@@ -28,7 +26,7 @@
                         <h3 class="mt-1 text-lg font-semibold text-navy-900">
                             <a href="{{ lroute('articles.show', $article) }}" class="hover:text-turquoise-700">{{ $article->title }}</a>
                         </h3>
-                        <p class="mt-2 text-sm text-navy-600">{{ $article->excerpt }}</p>
+                        <p class="mt-2 text-sm text-navy-600">{{ $article->lead }}</p>
                     </div>
                 </x-card>
             @empty

@@ -3,11 +3,13 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
@@ -15,11 +17,15 @@ class User extends Authenticatable
     /**
      * The attributes that are mass assignable.
      *
+     * "is_admin" bilinçli olarak burada değildir: ön yüz kayıt formundan yönetici
+     * yetkisi atanamaması için yalnızca açıkça (forceFill / panel) ayarlanır.
+     *
      * @var list<string>
      */
     protected $fillable = [
         'name',
         'email',
+        'phone',
         'password',
     ];
 
@@ -43,6 +49,13 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_admin' => 'boolean',
         ];
+    }
+
+    /** /admin paneline yalnızca yöneticiler erişebilir; standart üyeler erişemez. */
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->is_admin === true;
     }
 }

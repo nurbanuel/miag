@@ -15,6 +15,11 @@ class SiteSetting extends Model
         'footer_quick_links',
         'footer_legal_links',
         'footer_copyright_text',
+        'corporate_page_title',
+        'corporate_page_subtitle',
+        'contact_email',
+        'contact_phone',
+        'contact_address',
     ];
 
     protected function casts(): array

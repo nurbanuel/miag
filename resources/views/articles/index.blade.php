@@ -18,9 +18,12 @@
                         <h2 class="text-lg font-semibold text-navy-900">
                             <a href="{{ lroute('articles.show', $article) }}" class="hover:text-turquoise-700">{{ $article->title }}</a>
                         </h2>
-                        <p class="flex-1 text-sm text-navy-600">{{ $article->excerpt }}</p>
+                        <p class="flex-1 text-sm text-navy-600">{{ $article->lead }}</p>
                         <div class="flex items-center justify-between border-t border-navy-100 pt-3 text-xs text-navy-500">
-                            <a href="{{ lroute('authors.show', $article->author) }}" class="font-medium text-navy-700 hover:text-turquoise-700">{{ $article->author->name }}</a>
+                            <a href="{{ lroute('authors.show', $article->author) }}" class="flex min-w-0 items-center gap-2 font-medium text-navy-700 hover:text-turquoise-700">
+                                <x-author-avatar :author="$article->author" size="sm" />
+                                <span class="truncate">{{ $article->author->name }}</span>
+                            </a>
                             <span class="flex items-center gap-2">
                                 <time datetime="{{ $article->published_at }}">{{ $article->published_at?->translatedFormat('d F Y') }}</time>
                                 <span aria-hidden="true">&middot;</span>

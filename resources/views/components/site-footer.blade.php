@@ -6,9 +6,11 @@ $quickLinks = [
 ];
 $corporateLinks = [
     ['title' => __('Hakkımızda ve İletişim'), 'url' => lroute('corporate')],
-    ['title' => __('Gizlilik Politikası'), 'url' => lroute('legal.privacy')],
-    ['title' => __('KVKK Aydınlatma Metni'), 'url' => lroute('legal.kvkk')],
 ];
+// Yasal metinler panelden yönetilir (Yasal Metinler): yalnızca yayındakiler, sıra numarasına göre.
+foreach (\App\Models\LegalDocument::active()->ordered()->get(['title', 'slug']) as $legalDocument) {
+    $corporateLinks[] = ['title' => __($legalDocument->title), 'url' => lroute('legal.show', ['slug' => $legalDocument->slug])];
+}
 @endphp
 
 <footer class="bg-navy-950 text-white/80">

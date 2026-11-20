@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class News extends Model
 {
-    use HasFactory, HasAutoSlug;
+    use HasFactory, HasAutoSlug, \App\Models\Concerns\HasPublishingFields;
 
     protected $fillable = [
         'title',

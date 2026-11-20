@@ -27,7 +27,11 @@ class TransferNetworkForm extends Component implements HasForms
 
     public function mount(): void
     {
-        $this->form->fill();
+        $this->form->fill([
+            'full_name' => auth()->user()?->name,
+            'email' => auth()->user()?->email,
+            'phone' => auth()->user()?->phone,
+        ]);
     }
 
     public function form(Form $form): Form
@@ -193,6 +197,8 @@ class TransferNetworkForm extends Component implements HasForms
 
     public function submit(): void
     {
+        abort_unless(auth()->check(), 403);
+
         $data = $this->form->getState();
 
         // Memur dışı statülerde gizli kalan hizmet sınıfı / derece kaydedilmez.
@@ -204,6 +210,7 @@ class TransferNetworkForm extends Component implements HasForms
         $application = HrApplication::create([
             ...$data,
             'type' => 'nakil',
+            'user_id' => auth()->id(),
             'status' => 'Alındı',
             'consent_accepted' => true,
             'contact_info_public' => false,
@@ -214,7 +221,7 @@ class TransferNetworkForm extends Component implements HasForms
 
         $this->trackingNumber = $application->tracking_number;
         $this->data = [];
-        $this->form->fill();
+        $this->mount();
     }
 
     public function render(): View

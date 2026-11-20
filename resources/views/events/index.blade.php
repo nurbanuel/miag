@@ -23,9 +23,11 @@
                         <h3 class="text-lg font-semibold text-navy-900">
                             <a href="{{ lroute('events.show', $event) }}" class="hover:text-turquoise-700">{{ $event->title }}</a>
                         </h3>
-                        <p class="flex-1 text-sm text-navy-600">{{ \Illuminate\Support\Str::limit(strip_tags($event->description), 140) }}</p>
+                        <p class="flex-1 text-sm text-navy-600">{{ $event->spot ?: \Illuminate\Support\Str::limit(strip_tags($event->description), 140) }}</p>
                         <p class="text-xs text-navy-500">{{ $event->location }}</p>
-                        <x-button :href="lroute('events.show', $event)" variant="outline" size="sm" class="mt-2 justify-center">{{ __('Kayıt Ol') }}</x-button>
+                        @if ($event->isRegistrationOpen())
+                            <x-button :href="lroute('events.register', $event)" variant="outline" size="sm" class="mt-2 justify-center">{{ __('Kayıt Ol') }}</x-button>
+                        @endif
                     </div>
                 </x-card>
             @empty
@@ -53,5 +55,7 @@
             @endforelse
         </div>
         <div class="mt-6">{{ $past->links() }}</div>
+
+        @include('events.partials.notice')
     </x-container>
 </x-layout>

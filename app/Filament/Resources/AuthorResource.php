@@ -36,13 +36,33 @@ class AuthorResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('title')
                     ->label('Başlık'),
-                Forms\Components\Textarea::make('bio')
-                    ->label('Biyografi')
-                    ->columnSpanFull(),
                 Forms\Components\FileUpload::make('avatar_path')
                     ->label('Profil Fotoğrafı')
                     ->image()
-                    ->directory('authors'),
+                    ->avatar()
+                    ->imageEditor()
+                    ->circleCropper()
+                    ->disk('public')
+                    ->directory('authors')
+                    ->maxSize(4096)
+                    ->helperText('Kare, en az 400×400 px bir fotoğraf önerilir. Yüklenmezse baş harflerden avatar gösterilir.'),
+                Forms\Components\RichEditor::make('bio')
+                    ->label('Biyografi')
+                    ->toolbarButtons([
+                        'bold',
+                        'italic',
+                        'underline',
+                        'strike',
+                        'link',
+                        'h2',
+                        'h3',
+                        'bulletList',
+                        'orderedList',
+                        'blockquote',
+                        'undo',
+                        'redo',
+                    ])
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -50,6 +70,15 @@ class AuthorResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\ImageColumn::make('avatar_path')
+                    ->label('')
+                    ->disk('public')
+                    ->circular()
+                    ->defaultImageUrl(fn (Author $record): string => 'data:image/svg+xml;base64,'.base64_encode(
+                        '<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64"><rect width="64" height="64" fill="#0c9299"/>'
+                        .'<text x="50%" y="50%" dy=".35em" text-anchor="middle" font-family="sans-serif" font-size="24" font-weight="700" fill="#fff">'
+                        .e($record->initials).'</text></svg>'
+                    )),
                 Tables\Columns\TextColumn::make('slug')
                     ->label('URL Uzantısı (Slug)')
                     ->searchable(),
@@ -58,9 +87,6 @@ class AuthorResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('title')
                     ->label('Başlık')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('avatar_path')
-                    ->label('Profil Fotoğrafı')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Oluşturulma Tarihi')

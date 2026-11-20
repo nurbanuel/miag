@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 
 class Announcement extends Model
 {
-    use HasFactory, \App\Models\Concerns\HasAutoSlug;
+    use HasFactory, \App\Models\Concerns\HasAutoSlug, \App\Models\Concerns\HasPublishingFields;
 
     protected $fillable = ['featured_image', 'title', 'slug', 'category_label', 'category_id', 'content', 'href', 'is_featured', 'visibility_start', 'visibility_end', 'has_360_badge'];
 

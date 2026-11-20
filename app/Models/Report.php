@@ -7,13 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Report extends Model
 {
-    use HasFactory, \App\Models\Concerns\HasAutoSlug;
+    use HasFactory, \App\Models\Concerns\HasAutoSlug, \App\Models\Concerns\HasPublishingFields;
 
     protected $fillable = [
         'category_id',
         'featured_image',
         'slug',
         'title',
+        'sub_category',
         'category_label',
         'summary',
         'content',
@@ -36,6 +37,27 @@ class Report extends Model
             'has_360_badge' => 'boolean',
             'published_at' => 'datetime',
         ];
+    }
+
+    public const SUB_CATEGORIES = ['Rapor' => 'Rapor', 'Analiz' => 'Analiz'];
+
+    /**
+     * Kartlardaki tür etiketi: "RAPOR" / "ANALİZ" (Türkçe büyük harf; i → İ).
+     */
+    public function getTypeLabelAttribute(): string
+    {
+        $label = __($this->sub_category ?: 'Rapor');
+
+        if (app()->getLocale() === 'tr') {
+            $label = str_replace(['i', 'ı'], ['İ', 'I'], $label);
+        }
+
+        return mb_strtoupper($label, 'UTF-8');
+    }
+
+    public function isAnalysis(): bool
+    {
+        return $this->sub_category === 'Analiz';
     }
 
     public function getRouteKeyName(): string

@@ -18,7 +18,10 @@
                     <x-badge tone="turquoise">{{ __('Yaklaşan Etkinlik') }}</x-badge>
                 @endif
                 <h1 class="mt-3 text-3xl font-bold text-navy-900">{{ $event->title }}</h1>
-                <div class="mt-4 leading-relaxed text-navy-700">{!! $event->description !!}</div>
+                @if ($event->spot)
+                    <p class="mt-4 text-lg font-medium leading-relaxed text-navy-800">{{ $event->spot }}</p>
+                @endif
+                <div class="prose max-w-none prose-p:my-4 prose-p:leading-relaxed prose-headings:text-navy-900 prose-a:text-turquoise-700 prose-strong:text-navy-900 leading-relaxed text-navy-700 mt-4">{!! $event->description !!}</div>
 
                 @if (!empty($event->speakers))
                     <h2 class="mt-8 text-lg font-bold text-navy-900">{{ __('Konuşmacılar') }}</h2>
@@ -37,13 +40,15 @@
                     <p class="mt-4 text-sm font-semibold text-navy-500">{{ __('Yer') }}</p>
                     <p class="mt-1 text-navy-900">{{ $event->location }}</p>
 
-                    @unless ($event->is_past)
-                        <form action="{{ lroute('participation.index') }}" method="GET" class="mt-6">
-                            <x-button href="{{ lroute('participation.index') }}" variant="primary" class="w-full justify-center">{{ __('Etkinliğe Kayıt Ol') }}</x-button>
-                        </form>
-                    @endunless
+                    @if ($event->isRegistrationOpen())
+                        <x-button :href="lroute('events.register', $event)" variant="primary" class="mt-6 w-full justify-center">{{ __('Etkinliğe Kayıt Ol') }}</x-button>
+                    @elseif (! $event->is_past)
+                        <p class="mt-6 rounded-lg bg-navy-50 px-4 py-3 text-center text-sm text-navy-600">{{ __('Bu etkinlik için kayıtlar kapanmıştır.') }}</p>
+                    @endif
                 </div>
             </aside>
         </div>
+
+        @include('events.partials.notice')
     </x-container>
 </x-layout>

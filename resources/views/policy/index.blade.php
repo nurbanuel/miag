@@ -25,7 +25,7 @@
                         <h2 class="mt-3 text-lg font-semibold text-navy-900">
                             <a href="{{ lroute('policy.show', $item) }}" class="hover:text-turquoise-700">{{ $item->title }}</a>
                         </h2>
-                        <p class="mt-2 text-sm text-navy-600">{{ $item->summary }}</p>
+                        <p class="mt-2 text-sm text-navy-600">{{ $item->lead }}</p>
                     </div>
                 </x-card>
             @empty

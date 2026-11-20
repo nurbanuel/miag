@@ -30,8 +30,9 @@
                     @endif
                     <div class="flex flex-1 flex-col gap-3 p-5">
                         <div class="flex flex-wrap items-center gap-2">
+                            <x-badge :tone="$badgeTone">{{ $report->type_label }}</x-badge>
                             @if ($report->category)
-                                <x-badge :tone="$badgeTone">{{ $report->category->name }}</x-badge>
+                                <x-badge tone="navy">{{ $report->category->name }}</x-badge>
                             @endif
                             @if ($report->published_at)
                                 <time datetime="{{ $report->published_at->toDateString() }}" class="text-xs text-navy-500">{{ $report->published_at->translatedFormat('d F Y') }}</time>
@@ -40,8 +41,8 @@
                         <h2 class="text-lg font-semibold text-navy-900">
                             <a href="{{ lroute('reports.show', $report) }}" class="hover:text-turquoise-700">{{ $report->title }}</a>
                         </h2>
-                        <p class="flex-1 text-sm text-navy-600">{{ $report->summary }}</p>
-                        <a href="{{ lroute('reports.show', $report) }}" class="text-sm font-semibold text-turquoise-700 hover:underline">{{ __('Raporu İncele') }} →</a>
+                        <p class="flex-1 text-sm text-navy-600">{{ $report->lead }}</p>
+                        <a href="{{ lroute('reports.show', $report) }}" class="text-sm font-semibold text-turquoise-700 hover:underline">{{ $report->isAnalysis() ? __('Analizi İncele') : __('Raporu İncele') }} →</a>
                     </div>
                 </x-card>
             @empty

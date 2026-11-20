@@ -20,6 +20,11 @@ class Page extends Model
         'sidebar_content',
     ];
 
+    public function corporateSections(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(CorporateSection::class)->orderBy('sort_order');
+    }
+
     public function getRouteKeyName(): string
     {
         return 'slug';

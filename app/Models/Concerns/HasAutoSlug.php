@@ -36,7 +36,7 @@ trait HasAutoSlug
         $slug = $base;
         $i = 2;
 
-        while (static::where('slug', $slug)->when($this->exists, fn ($q) => $q->whereKeyNot($this->getKey()))->exists()) {
+        while (static::withoutGlobalScopes()->where('slug', $slug)->when($this->exists, fn ($q) => $q->whereKeyNot($this->getKey()))->exists()) {
             $slug = $base.'-'.$i++;
         }
 

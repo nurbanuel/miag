@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ReportResource\Pages;
 use App\Filament\Resources\ReportResource\RelationManagers;
 use App\Models\Report;
+use App\Filament\Support\ContentForm;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -21,42 +22,36 @@ class ReportResource extends Resource
 
     protected static ?string $navigationGroup = 'İçerik Yönetimi';
 
-    protected static ?string $modelLabel = 'Rapor';
+    protected static ?string $modelLabel = 'Rapor / Analiz';
 
-    protected static ?string $pluralModelLabel = 'Raporlar';
+    protected static ?string $pluralModelLabel = 'Rapor ve Analizler';
 
-    protected static ?string $navigationLabel = 'Raporlar';
+    protected static ?string $navigationLabel = 'Rapor ve Analizler';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')
-                    ->label('Başlık')
-                    ->required(),
-                Forms\Components\RichEditor::make('content')
-                    ->label('İçerik')
-                    ->columnSpanFull(),
+                ...ContentForm::titleSpotContent(),
+                Forms\Components\Select::make('sub_category')
+                    ->label('Tür (Rapor / Analiz)')
+                    ->options(['Rapor' => 'Rapor', 'Analiz' => 'Analiz'])
+                    ->default('Rapor')
+                    ->required()
+                    ->native(false),
                 Forms\Components\Select::make('cover_color')
                     ->label('Kapak Rengi')
                     ->options(['navy' => 'Lacivert', 'turquoise' => 'Turkuaz', 'bordo' => 'Bordo'])
                     ->required(),
+                ...ContentForm::categorySelects(),
                 Forms\Components\FileUpload::make('file_path')
                     ->label('PDF Dosyası')
                     ->directory('reports')
                     ->acceptedFileTypes(['application/pdf']),
                 Forms\Components\DateTimePicker::make('published_at')
                     ->label('Yayın Tarihi'),
-                Forms\Components\Select::make('category_id')
-                    ->relationship('category', 'name')
-                    ->label('Kategori')
-                    ->searchable()
-                    ->preload(),
-                Forms\Components\FileUpload::make('featured_image')
-                    ->image()
-                    ->label('Öne Çıkan Görsel')
-                    ->directory('reports')
-                    ->columnSpanFull(),
+                ContentForm::featuredImage('reports'),
+                ContentForm::activeToggle(),
                 Forms\Components\Toggle::make('is_featured')
                     ->label('Manşete Ekle')
                     ->default(false),
@@ -81,6 +76,11 @@ class ReportResource extends Resource
                 Tables\Columns\TextColumn::make('title')
                     ->label('Başlık')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('sub_category')
+                    ->label('Tür')
+                    ->badge()
+                    ->color(fn (?string $state): string => $state === 'Analiz' ? 'warning' : 'info')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('category.name')
                     ->label('Kategori')
                     ->searchable(),
@@ -104,9 +104,13 @@ class ReportResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                ContentForm::activeColumn(),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('sub_category')
+                    ->label('Tür')
+                    ->options(['Rapor' => 'Rapor', 'Analiz' => 'Analiz']),
+                ContentForm::activeFilter(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -123,6 +127,12 @@ class ReportResource extends Resource
         return [
             //
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        // Pasif içerikler de panelde listelenir ve düzenlenebilir.
+        return parent::getEloquentQuery()->withoutGlobalScope('active');
     }
 
     public static function getPages(): array

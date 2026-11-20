@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Event extends Model
 {
-    use HasFactory, \App\Models\Concerns\HasAutoSlug;
+    use HasFactory, \App\Models\Concerns\HasAutoSlug, \App\Models\Concerns\HasPublishingFields;
 
     protected $fillable = [
         'category_id',
@@ -38,6 +38,17 @@ class Event extends Model
             'is_past' => 'boolean',
             'speakers' => 'array',
         ];
+    }
+
+    public function registrations(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(EventRegistration::class);
+    }
+
+    /** Kayıt açık mı: geçmiş olarak işaretlenmemiş ve başlangıç zamanı geçmemiş etkinlikler. */
+    public function isRegistrationOpen(): bool
+    {
+        return ! $this->is_past && ($this->starts_at === null || $this->starts_at->isFuture());
     }
 
     public function getRouteKeyName(): string

@@ -9,8 +9,8 @@
         <form action="{{ lroute('career.cv-pool.store') }}" method="POST" enctype="multipart/form-data" class="mt-8 space-y-5">
             @csrf
             <div class="grid gap-5 sm:grid-cols-2">
-                <x-form.input name="full_name" :label="__('Ad Soyad')" required />
-                <x-form.input name="email" type="email" :label="__('E-posta')" required />
+                <x-form.input name="full_name" :label="__('Ad Soyad')" :value="auth()->user()?->name" required />
+                <x-form.input name="email" type="email" :label="__('E-posta')" :value="auth()->user()?->email" required />
             </div>
             <x-form.input name="expertise_areas" :label="__('Uzmanlık Alanları')" required :hint="__('Örn: Kamu maliyesi, kentsel planlama')" />
             <x-form.select name="visibility" :label="__('Görünürlük Tercihi')" required :options="$visibilityOptions" :hint="__('Profilinizin kimlerle paylaşılacağını belirleyin')" />

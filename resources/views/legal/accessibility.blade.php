@@ -9,7 +9,7 @@
                 <li>{{ __('Mobil cihazlarda duyarlı (responsive) menü ve düzen sağlanmıştır.') }}</li>
                 <li>{{ __('Renk kontrastları WCAG AA standardını gözetecek şekilde tasarlanmıştır.') }}</li>
             </ul>
-            <p>{{ __('Erişilebilirlik ile ilgili geri bildirimlerinizi info@miargem.org adresinden bize iletebilirsiniz.') }}</p>
+            <p>{{ __('Erişilebilirlik ile ilgili geri bildirimlerinizi :email adresinden bize iletebilirsiniz.', ['email' => $siteSettings?->contact_email ?: 'info@miargem.org']) }}</p>
         </div>
     </x-container>
 </x-layout>

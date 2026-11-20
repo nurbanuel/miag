@@ -85,6 +85,7 @@ class HrApplication extends Model
     ];
 
     protected $fillable = [
+        'user_id',
         'tracking_number',
         'type',
         'status',
@@ -183,5 +184,11 @@ class HrApplication extends Model
     public static function allWorkStatusLabels(): array
     {
         return self::WORK_STATUS_LABELS + self::TRANSFER_WORK_STATUS_LABELS;
+    }
+
+    /** Kaydı oluşturan üye. */
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

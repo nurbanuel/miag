@@ -33,6 +33,17 @@ class CategoryResource extends Resource
                 ->label('Kategori Adı')
                 ->required()
                 ->maxLength(255),
+            Forms\Components\Select::make('parent_id')
+                ->label('Üst (Ana) Kategori')
+                ->helperText('Boş bırakılırsa ana kategori olur. Seçilirse bu kategori, seçilen ana kategorinin alt kategorisi olur.')
+                ->options(fn (?Category $record) => Category::query()
+                    ->whereNull('parent_id')
+                    ->when($record, fn ($q) => $q->whereKeyNot($record->getKey()))
+                    ->orderBy('name')
+                    ->pluck('name', 'id'))
+                ->searchable()
+                ->disabled(fn (?Category $record) => $record?->children()->exists())
+                ->hint(fn (?Category $record) => $record?->children()->exists() ? 'Alt kategorileri olan bir kategori başka bir kategorinin altına taşınamaz.' : null),
             Forms\Components\Textarea::make('description')
                 ->label('Açıklama')
                 ->rows(4)
@@ -45,8 +56,16 @@ class CategoryResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')->label('Kategori Adı')->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('parent.name')->label('Üst Kategori')->badge()->color('gray')->placeholder('— Ana kategori')->sortable(),
                 Tables\Columns\TextColumn::make('slug')->label('Slug')->searchable(),
                 Tables\Columns\TextColumn::make('created_at')->label('Oluşturulma')->dateTime('d.m.Y H:i')->sortable()->toggleable(isToggledHiddenByDefault: true),
+            ])
+            ->filters([
+                Tables\Filters\TernaryFilter::make('parent_id')
+                    ->label('Kategori Seviyesi')
+                    ->nullable()
+                    ->trueLabel('Alt kategoriler')
+                    ->falseLabel('Ana kategoriler'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

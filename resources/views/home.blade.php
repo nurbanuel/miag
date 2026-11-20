@@ -18,19 +18,21 @@
                 >
                     {{-- Görsel varsa üzerine koyu lacivert karartma katmanı --}}
                     @if (! empty($featuredContent['image']))
-                        <div class="absolute inset-0 bg-[#0f172a]/80"></div>
+                        {{-- Hafif genel ton + yalnızca metnin bulunduğu sol bölgede yumuşak geçiş --}}
+                        <div class="absolute inset-0 bg-gradient-to-r from-[#0f172a]/75 via-[#0f172a]/30 to-transparent"></div>
+                        <div class="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#0f172a]/45 to-transparent"></div>
                     @endif
 
                     {{-- Üst blok: kicker + başlık --}}
                     <div class="relative z-10">
                         <div class="flex items-center gap-2">
                             <span class="h-px w-6 shrink-0 bg-turquoise-400"></span>
-                            <span class="text-xs font-semibold uppercase tracking-[0.2em] text-turquoise-300">
-                                {{ $featuredContent ? __($featuredContent['module']) : __('Rapor ve Analizler') }}
+                            <span class="text-xs font-semibold uppercase tracking-[0.2em] text-turquoise-300 drop-shadow-sm">
+                                {{ $featuredContent ? ($featuredContent['type_label'] ?? __($featuredContent['module'])) : __('Rapor ve Analizler') }}
                             </span>
                         </div>
 
-                        <h1 class="mt-6 max-w-2xl text-3xl font-bold leading-tight sm:text-4xl lg:text-[2.75rem] lg:leading-[1.15]">
+                        <h1 class="mt-6 max-w-2xl text-3xl font-bold leading-tight [text-shadow:0_2px_12px_rgba(15,23,42,0.55)] sm:text-4xl lg:text-[2.75rem] lg:leading-[1.15]">
                             {{ $featuredContent['title'] ?? __('Mahallî idarelerin ortak sorunları için ortak akıl') }}
                         </h1>
                     </div>
@@ -41,7 +43,7 @@
                             <a href="{{ $featuredContent['url'] ?? lroute('reports.index') }}" class="inline-flex shrink-0 items-center gap-2 rounded-lg bg-white px-5 py-2.5 text-sm font-semibold text-slate-900 hover:bg-slate-100">
                                 @if ($featuredContent)
                                     {{ match ($featuredContent['type']) {
-                                        'report' => __('Raporu İncele'),
+                                        'report' => ! empty($featuredContent['is_analysis']) ? __('Analizi İncele') : __('Raporu İncele'),
                                         'news' => __('Haberi Oku'),
                                         'article' => __('Yazıyı Oku'),
                                         'event' => __('Etkinliği İncele'),
@@ -52,7 +54,7 @@
                                 @endif
                             </a>
                             @if (! empty($featuredContent['date']))
-                                <span class="shrink-0 text-sm text-white/50">{{ $featuredContent['date']->translatedFormat('j F Y') }}</span>
+                                <span class="shrink-0 text-sm text-white/80 drop-shadow-sm">{{ $featuredContent['date']->translatedFormat('j F Y') }}</span>
                             @endif
                         </div>
 
@@ -115,10 +117,10 @@
                     </div>
 
                     {{-- Kart 3: Etkin Belediye Proje Yarışması --}}
-                    <a href="{{ lroute('page.show', ['slug' => 'belediye-proje-gunleri-programi']) }}" style="background-color: #8b1e3f;" class="group flex items-center justify-between gap-4 rounded-2xl p-4 text-white hover:brightness-110">
+                    <a href="https://etkinbelediye.com.tr" target="_blank" rel="noopener noreferrer" style="background-color: #8b1e3f;" class="group flex items-center justify-between gap-4 rounded-2xl p-4 text-white hover:brightness-110">
                         <span>
                             <span class="block text-xs font-semibold uppercase tracking-wide text-bordo-100">{{ __('BELEDİYE PROJE GÜNLERİ') }}</span>
-                            <span class="mt-0.5 block font-semibold">{{ __('Etkin Belediye Proje Yarışması') }}</span>
+                            <span class="mt-0.5 block font-semibold">{{ __('Etkin Belediye Proje Yarışması') }}<span class="sr-only"> ({{ __('yeni sekmede açılır') }})</span></span>
                         </span>
                         <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/15 group-hover:bg-white/25">
                             <svg class="h-4 w-4" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 4.5l6 5.5-6 5.5"/></svg>
@@ -126,10 +128,10 @@
                     </a>
 
                     {{-- Kart 4: Mevzuat Takip Sistemi --}}
-                    <a href="{{ lroute('legislation-tracking') }}" class="group flex items-center justify-between gap-4 rounded-2xl bg-turquoise-500 p-4 text-white hover:bg-turquoise-600">
+                    <a href="https://mevzuattakip.com.tr" target="_blank" rel="noopener noreferrer" class="group flex items-center justify-between gap-4 rounded-2xl bg-turquoise-500 p-4 text-white hover:bg-turquoise-600">
                         <span>
                             <span class="block text-xs font-semibold uppercase tracking-wide text-turquoise-50">{{ __('MEVZUAT DESTEĞİ') }}</span>
-                            <span class="mt-0.5 block font-semibold">{{ __('Mevzuat Takip Sistemi') }}</span>
+                            <span class="mt-0.5 block font-semibold">{{ __('Mevzuat Takip Sistemi') }}<span class="sr-only"> ({{ __('yeni sekmede açılır') }})</span></span>
                         </span>
                         <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/15 group-hover:bg-white/25">
                             <svg class="h-4 w-4" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 4.5l6 5.5-6 5.5"/></svg>
@@ -203,7 +205,7 @@
                     <span class="text-xs font-semibold uppercase tracking-[0.2em] text-teal-400">{{ __('KURUMSAL YAKLAŞIM') }}</span>
                 </div>
 
-                <h2 class="mt-5 max-w-3xl text-3xl font-bold leading-tight text-white md:text-4xl">
+                <h2 class="mt-5 text-2xl font-bold leading-tight tracking-tight text-white sm:text-3xl lg:whitespace-nowrap lg:text-[26px] xl:text-[32px]">
                     {{ __('Sorunu görünür kılan, veriye dayalı çözüm üreten merkez') }}
                 </h2>
                 <p class="mt-3 text-lg font-semibold text-teal-400">
@@ -275,9 +277,14 @@
                                 <img src="{{ asset('storage/'.$report->featured_image) }}" alt="" loading="lazy" class="h-40 w-full object-cover" />
                             @endif
                             <div class="p-5">
-                            <span class="block text-[11px] font-semibold uppercase tracking-wide text-turquoise-700">{{ $report->category?->name ?? $report->category_label ?? __('Rapor') }}</span>
+                            <span class="block text-[11px] font-semibold tracking-wide text-turquoise-700">
+                                {{ $report->type_label }}
+                                @if ($report->category?->name ?? $report->category_label)
+                                    <span class="font-medium text-navy-400"> · {{ $report->category?->name ?? $report->category_label }}</span>
+                                @endif
+                            </span>
                             <h3 class="mt-2 text-base font-semibold text-navy-900 group-hover:text-turquoise-700">{{ $report->title }}</h3>
-                            <p class="mt-2 text-sm leading-relaxed text-navy-600">{{ \Illuminate\Support\Str::limit(strip_tags((string) $report->summary), 160) }}</p>
+                            <p class="mt-2 text-sm leading-relaxed text-navy-600">{{ \Illuminate\Support\Str::limit(strip_tags((string) $report->lead), 160) }}</p>
                             </div>
                         </div>
                     </a>
@@ -357,16 +364,13 @@
                 @forelse ($featuredArticles as $article)
                     @php
                         $authorName = $article->author?->name ?? __('MİARGEM');
-                        $initials = collect(preg_split('/\s+/u', trim($authorName)))->filter()->take(2)->map(fn ($part) => mb_strtoupper(mb_substr($part, 0, 1)))->implode('');
                     @endphp
                     <a href="{{ lroute('articles.show', $article) }}" class="group flex h-full flex-col gap-5 overflow-hidden rounded-xl bg-white p-6 shadow-sm hover:shadow-md">
                         @if ($article->featured_image)
                             <img src="{{ asset('storage/'.$article->featured_image) }}" alt="" loading="lazy" class="-mx-6 -mt-6 h-40 w-[calc(100%+3rem)] max-w-none object-cover" />
                         @endif
                         <div class="flex items-center gap-3">
-                            <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-turquoise-600 text-sm font-bold text-white">
-                                {{ $initials }}
-                            </span>
+                            <x-author-avatar :author="$article->author" :name="$authorName" size="md" />
                             <span class="text-sm font-semibold text-navy-800">{{ $authorName }}</span>
                         </div>
 
@@ -393,13 +397,13 @@
             <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
 
                 {{-- Sol kart: Etkin Belediye Proje Yarışması --}}
-                <a href="{{ lroute('page.show', ['slug' => 'belediye-proje-gunleri-programi']) }}" style="background-color: #b72a4c;" class="group flex flex-col justify-between rounded-2xl p-8 text-white hover:brightness-110 lg:p-10">
+                <a href="https://etkinbelediye.com.tr" target="_blank" rel="noopener noreferrer" style="background-color: #b72a4c;" class="group flex flex-col justify-between rounded-2xl p-8 text-white hover:brightness-110 lg:p-10">
                     <div>
                         <div class="flex items-center gap-3">
                             <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/15 text-lg font-bold">E</span>
                             <span class="text-xs font-semibold uppercase tracking-[0.2em] text-white/70">{{ __('BELEDİYE PROJE GÜNLERİ') }}</span>
                         </div>
-                        <h3 class="mt-5 text-2xl font-bold leading-snug sm:text-3xl">{{ __('Etkin Belediye Proje Yarışması') }}</h3>
+                        <h3 class="mt-5 text-2xl font-bold leading-snug sm:text-3xl">{{ __('Etkin Belediye Proje Yarışması') }}<span class="sr-only"> ({{ __('yeni sekmede açılır') }})</span></h3>
                         <p class="mt-3 max-w-md text-sm leading-relaxed text-white/75">
                             {{ __('Yerel yönetimlerin yenilikçi, sürdürülebilir ve katılımcı projelerini ödüllendiren yıllık yarışma programına katılın.') }}
                         </p>
@@ -413,13 +417,13 @@
                 </a>
 
                 {{-- Sağ kart: Mevzuat Takip Sistemi --}}
-                <a href="{{ lroute('legislation-tracking') }}" style="background-color: #0f9da1;" class="group flex flex-col justify-between rounded-2xl p-8 text-white hover:brightness-110 lg:p-10">
+                <a href="https://mevzuattakip.com.tr" target="_blank" rel="noopener noreferrer" style="background-color: #0f9da1;" class="group flex flex-col justify-between rounded-2xl p-8 text-white hover:brightness-110 lg:p-10">
                     <div>
                         <div class="flex items-center gap-3">
                             <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/15 text-lg font-bold">M</span>
                             <span class="text-xs font-semibold uppercase tracking-[0.2em] text-white/70">{{ __('MEVZUAT DESTEĞİ') }}</span>
                         </div>
-                        <h3 class="mt-5 text-2xl font-bold leading-snug sm:text-3xl">{{ __('Mevzuat Takip Sistemi') }}</h3>
+                        <h3 class="mt-5 text-2xl font-bold leading-snug sm:text-3xl">{{ __('Mevzuat Takip Sistemi') }}<span class="sr-only"> ({{ __('yeni sekmede açılır') }})</span></h3>
                         <p class="mt-3 max-w-md text-sm leading-relaxed text-white/75">
                             {{ __('Belediyeleri ilgilendiren mevzuat değişikliklerini erken uyarı ile takip eden sisteme erişin.') }}
                         </p>

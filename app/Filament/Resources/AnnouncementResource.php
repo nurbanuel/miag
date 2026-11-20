@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\AnnouncementResource\Pages;
 use App\Filament\Resources\AnnouncementResource\RelationManagers;
 use App\Models\Announcement;
+use App\Filament\Support\ContentForm;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -31,22 +32,10 @@ class AnnouncementResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')
-                    ->label('Başlık')
-                    ->required(),
-                Forms\Components\RichEditor::make('content')
-                    ->label('İçerik')
-                    ->columnSpanFull(),
-                Forms\Components\Select::make('category_id')
-                    ->relationship('category', 'name')
-                    ->label('Kategori')
-                    ->searchable()
-                    ->preload(),
-                Forms\Components\FileUpload::make('featured_image')
-                    ->image()
-                    ->label('Öne Çıkan Görsel')
-                    ->directory('announcements')
-                    ->columnSpanFull(),
+                ...ContentForm::titleSpotContent(),
+                ...ContentForm::categorySelects(),
+                ContentForm::featuredImage('announcements'),
+                ContentForm::activeToggle(),
                 Forms\Components\Toggle::make('is_featured')
                     ->label('Manşete Ekle')
                     ->default(false),
@@ -85,9 +74,10 @@ class AnnouncementResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                ContentForm::activeColumn(),
             ])
             ->filters([
-                //
+                ContentForm::activeFilter(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -104,6 +94,12 @@ class AnnouncementResource extends Resource
         return [
             //
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        // Pasif içerikler de panelde listelenir ve düzenlenebilir.
+        return parent::getEloquentQuery()->withoutGlobalScope('active');
     }
 
     public static function getPages(): array

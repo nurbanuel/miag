@@ -10,6 +10,7 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\View\PanelsRenderHook;
 use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -34,9 +35,13 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->navigationGroups([
                 'İçerik Yönetimi',
+                'Etkinlikler',
                 'İK ve Kariyer Başvuruları',
                 'Katılım',
             ])
+            // Metin editörü: sabit araç çubuğu, kaydırılabilir alan, hizalama ve paragraf butonları.
+            ->renderHook(PanelsRenderHook::HEAD_END, fn (): string => view('filament.hooks.editor-styles')->render())
+            ->renderHook(PanelsRenderHook::BODY_END, fn (): string => view('filament.hooks.editor-scripts')->render())
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([

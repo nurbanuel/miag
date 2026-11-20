@@ -22,7 +22,7 @@ class SearchController extends Controller
 
             $results = $results
                 ->concat(Report::where('title', 'like', $term)->orWhere('summary', 'like', $term)->orWhere('content', 'like', $term)->get()->map(fn ($r) => [
-                    'type' => 'Rapor', 'title' => $r->title, 'excerpt' => \Illuminate\Support\Str::limit(strip_tags($r->summary ?: $r->content), 160), 'href' => lroute('reports.show', $r),
+                    'type' => $r->sub_category ?: 'Rapor', 'title' => $r->title, 'excerpt' => \Illuminate\Support\Str::limit(strip_tags($r->summary ?: $r->content), 160), 'href' => lroute('reports.show', $r),
                 ]))
                 ->concat(Article::where('title', 'like', $term)->orWhere('excerpt', 'like', $term)->get()->map(fn ($a) => [
                     'type' => 'Yazı', 'title' => $a->title, 'excerpt' => $a->excerpt, 'href' => lroute('articles.show', $a),

@@ -14,7 +14,11 @@
         <h1 class="mt-3 text-3xl font-bold text-navy-900">{{ $news->title }}</h1>
         <p class="mt-2 text-sm text-navy-500">{{ $news->published_at?->translatedFormat('d F Y') }}</p>
 
-        <div class="prose prose-navy mt-6 max-w-none leading-relaxed text-navy-700">
+        @if ($news->lead)
+            <p class="mt-6 text-lg font-medium leading-relaxed text-navy-800">{{ $news->lead }}</p>
+        @endif
+
+        <div class="prose max-w-none prose-p:my-4 prose-p:leading-relaxed prose-headings:text-navy-900 prose-a:text-turquoise-700 prose-strong:text-navy-900 leading-relaxed text-navy-700 mt-6">
             {!! $news->content !!}
         </div>
     </x-container>

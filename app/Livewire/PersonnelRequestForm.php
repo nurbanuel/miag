@@ -27,7 +27,12 @@ class PersonnelRequestForm extends Component implements HasForms
 
     public function mount(): void
     {
-        $this->form->fill();
+        $user = auth()->user();
+        $this->form->fill([
+            'authorized_person_name' => $user?->name,
+            // Kurumsal e-posta zorunlu: üyenin e-postası kişisel sağlayıcıdaysa boş bırakılır.
+            'corporate_email' => $user && ! in_array(mb_strtolower((string) substr(strrchr($user->email, '@') ?: '', 1)), HrPersonnelRequest::PUBLIC_EMAIL_DOMAINS, true) ? $user->email : null,
+        ]);
     }
 
     public function form(Form $form): Form
@@ -165,13 +170,15 @@ class PersonnelRequestForm extends Component implements HasForms
 
     public function submit(): void
     {
+        abort_unless(auth()->check(), 403);
+
         $data = $this->form->getState();
 
-        HrPersonnelRequest::create([...$data, 'is_active' => true]);
+        HrPersonnelRequest::create([...$data, 'is_active' => true, 'user_id' => auth()->id()]);
 
         $this->submitted = true;
         $this->data = [];
-        $this->form->fill();
+        $this->mount();
     }
 
     public function render(): View

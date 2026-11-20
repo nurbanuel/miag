@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ArticleResource\Pages;
 use App\Filament\Resources\ArticleResource\RelationManagers;
 use App\Models\Article;
+use App\Filament\Support\ContentForm;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -35,29 +36,12 @@ class ArticleResource extends Resource
                     ->label('Yazar')
                     ->relationship('author', 'name')
                     ->required(),
-                Forms\Components\TextInput::make('title')
-                    ->label('Başlık')
-                    ->required(),
-                Forms\Components\Textarea::make('excerpt')
-                    ->label('Kısa Özet')
-                    ->required()
-                    ->columnSpanFull(),
-                Forms\Components\RichEditor::make('content')
-                    ->label('İçerik')
-                    ->required()
-                    ->columnSpanFull(),
-                Forms\Components\Select::make('category_id')
-                    ->relationship('category', 'name')
-                    ->label('Kategori')
-                    ->searchable()
-                    ->preload(),
-                Forms\Components\FileUpload::make('featured_image')
-                    ->image()
-                    ->label('Öne Çıkan Görsel')
-                    ->directory('articles')
-                    ->columnSpanFull(),
+                ...ContentForm::titleSpotContent(contentRequired: true, spotRequired: true),
+                ...ContentForm::categorySelects(),
+                ContentForm::featuredImage('articles'),
                 Forms\Components\DateTimePicker::make('published_at')
                     ->label('Yayın Tarihi'),
+                ContentForm::activeToggle(),
                 Forms\Components\Toggle::make('is_featured')
                     ->label('Manşete Ekle')
                     ->default(false),
@@ -101,9 +85,10 @@ class ArticleResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                ContentForm::activeColumn(),
             ])
             ->filters([
-                //
+                ContentForm::activeFilter(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -120,6 +105,12 @@ class ArticleResource extends Resource
         return [
             //
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        // Pasif içerikler de panelde listelenir ve düzenlenebilir.
+        return parent::getEloquentQuery()->withoutGlobalScope('active');
     }
 
     public static function getPages(): array

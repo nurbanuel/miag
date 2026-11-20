@@ -18,11 +18,11 @@ class ResumeResource extends Resource
 
     protected static ?string $navigationGroup = 'İçerik Yönetimi';
 
-    protected static ?string $modelLabel = 'Özgeçmiş';
+    protected static ?string $modelLabel = 'Başkan';
 
-    protected static ?string $pluralModelLabel = 'Özgeçmişler';
+    protected static ?string $pluralModelLabel = 'Başkan';
 
-    protected static ?string $navigationLabel = 'Özgeçmiş';
+    protected static ?string $navigationLabel = 'Başkan';
 
     public static function form(Form $form): Form
     {

@@ -12,17 +12,26 @@
                     <img src="{{ asset('storage/'.$report->featured_image) }}" alt="{{ $report->title }}" class="mb-6 h-auto w-full rounded-xl object-contain" />
                 @endif
 
-                <x-badge tone="turquoise">{{ $report->category?->name }}</x-badge>
+                <div class="flex flex-wrap items-center gap-2">
+                    <x-badge tone="turquoise">{{ $report->type_label }}</x-badge>
+                    @if ($report->category)
+                        <x-badge tone="navy">{{ $report->category->name }}</x-badge>
+                    @endif
+                </div>
                 <h1 class="mt-3 text-3xl font-bold text-navy-900">{{ $report->title }}</h1>
                 <p class="mt-2 text-sm text-navy-500">{{ __('Yayım Tarihi') }}: {{ $report->published_at?->translatedFormat('d F Y') }}</p>
 
-                @if ($report->summary)<h2 class="mt-8 text-xl font-bold text-navy-900">{{ __('Yönetici Özeti') }}</h2>@endif
-                @if ($report->summary)
+                @if ($report->spot)
+                    <p class="mt-6 text-lg font-medium leading-relaxed text-navy-800">{{ $report->spot }}</p>
+                @endif
+
+                @if ($report->summary && $report->summary !== $report->spot)<h2 class="mt-8 text-xl font-bold text-navy-900">{{ __('Yönetici Özeti') }}</h2>@endif
+                @if ($report->summary && $report->summary !== $report->spot)
                     <p class="mt-3 leading-relaxed text-navy-700">{{ $report->summary }}</p>
                 @endif
 
                 @if ($report->content)
-                    <div class="mt-6 leading-relaxed text-navy-700">{!! $report->content !!}</div>
+                    <div class="prose max-w-none prose-p:my-4 prose-p:leading-relaxed prose-headings:text-navy-900 prose-a:text-turquoise-700 prose-strong:text-navy-900 leading-relaxed text-navy-700 mt-6">{!! $report->content !!}</div>
                 @endif
 
                 @if ($report->key_findings)
@@ -42,6 +51,7 @@
                 <div class="mt-8 rounded-lg border border-navy-100 bg-navy-50 p-5 text-sm text-navy-600">
                     <p class="font-semibold text-navy-800">{{ __('Künye') }}</p>
                     <p class="mt-1">{{ __('Yayıncı') }}: MİARGEM</p>
+                    <p>{{ __('Tür') }}: {{ __($report->sub_category ?: 'Rapor') }}</p>
                     <p>{{ __('Kategori') }}: {{ $report->category?->name }}</p>
                     <p>{{ __('Yayım Tarihi') }}: {{ $report->published_at?->translatedFormat('d F Y') }}</p>
                 </div>

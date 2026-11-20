@@ -9,4 +9,6 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateResume extends CreateRecord
 {
     protected static string $resource = ResumeResource::class;
+
+    protected static ?string $title = 'Başkan Ekle';
 }

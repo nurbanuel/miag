@@ -10,6 +10,7 @@ class ExpertPoolProfile extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'full_name',
         'email',
         'expertise_areas',
@@ -32,4 +33,10 @@ class ExpertPoolProfile extends Model
         'municipality_projects' => 'Belediye Projeleri',
         'all_requests' => 'Tüm Talepler',
     ];
+
+    /** Kaydı oluşturan üye. */
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 }

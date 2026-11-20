@@ -68,6 +68,7 @@ class CareerController extends Controller
         $data['consent_accepted'] = true;
         unset($data['attachment']);
 
+        $data['user_id'] = $request->user()?->id;
         MunicipalStaffRequest::create($data);
 
         return back()->with('status', 'Personel talebiniz alınmıştır. Doğrulama sonrası yayına alınacaktır.');
@@ -96,6 +97,7 @@ class CareerController extends Controller
         $data['consent_accepted'] = true;
         $data['is_identity_revealed'] = false;
 
+        $data['user_id'] = $request->user()?->id;
         TransferNetworkProfile::create($data);
 
         return back()->with('status', 'Profiliniz gizlilik esasıyla oluşturuldu. Kimlik bilgileriniz yalnızca sizin onayınızla açılır.');
@@ -127,6 +129,7 @@ class CareerController extends Controller
         $data['consent_accepted'] = true;
         unset($data['cv']);
 
+        $data['user_id'] = $request->user()?->id;
         JobInternshipApplication::create($data);
 
         return back()->with('status', 'Başvurunuz alınmıştır. Teşekkür ederiz.');
@@ -158,6 +161,7 @@ class CareerController extends Controller
         $data['consent_accepted'] = true;
         unset($data['cv']);
 
+        $data['user_id'] = $request->user()?->id;
         ExpertPoolProfile::create($data);
 
         return back()->with('status', 'CV\'niz havuzumuza eklenmiştir.');

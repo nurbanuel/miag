@@ -49,13 +49,34 @@ class PageResource extends Resource
                 Forms\Components\RichEditor::make('content')
                     ->label('Sayfa İçeriği')
                     ->columnSpanFull(),
-            ]),
+            ])->hidden(fn (?Page $record) => $record?->slug === 'kurumsal'),
 
             Forms\Components\Section::make('Yan Ekran (Sidebar)')->schema([
                 Forms\Components\RichEditor::make('sidebar_content')
                     ->label('Sidebar İçeriği')
                     ->columnSpanFull(),
-            ]),
+            ])->hidden(fn (?Page $record) => $record?->slug === 'kurumsal'),
+
+            Forms\Components\Section::make('Kurumsal Sekmeler ve Bölümler')
+                ->description('Sol menüdeki sekmeler ve sağdaki içerik blokları. Sürükleyerek sıralayın; kapalı bölümler sitede görünmez.')
+                ->schema([
+                    Forms\Components\Repeater::make('corporateSections')
+                        ->hiddenLabel()
+                        ->relationship()
+                        ->orderColumn('sort_order')
+                        ->schema(CorporateSectionResource::sectionFields())
+                        ->reorderable()
+                        ->collapsible()
+                        ->collapsed()
+                        ->cloneable(false)
+                        ->defaultItems(0)
+                        ->addActionLabel('Yeni Bölüm Ekle')
+                        ->itemLabel(fn (array $state): ?string => ($state['title'] ?? null)
+                            ? $state['title'].(($state['is_active'] ?? true) ? '' : ' (Yayında değil)')
+                            : null)
+                        ->columnSpanFull(),
+                ])
+                ->visible(fn (?Page $record) => $record?->slug === 'kurumsal'),
         ]);
     }
 
